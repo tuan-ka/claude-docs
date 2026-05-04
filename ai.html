@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Cơ Bản với Claude — Tài Liệu Tự Đọc</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8F7F4;--bg2:#EEF2F1;--bg3:#D8E4E2;--text:#171A1A;--text2:#4A524F;--text3:#6B7673;--accent:#0D9488;--accent2:#0F766E;--blue:#2E5F6B;--blue-light:#E4F2F0;--green:#2A6B52;--green-light:#E0F2EA;--yellow:#B8860D;--yellow-light:#FBF4DC;--red:#B04545;--red-light:#FCE8E8;--purple:#5B4A8F;--purple-light:#EDE9F7;--card:#fff;--border:rgba(0,0,0,.07);--radius:12px;--radius-lg:20px;--font:'Be Vietnam Pro',sans-serif;--mono:'JetBrains Mono',monospace;--shadow:0 1px 3px rgba(0,0,0,.035),0 4px 14px rgba(13,148,136,.04);--shadow-lg:0 4px 22px rgba(0,0,0,.055),0 10px 36px rgba(13,148,136,.05)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#fff}
+
+/* === LAYOUT: single column, simple === */
+.wrap{max-width:800px;margin:0 auto;padding:0 24px}
+.hero{background:linear-gradient(135deg,#0F1C1A 0%,#134E48 48%,#115E59 100%);color:#fff;padding:60px 24px 48px}
+.hero-inner{max-width:800px;margin:0 auto}
+.hero-badge{display:inline-block;background:rgba(20,184,166,.18);border:1px solid rgba(45,212,191,.35);color:#99F6E4;font-size:12px;font-weight:500;padding:4px 14px;border-radius:20px;letter-spacing:.5px;margin-bottom:16px}
+.hero h1{font-size:36px;font-weight:800;line-height:1.15;letter-spacing:-1px;margin-bottom:12px}
+.hero h1 span{color:var(--accent)}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.6);max-width:600px;line-height:1.7}
+.hero-date{font-size:12px;color:rgba(255,255,255,.45);margin-top:14px;letter-spacing:.02em}
+.hero-stats{display:flex;gap:28px;margin-top:28px;flex-wrap:wrap}
+.hero-stat .val{font-size:24px;font-weight:700;color:var(--accent)}
+.hero-stat .label{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px}
+
+/* === NAV === */
+.topnav{position:sticky;top:0;z-index:100;background:rgba(248,247,244,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0}
+.topnav-inner{max-width:800px;margin:0 auto;display:flex;gap:0;overflow-x:auto;padding:0 24px}
+.topnav-inner::-webkit-scrollbar{display:none}
+.tab{padding:14px 16px;font-size:13px;color:var(--text3);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;font-weight:500;user-select:none}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* === SECTIONS === */
+.sec{padding:56px 0 40px;border-bottom:1px solid var(--border)}
+.sec:last-child{border:none}
+.sec-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:6px}
+.sec-title{font-size:28px;font-weight:700;letter-spacing:-.3px;margin-bottom:10px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--text2);max-width:600px;margin-bottom:28px}
+
+/* === CARDS === */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:16px;box-shadow:var(--shadow)}
+.card-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.card h3{font-size:16px;font-weight:600;margin-bottom:8px;line-height:1.3}
+.card p{font-size:13px;color:var(--text2)}
+
+/* === GRIDS === */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+@media(max-width:600px){.compare-grid{grid-template-columns:1fr}}
+.compare-card{border-radius:var(--radius);padding:16px;border:1px solid}
+.compare-card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.compare-card p{font-size:12px;line-height:1.6}
+.cc-bad{background:var(--red-light);border-color:rgba(184,61,61,.12)}
+.cc-bad h4{color:var(--red)}.cc-bad p{color:#7A2E2E}
+.cc-good{background:var(--green-light);border-color:rgba(45,127,94,.12)}
+.cc-good h4{color:var(--green)}.cc-good p{color:#1D5A40}
+
+.model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0}
+@media(max-width:600px){.model-grid{grid-template-columns:1fr}}
+.model-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;text-align:center;box-shadow:var(--shadow)}
+.model-icon{width:44px;height:44px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
+.model-card h4{font-size:15px;font-weight:600;margin-bottom:3px}
+.model-card .model-desc{font-size:11px;color:var(--text3);margin-bottom:10px}
+.model-card .model-use{font-size:11px;color:var(--text2);text-align:left;line-height:1.7}
+.model-card .model-speed{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;margin-top:8px;font-weight:500}
+
+/* === FLOW === */
+.flow-diagram{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin:20px 0;box-shadow:var(--shadow);overflow:hidden}
+.flow-row{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;margin:12px 0}
+.flow-node{padding:12px 16px;border-radius:var(--radius);font-size:12px;font-weight:500;text-align:center;min-width:100px}
+.flow-arrow{width:36px;height:2px;background:var(--bg3);position:relative;flex-shrink:0}
+.flow-arrow::after{content:'';position:absolute;right:-1px;top:-4px;border:5px solid transparent;border-left-color:var(--bg3)}
+.flow-arrow-down{width:2px;height:24px;background:var(--bg3);margin:0 auto;position:relative}
+.flow-arrow-down::after{content:'';position:absolute;bottom:-1px;left:-4px;border:5px solid transparent;border-top-color:var(--bg3)}
+.fn-user{background:var(--blue-light);color:var(--blue);border:1px solid rgba(46,95,107,.18)}
+.fn-claude{background:var(--purple-light);color:var(--purple);border:1px solid rgba(107,79,160,.15)}
+.fn-skill{background:var(--green-light);color:var(--green);border:1px solid rgba(45,127,94,.15)}
+.fn-output{background:var(--yellow-light);color:var(--yellow);border:1px solid rgba(192,139,36,.15)}
+
+/* === SIMULATOR === */
+.simulator{background:#1E1E1C;border-radius:var(--radius-lg);overflow:hidden;margin:20px 0;box-shadow:var(--shadow-lg)}
+.sim-header{background:#2A2A28;padding:10px 16px;display:flex;align-items:center;gap:6px}
+.sim-dot{width:9px;height:9px;border-radius:50%}
+.sim-dot-r{background:#FF6058}.sim-dot-y{background:#FFBD2E}.sim-dot-g{background:#28CA42}
+.sim-title{color:rgba(255,255,255,.4);font-size:11px;margin-left:6px}
+.sim-body{padding:20px}
+.sim-msg{margin-bottom:16px;opacity:0;transform:translateY(8px);transition:all .5s ease}
+.sim-msg.visible{opacity:1;transform:translateY(0)}
+.sim-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.sim-avatar-u{background:var(--blue);color:#fff}.sim-avatar-c{background:var(--accent);color:#fff}
+.sim-msg-user{display:flex;gap:8px;align-items:flex-start}
+.sim-bubble{padding:8px 14px;border-radius:10px;font-size:12px;line-height:1.6;max-width:85%}
+.sim-bubble-u{background:rgba(46,95,107,.18);color:rgba(255,255,255,.85)}
+.sim-bubble-c{background:rgba(255,255,255,.06);color:rgba(255,255,255,.75)}
+.sim-thinking{display:inline-flex;align-items:center;gap:5px;background:rgba(13,148,136,.12);color:var(--accent);font-size:10px;padding:3px 8px;border-radius:6px;margin-bottom:5px;font-family:var(--mono)}
+.sim-thinking .dot{width:4px;height:4px;background:var(--accent);border-radius:50%;animation:blink 1.4s infinite}
+.sim-thinking .dot:nth-child(2){animation-delay:.2s}.sim-thinking .dot:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+.sim-btn{display:inline-block;background:var(--accent);color:#fff;border:none;padding:8px 20px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);transition:all .2s;margin-top:6px}
+.sim-btn:hover{background:var(--accent2)}.sim-btn:disabled{opacity:.4;cursor:default}
+
+/* === SKILL FILE === */
+.skill-file{background:#1E1E1C;border-radius:var(--radius-lg);overflow:hidden;margin:16px 0;box-shadow:var(--shadow-lg)}
+.skill-file-header{background:#2A2A28;padding:8px 16px;font-size:11px;color:rgba(255,255,255,.35);font-family:var(--mono)}
+.skill-file-body{padding:16px;font-family:var(--mono);font-size:11px;line-height:1.8;color:rgba(255,255,255,.7);white-space:pre-wrap;overflow-x:auto}
+.sf-yaml{color:#5EEAD4}.sf-key{color:#2DD4BF}.sf-comment{color:rgba(255,255,255,.3);font-style:italic}.sf-heading{color:#C4B5FD;font-weight:500}
+
+/* === ZONES === */
+.zone-grid{display:grid;gap:14px;margin:20px 0}
+.zone-card{border-radius:var(--radius-lg);padding:20px;border:1px solid}
+.zone-green{background:var(--green-light);border-color:rgba(45,127,94,.15)}
+.zone-yellow{background:var(--yellow-light);border-color:rgba(192,139,36,.15)}
+.zone-red{background:var(--red-light);border-color:rgba(184,61,61,.15)}
+.zone-card h3{font-size:15px;font-weight:600;margin-bottom:6px}
+.zone-green h3{color:var(--green)}.zone-yellow h3{color:var(--yellow)}.zone-red h3{color:var(--red)}
+.zone-card .zone-sub{font-size:11px;margin-bottom:10px}
+.zone-green .zone-sub{color:var(--green);opacity:.7}.zone-yellow .zone-sub{color:var(--yellow);opacity:.7}.zone-red .zone-sub{color:var(--red);opacity:.7}
+.zone-task{display:flex;gap:6px;align-items:flex-start;padding:4px 0;font-size:12px;color:var(--text)}
+.zone-task span:first-child{flex-shrink:0}
+
+/* === DTREE === */
+.dtree{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin:20px 0;box-shadow:var(--shadow);text-align:center}
+.dtree-q{font-size:14px;font-weight:600;margin-bottom:14px;line-height:1.4}
+.dtree-btns{display:flex;justify-content:center;gap:10px;margin-bottom:10px}
+.dtree-btn{padding:8px 24px;border-radius:var(--radius);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);border:1px solid;transition:all .2s}
+.dtree-yes{background:var(--green-light);color:var(--green);border-color:rgba(45,127,94,.2)}
+.dtree-no{background:var(--red-light);color:var(--red);border-color:rgba(184,61,61,.2)}
+.dtree-result{margin-top:14px;padding:14px;border-radius:var(--radius);font-size:13px;font-weight:500;display:none}
+.dtree-result.show{display:block}
+
+/* === PRINCIPLES === */
+.principle-card{background:var(--card);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:16px 20px;margin:10px 0;box-shadow:var(--shadow)}
+.principle-card h4{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:4px}
+.principle-card p{font-size:12px;color:var(--text2)}
+
+/* === QUIZ === */
+.quiz{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin:20px 0;box-shadow:var(--shadow)}
+.quiz h3{font-size:15px;font-weight:600;margin-bottom:14px}
+.quiz-q{font-size:13px;font-weight:500;margin-bottom:10px;line-height:1.5}
+.quiz-opts{display:grid;gap:6px}
+.quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius);font-size:12px;font-family:var(--font);background:var(--bg);color:var(--text);cursor:pointer;transition:all .2s}
+.quiz-opt:hover{border-color:var(--accent);background:var(--bg2)}
+.quiz-opt.correct{background:var(--green-light);border-color:var(--green);color:var(--green)}
+.quiz-opt.wrong{background:var(--red-light);border-color:var(--red);color:var(--red)}
+.quiz-opt.disabled{pointer-events:none;opacity:.5}
+.quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:var(--radius);font-size:12px;line-height:1.6;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:var(--green-light);color:var(--green)}
+.quiz-feedback.nok{background:var(--red-light);color:var(--red)}
+
+.tag{display:inline-block;font-size:9px;font-weight:500;padding:1px 6px;border-radius:10px;margin-left:3px}
+.tag-hr{background:var(--blue-light);color:var(--blue)}
+.tag-ld{background:var(--green-light);color:var(--green)}
+.tag-mkt{background:var(--purple-light);color:var(--purple)}
+.tag-cb{background:var(--yellow-light);color:var(--yellow)}
+.tag-acc{background:var(--red-light);color:var(--red)}
+
+.scroll-anchor{scroll-margin-top:70px}
+.footer{background:#0F1C1A;color:rgba(255,255,255,.42);text-align:center;padding:32px 24px;font-size:11px}
+.footer a{color:var(--accent);text-decoration:none}
+
+.container{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;gap:32px;position:relative}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:52px;align-self:flex-start;height:calc(100vh - 52px);overflow-y:auto;padding:20px 12px 20px 0;border-right:1px solid var(--border);scrollbar-width:thin;scrollbar-color:var(--bg3) transparent;display:none}
+@media(min-width:900px){.sidebar{display:block}}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:2px}
+.sidebar-group{margin:0 0 16px}
+.sidebar-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);padding:0 12px;margin:0 0 6px;cursor:pointer;transition:color .2s}
+.sidebar-title:hover{color:var(--text)}
+.sidebar-link{display:block;font-size:12px;color:var(--text3);padding:4px 12px 4px 20px;cursor:pointer;transition:all .15s;border-left:2px solid transparent;line-height:1.4;text-decoration:none}
+.sidebar-link:hover{color:var(--text);background:var(--bg2)}
+.sidebar-link.active{color:var(--accent);border-left-color:var(--accent);font-weight:500}
+.main-content{flex:1;min-width:0;max-width:900px;padding-left:16px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Tài liệu tự đọc trước buổi học</div>
+    <h1>AI Cơ Bản với <span>Claude</span></h1>
+    <p class="hero-sub">Đọc tài liệu này trước buổi workshop để nắm kiến thức nền tảng. Buổi học trên lớp sẽ tập trung vào thực hành.</p>
+    <p class="hero-date">Cập nhật: Thứ Hai, 4 tháng 5 năm 2026</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="val">~30p</div><div class="label">Thời gian đọc</div></div>
+      <div class="hero-stat"><div class="val">4</div><div class="label">Chủ đề</div></div>
+      <div class="hero-stat"><div class="val">2</div><div class="label">Quiz tương tác</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="topnav">
+  <div class="topnav-inner">
+    <div class="tab active" data-target="pr-compare">1. Claude vs Google</div>
+    <div class="tab" data-target="pr-token">2. Token & Model</div>
+    <div class="tab" data-target="pr-eco">3. Tính năng</div>
+    <div class="tab" data-target="pr-task">4. Nguyên tắc</div>
+  </div>
+</div>
+
+<div class="container">
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <div class="sidebar-title" data-target="pr-compare">1. Nền tảng</div>
+    <a class="sidebar-link" data-target="pr-compare">Google vs Claude</a>
+    <a class="sidebar-link" data-target="pr-how">Claude hoạt động thế nào</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-title" data-target="pr-token">2. Token & Model</div>
+    <a class="sidebar-link" data-target="pr-token">Token & Context Window</a>
+    <a class="sidebar-link" data-target="pr-models">3 mô hình Claude</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-title" data-target="pr-eco">3. Tính năng</div>
+    <a class="sidebar-link" data-target="pr-eco">Hệ sinh thái Claude</a>
+    <a class="sidebar-link" data-target="pr-files">Tạo file Excel, PPT</a>
+    <a class="sidebar-link" data-target="pr-connectors">Connectors</a>
+    <a class="sidebar-link" data-target="pr-projects">Projects</a>
+    <a class="sidebar-link" data-target="pr-shared">Shared Projects</a>
+  </div>
+
+  <div class="sidebar-group">
+    <div class="sidebar-title" data-target="pr-task">4. Nguyên tắc</div>
+    <a class="sidebar-link" data-target="pr-task">Phân loại task</a>
+    <a class="sidebar-link" data-target="pr-principles">5 nguyên tắc vàng</a>
+  </div>
+</div>
+<div class="main-content">
+
+
+<div class="sec" id="pr-compare">
+  <div class="sec-label">Chủ đề 1 · Nền tảng</div>
+  <div class="sec-title">Claude vs Google — phép so sánh cốt lõi</div>
+  <div class="sec-desc">Nếu bạn đang dùng Claude giống cách dùng Google, bạn đang dùng ở khoảng 10% công suất.</div>
+    <div id="s1-compare" class="scroll-anchor"></div><p style="font-size:14px;font-weight:600;margin:0 0 12px">Phép so sánh cốt lõi</p>
+  <div class="compare-grid">
+    <div class="compare-card" style="background:var(--blue-light);border-color:rgba(46,95,107,.14)">
+      <h4 style="color:var(--blue)">Google = Thư viện</h4>
+      <p style="color:#1D4A6E">Bạn đến, tìm sách, đọc, tự tổng hợp</p>
+      <p style="color:#1D4A6E">Google <em>tìm thông tin</em> → bạn phải tự xử lý</p>
+      <p style="color:#1D4A6E;margin-top:6px;font-size:12px"><strong>Input:</strong> từ khóa ngắn</p>
+      <p style="color:#1D4A6E;font-size:12px"><strong>Output:</strong> danh sách link</p>
+    </div>
+    <div class="compare-card" style="background:var(--green-light);border-color:rgba(45,127,94,.12)">
+      <h4 style="color:var(--green)">Claude = Đồng nghiệp thông minh</h4>
+      <p style="color:#1D5A40">Bạn giao việc, mô tả yêu cầu, nhận output</p>
+      <p style="color:#1D5A40">Claude <em>thực hiện công việc</em> → bạn review</p>
+      <p style="color:#1D5A40;margin-top:6px;font-size:12px"><strong>Input:</strong> mô tả nhiệm vụ chi tiết</p>
+      <p style="color:#1D5A40;font-size:12px"><strong>Output:</strong> sản phẩm hoàn chỉnh (email, file, phân tích)</p>
+    </div>
+
+</div>
+
+
+
+<div class="sec" id="pr-how">
+  <div class="sec-label">Chủ đề 1 · Nền tảng</div>
+  <div class="sec-title">AI hoạt động thế nào? 3 điều cần nhớ</div>
+  <div class="sec-desc">Không cần hiểu kỹ thuật — chỉ cần biết đủ để dùng đúng cách.</div>
+    <!-- AI HOẠT ĐỘNG THẾ NÀO -->
+  <div id="s1-how" class="scroll-anchor"></div><p style="font-size:14px;font-weight:600;margin:28px 0 8px">Giải thích nhanh: AI hoạt động thế nào?</p>
+  <p style="font-size:13px;color:var(--text2);margin-bottom:12px">Không cần hiểu kỹ thuật — chỉ cần biết đủ để dùng đúng cách.</p>
+
+  <div class="flow-diagram">
+    <div class="flow-row">
+      <div class="flow-node fn-user">Bạn gõ<br>prompt</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node fn-claude">Claude "suy nghĩ"<br><small style="opacity:.7">Dự đoán dựa trên<br>dữ liệu đã học</small></div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node fn-output">Tạo câu trả lời<br><small style="opacity:.7">Từng phần (token)</small></div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node fn-skill">Hiện dần<br><small style="opacity:.7">trên màn hình</small></div>
+    </div>
+  </div>
+
+  <!-- 3 ĐIỀU CẦN NHỚ -->
+  <div class="card">
+    <h3 style="font-size:14px;margin-bottom:12px">3 điều cần nhớ về cách Claude hoạt động</h3>
+    <div style="display:grid;gap:12px">
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0">1</div>
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--text);margin:0 0 2px">Claude không "biết" — Claude "dự đoán"</p>
+          <p style="font-size:12px;color:var(--text2);margin:0">Nó tạo ra câu trả lời giống nhất với kiến thức đã học, không phải tra cứu database sự thật. → Đó là lý do đôi khi nó sai nhưng rất tự tin (hallucination).</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0">2</div>
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--text);margin:0 0 2px">Claude không "nhớ" bạn</p>
+          <p style="font-size:12px;color:var(--text2);margin:0">Mỗi cuộc chat mới = bắt đầu từ số 0. Claude không biết bạn là ai, làm gì — trừ khi bạn nói cho nó biết (hoặc dùng Project/Skill).</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0">3</div>
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--text);margin:0 0 2px">Claude rất giỏi pattern matching</p>
+          <p style="font-size:12px;color:var(--text2);margin:0">Cho 1 ví dụ mẫu → Claude tạo output theo đúng pattern. Càng rõ ràng → càng chính xác.</p>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+
+
+<div class="sec" id="pr-token">
+  <div class="sec-label">Chủ đề 2 · Token & Model</div>
+  <div class="sec-title">Token & Context Window</div>
+  <div class="sec-desc">Hiểu giới hạn thực tế của Claude — tại sao Claude đôi khi quên hoặc cho output kém.</div>
+    <!-- TOKEN & CONTEXT WINDOW -->
+  <div id="s1-token" class="scroll-anchor"></div><p style="font-size:14px;font-weight:600;margin:32px 0 8px">Token & Context Window — giới hạn thực tế cần biết</p>
+  <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Chỉ cần hiểu 2 khái niệm này để biết tại sao Claude đôi khi "quên" hoặc cho output kém.</p>
+
+  <div class="compare-grid">
+    <div class="card" style="border-top:3px solid var(--blue);margin:0">
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--blue);margin-bottom:8px">Phép so sánh</div>
+      <h3 style="font-size:14px">Token = "viên gạch" ngôn ngữ</h3>
+      <p style="font-size:12px">AI không đọc từng từ. Nó chia văn bản thành các mảnh nhỏ gọi là <strong>token</strong>.</p>
+      <p style="font-size:12px;margin-top:6px">1 token ≈ 3/4 từ tiếng Anh. Tiếng Việt tốn hơn: 1 từ ≈ 2-4 tokens.</p>
+      <div style="background:var(--bg2);border-radius:8px;padding:8px 12px;margin-top:8px;font-size:12px;color:var(--text2)">
+        "Xin chào" ≈ 4-5 tokens. "Báo cáo đào tạo Q1/2026" ≈ 12-15 tokens.
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green);margin:0">
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--green);margin-bottom:8px">Phép so sánh</div>
+      <h3 style="font-size:14px">Context Window = "bàn làm việc"</h3>
+      <p style="font-size:12px">Mọi thứ bạn gửi + Claude trả lời đều nằm trên "bàn" này. Bàn chỉ rộng có giới hạn.</p>
+      <p style="font-size:12px;margin-top:6px">Khi đầy → Claude "đẩy" thứ cũ ra → "quên" phần đầu hội thoại.</p>
+      <div style="background:var(--bg2);border-radius:8px;padding:8px 12px;margin-top:8px;font-size:12px;color:var(--text2)">
+        200K tokens ≈ 500 trang A4 tiếng Anh ≈ 150-200 trang tiếng Việt.
+      </div>
+    </div>
+  </div>
+
+  <!-- HỆ QUẢ THỰC TẾ -->
+  <div class="card" style="margin-top:16px">
+    <h3 style="font-size:14px;margin-bottom:10px">Hệ quả thực tế — điều học viên cần nhớ</h3>
+    <div style="display:grid;gap:10px">
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="color:var(--red);font-size:14px;flex-shrink:0">①</span>
+        <p style="font-size:13px;color:var(--text);margin:0"><strong>"Chat dài ≠ chat tốt".</strong> Khi chat quá dài, Claude giảm chất lượng vì "bàn" đầy. Nếu thấy Claude lặp lại hoặc quên yêu cầu → mở chat mới.</p>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="color:var(--yellow);font-size:14px;flex-shrink:0">②</span>
+        <p style="font-size:13px;color:var(--text);margin:0"><strong>Prompt cô đọng = tiết kiệm "diện tích bàn".</strong> Không cần prompt dài dòng. Rõ ràng, đủ thông tin, không thừa.</p>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="color:var(--green);font-size:14px;flex-shrink:0">③</span>
+        <p style="font-size:13px;color:var(--text);margin:0"><strong>Project giải quyết vấn đề "quên".</strong> Thay vì nhồi mọi thứ vào 1 chat, dùng Project để lưu context lâu dài. (Chi tiết ở Phần 2)</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<div class="sec" id="pr-models">
+  <div class="sec-label">Chủ đề 2 · Token & Model</div>
+  <div class="sec-title">3 mô hình Claude — khi nào dùng gì?</div>
+  <div class="sec-desc">Giống như chọn xe: không phải lúc nào cũng cần siêu xe.</div>
+    <!-- 3 MÔ HÌNH CLAUDE -->
+  <div id="s1-models" class="scroll-anchor"></div><p style="font-size:14px;font-weight:600;margin:28px 0 4px">3 mô hình Claude — khi nào dùng gì?</p>
+  <p style="font-size:13px;color:var(--text2);margin-bottom:4px">Giống như chọn xe: không phải lúc nào cũng cần siêu xe.</p>
+
+  <div class="card" style="border-left:3px solid var(--purple);margin-bottom:12px">
+    <div style="font-size:12px;color:var(--text2);line-height:1.6">
+      <strong style="color:var(--text)">Phép so sánh: Chọn model = Chọn phương tiện.</strong> Đi chợ gần → xe máy (Haiku). Đi công tác → sedan (Sonnet). Chở hàng nặng → xe tải (Opus). Không phải lúc nào cũng cần xe tải — tốn xăng, chậm, khó đỗ.
+    </div>
+  </div>
+
+  <div class="model-grid">
+    <div class="model-card">
+      <div class="model-icon" style="background:var(--green-light);color:var(--green)">H</div>
+      <h4>Haiku</h4>
+      <div class="model-desc">Xe máy — nhanh, rẻ</div>
+      <div class="model-use">Trả lời câu đơn giản, phân loại email, tóm tắt ngắn, dịch đoạn nhỏ, task không cần suy luận sâu.</div>
+      <div class="model-speed" style="background:var(--green-light);color:var(--green)">Nhanh nhất</div>
+    </div>
+    <div class="model-card" style="border-color:var(--accent);border-width:2px">
+      <div class="model-icon" style="background:rgba(13,148,136,.12);color:var(--accent)">S</div>
+      <h4>Sonnet</h4>
+      <div class="model-desc">Sedan — cân bằng, recommend</div>
+      <div class="model-use">Viết nội dung, phân tích data, tạo file Excel/PPT, nghiên cứu, brainstorm. <strong>Đa số công việc hàng ngày dùng model này.</strong></div>
+      <div class="model-speed" style="background:rgba(13,148,136,.12);color:var(--accent)">Mặc định cho 90% task</div>
+    </div>
+    <div class="model-card">
+      <div class="model-icon" style="background:var(--purple-light);color:var(--purple)">O</div>
+      <h4>Opus</h4>
+      <div class="model-desc">Xe tải — mạnh nhất, chậm hơn</div>
+      <div class="model-use">Task phức tạp nhiều bước, Cowork/Agent, suy luận sâu, xử lý tài liệu rất dài, build skill.</div>
+      <div class="model-speed" style="background:var(--purple-light);color:var(--purple)">Cho task đặc biệt</div>
+    </div>
+  </div>
+
+  <!-- CÁCH CHỌN MODEL -->
+  <div class="card">
+    <h3 style="font-size:14px;margin-bottom:8px">Cách chọn model trong Claude</h3>
+    <p style="font-size:13px;color:var(--text2)">Trên claude.ai: nhìn góc trên bên trái, bấm vào tên model để đổi. Mặc định thường là Sonnet — đa số trường hợp không cần đổi.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
+      <div style="background:var(--purple-light);border-radius:var(--radius);padding:10px 12px">
+        <p style="font-size:12px;font-weight:500;color:var(--purple);margin:0 0 2px">Khi nào đổi sang Opus?</p>
+        <p style="font-size:12px;color:#4A3670;margin:0">Task cần suy luận nhiều bước, dùng Cowork, hoặc build skill phức tạp.</p>
+      </div>
+      <div style="background:var(--green-light);border-radius:var(--radius);padding:10px 12px">
+        <p style="font-size:12px;font-weight:500;color:var(--green);margin:0 0 2px">Khi nào đổi sang Haiku?</p>
+        <p style="font-size:12px;color:#1D5A40;margin:0">Task siêu đơn giản, cần tốc độ, hoặc đang gần hết usage quota trong tháng.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<div class="sec" id="pr-eco">
+  <div class="sec-label">Chủ đề 3 · Tính năng</div>
+  <div class="sec-title">Hệ sinh thái Claude cho dân non-tech</div>
+  <div class="sec-desc">Tổng quan các tính năng từ cơ bản đến nâng cao.</div>
+    <div class="flow-diagram">
+    <div id="s2-ecosystem" class="scroll-anchor"></div><p style="font-size:14px;font-weight:600;margin-bottom:20px;text-align:center">Hệ sinh thái Claude cho dân non-tech</p>
+    <div class="flow-row" style="flex-wrap:wrap;gap:12px;justify-content:center">
+      <div class="flow-node fn-user" style="min-width:100px">Chat<br><small style="opacity:.7">Hỏi đáp cơ bản</small></div>
+      <div class="flow-node fn-output" style="min-width:100px">Tạo File<br><small style="opacity:.7">Excel, PPT, Word</small></div>
+      <div class="flow-node fn-claude" style="min-width:100px">Web Search<br><small style="opacity:.7">Tra cứu + Citation</small></div>
+      <div class="flow-node fn-skill" style="min-width:100px">Projects<br><small style="opacity:.7">Workspace riêng</small></div>
+    </div>
+    <div style="text-align:center;margin:8px 0"><div class="flow-arrow-down"></div></div>
+    <div class="flow-row" style="flex-wrap:wrap;gap:12px;justify-content:center">
+      <div class="flow-node fn-skill" style="min-width:100px">Connectors<br><small style="opacity:.7">Gmail, Drive, Slack</small></div>
+      <div class="flow-node fn-claude" style="min-width:100px">Skills<br><small style="opacity:.7">"SOP" cho Claude</small></div>
+      <div class="flow-node" style="background:rgba(13,148,136,.1);color:var(--accent);border:2px solid rgba(13,148,136,.22);min-width:100px;padding:14px 20px">Cowork<br><small style="opacity:.7">Agent đa bước</small></div>
+    </div>
+    <div style="text-align:center;margin:16px 0;font-size:12px;color:var(--text3)">Từ trên xuống = từ cơ bản đến nâng cao. Bạn đang ở đâu?</div>
+  </div>
+
+</div>
+
+
+
+<div class="sec" id="pr-files">
+  <div class="sec-label">Chủ đề 3 · Tính năng</div>
+  <div class="sec-title">Claude tạo file Excel, PPT, Word</div>
+  <div class="sec-desc">Bấm nút để xem Claude xử lý yêu cầu tạo file từng bước.</div>
+    <div id="s2-files" class="scroll-anchor"></div><p style="font-size:14px;font-weight:600;margin:24px 0 8px">Mô phỏng: Claude tạo file Excel</p>
+  <p style="font-size:13px;color:var(--text2);margin-bottom:12px">Bấm nút để xem Claude xử lý yêu cầu tạo file từng bước.</p>
+  <div class="simulator" id="sim1">
+    <div class="sim-header"><span class="sim-dot sim-dot-r"></span><span class="sim-dot sim-dot-y"></span><span class="sim-dot sim-dot-g"></span><span class="sim-title">claude.ai</span></div>
+    <div class="sim-body">
+      <div class="sim-msg visible"><div class="sim-msg-user"><div class="sim-avatar sim-avatar-u">B</div><div class="sim-bubble sim-bubble-u">Tạo bảng Excel theo dõi onboarding nhân viên mới gồm checklist 30-60-90 ngày, conditional formatting xanh/vàng/đỏ theo trạng thái.</div></div></div>
+      <div class="sim-msg" id="sim1-m1"><div class="sim-msg-user"><div class="sim-avatar sim-avatar-c">C</div><div><div class="sim-thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span> Đang phân tích yêu cầu...</div><div class="sim-bubble sim-bubble-c">Tôi sẽ tạo file Excel với cấu trúc:<br><strong>Sheet 1</strong>: Danh sách NV mới (tên, phòng ban, ngày vào, buddy)<br><strong>Sheet 2</strong>: Checklist 30-60-90 ngày với data validation<br><strong>Formatting</strong>: Hoàn thành = xanh, Đang làm = vàng, Trễ = đỏ</div></div></div></div>
+      <div class="sim-msg" id="sim1-m2"><div class="sim-msg-user"><div class="sim-avatar sim-avatar-c">C</div><div><div class="sim-bubble sim-bubble-c" style="padding:14px 16px"><div style="background:rgba(45,127,94,.15);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px"><span style="font-size:24px">📊</span><div><div style="font-size:13px;font-weight:500;color:#fff">onboarding_tracker.xlsx</div><div style="font-size:11px;color:rgba(255,255,255,.4)">2 sheets — 42KB — Formulas + Formatting</div></div></div><div style="margin-top:8px;font-size:12px;color:rgba(255,255,255,.5)">File tạo xong. Download hoặc lưu vào Google Drive.</div></div></div></div></div>
+    </div>
+    <div style="padding:0 24px 16px"><button class="sim-btn" id="sim1-btn" data-action="runSim1">Xem Claude xử lý từng bước</button></div>
+  </div>
+
+</div>
+
+
+
+<div class="sec" id="pr-connectors">
+  <div class="sec-label">Chủ đề 3 · Tính năng</div>
+  <div class="sec-title">Connectors — Claude kết nối app thật</div>
+  <div class="sec-desc">Gmail, Drive, Calendar, Slack — trong 1 cuộc hội thoại.</div>
+    <div id="s2-connectors" class="scroll-anchor"></div><p style="font-size:14px;font-weight:600;margin:32px 0 8px">Connectors — Claude kết nối app thật của bạn</p>
+  <div class="flow-diagram">
+    <svg width="100%" viewBox="0 0 600 170" style="display:block;max-width:600px;margin:0 auto">
+      <rect x="40" y="10" width="100" height="40" rx="8" fill="var(--yellow-light)" stroke="rgba(192,139,36,.15)" stroke-width="1"/>
+      <text x="90" y="35" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="13" font-weight="500" fill="var(--yellow)">Gmail</text>
+
+      <rect x="170" y="10" width="100" height="40" rx="8" fill="var(--green-light)" stroke="rgba(45,127,94,.15)" stroke-width="1"/>
+      <text x="220" y="35" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="13" font-weight="500" fill="var(--green)">Drive</text>
+
+      <rect x="300" y="10" width="100" height="40" rx="8" fill="var(--purple-light)" stroke="rgba(107,79,160,.15)" stroke-width="1"/>
+      <text x="350" y="35" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="13" font-weight="500" fill="var(--purple)">Calendar</text>
+
+      <rect x="430" y="10" width="100" height="40" rx="8" fill="var(--blue-light)" stroke="rgba(46,95,107,.18)" stroke-width="1"/>
+      <text x="480" y="35" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="13" font-weight="500" fill="var(--blue)">Slack</text>
+
+      <line x1="90" y1="50" x2="90" y2="85" stroke="var(--bg3)" stroke-width="1.5"/>
+      <polygon points="86,83 90,91 94,83" fill="var(--bg3)"/>
+      <line x1="220" y1="50" x2="220" y2="85" stroke="var(--bg3)" stroke-width="1.5"/>
+      <polygon points="216,83 220,91 224,83" fill="var(--bg3)"/>
+      <line x1="350" y1="50" x2="350" y2="85" stroke="var(--bg3)" stroke-width="1.5"/>
+      <polygon points="346,83 350,91 354,83" fill="var(--bg3)"/>
+      <line x1="480" y1="50" x2="480" y2="85" stroke="var(--bg3)" stroke-width="1.5"/>
+      <polygon points="476,83 480,91 484,83" fill="var(--bg3)"/>
+
+      <rect x="110" y="90" width="350" height="55" rx="12" fill="rgba(13,148,136,.08)" stroke="rgba(13,148,136,.25)" stroke-width="2"/>
+      <text x="285" y="112" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="14" font-weight="600" fill="var(--accent)">Claude</text>
+      <text x="285" y="130" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="11" fill="var(--text3)">Đọc email, tìm file, xem lịch, soạn nháp — trong 1 cuộc hội thoại</text>
+
+      <text x="285" y="162" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="11" fill="var(--text3)">Mỗi hành động đều cần bạn duyệt — Claude không tự gửi email hay sửa file.</text>
+    </svg>
+  </div>
+
+
+</div>
+
+
+
+<div class="sec" id="pr-projects">
+  <div class="sec-label">Chủ đề 3 · Tính năng</div>
+  <div class="sec-title">Projects — workspace riêng cho Claude</div>
+  <div class="sec-desc">Mỗi chat mới, Claude bắt đầu từ số 0. Projects giải quyết vấn đề này bằng cách tạo workspace có "bộ nhớ" riêng.</div>
+  <div id="s2-projects" class="scroll-anchor"></div><p style="font-size:14px;font-weight:600;margin:32px 0 8px">Projects — workspace riêng, không cần giải thích lại</p>
+  <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Mỗi chat mới, Claude bắt đầu từ số 0. Projects giải quyết vấn đề này bằng cách tạo workspace có "bộ nhớ" riêng.</p>
+
+  <!-- What is a Project -->
+  <div class="card" style="border-left:3px solid var(--blue)">
+    <div class="card-label" style="color:var(--blue)">Project là gì?</div>
+    <h3>Workspace riêng biệt với "bộ nhớ" lâu dài</h3>
+    <p>Project = 1 không gian làm việc chuyên biệt cho 1 chủ đề/dự án. Trong đó bạn thiết lập sẵn mọi thứ Claude cần biết — chỉ setup 1 lần, dùng cho mọi cuộc chat trong Project đó.</p>
+    <p style="margin-top:8px">Tất cả users (kể cả Free) đều dùng được Projects. Free account tạo tối đa 5 Projects.</p>
+  </div>
+
+  <!-- 3 Components -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0">
+    <div class="card" style="text-align:center;padding:20px">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:18px;font-weight:700">1</div>
+      <h3 style="font-size:14px">Instructions</h3>
+      <p style="font-size:12px">"Briefing" cho Claude: bạn là ai, làm gì, output cần kiểu gì. Viết 1 lần → áp dụng cho mọi chat trong Project.</p>
+    </div>
+    <div class="card" style="text-align:center;padding:20px">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--green-light);color:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:18px;font-weight:700">2</div>
+      <h3 style="font-size:14px">Knowledge Base</h3>
+      <p style="font-size:12px">Upload tài liệu: quy trình, template, data, guidelines. Claude sẽ tham khảo khi trả lời. Hỗ trợ PDF, DOCX, CSV, TXT, HTML.</p>
+    </div>
+    <div class="card" style="text-align:center;padding:20px">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--purple-light);color:var(--purple);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:18px;font-weight:700">3</div>
+      <h3 style="font-size:14px">Chat History</h3>
+      <p style="font-size:12px">Tất cả chat trong Project được lưu riêng, dễ tìm lại. Không lẫn với chat thường hoặc Project khác.</p>
+    </div>
+  </div>
+
+  <!-- How to create a project - step by step -->
+  <p style="font-size:14px;font-weight:600;margin:28px 0 8px">Cách tạo Project — từng bước</p>
+  <div class="flow-diagram">
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center">
+      <div class="flow-node fn-user" style="min-width:auto;padding:10px 14px;font-size:12px">claude.ai<br>→ Projects</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node fn-claude" style="min-width:auto;padding:10px 14px;font-size:12px">+ New Project<br><small style="opacity:.7">đặt tên cụ thể</small></div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node fn-skill" style="min-width:auto;padding:10px 14px;font-size:12px">Viết<br>Instructions</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node fn-output" style="min-width:auto;padding:10px 14px;font-size:12px">Upload<br>tài liệu</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node" style="min-width:auto;padding:10px 14px;font-size:12px;background:rgba(13,148,136,.1);color:var(--accent);border:1px solid rgba(13,148,136,.22)">Bắt đầu<br>chat!</div>
+    </div>
+  </div>
+
+  <!-- Writing effective instructions -->
+  <p style="font-size:14px;font-weight:600;margin:24px 0 8px">Viết Instructions hiệu quả</p>
+  <p style="font-size:13px;color:var(--text2);margin-bottom:12px">Instructions = "bản brief" cho Claude. Viết đúng → mọi chat trong Project đều có output tốt mà không cần nhắc lại.</p>
+
+  <div class="compare-grid">
+    <div class="compare-card cc-bad">
+      <h4>Instructions kém</h4>
+      <p>"Giúp tôi với công việc HR."</p>
+      <p style="margin-top:8px;font-size:12px;opacity:.8">Quá mơ hồ. Claude vẫn không biết bạn cần gì cụ thể.</p>
+    </div>
+    <div class="compare-card cc-good">
+      <h4>Instructions hiệu quả</h4>
+      <p>"Tôi là chuyên viên L&D tại công ty ABC, 500 NV, 6 SBU. KPI đào tạo: 40h/người/năm. Khi tôi hỏi về đào tạo, hãy: dùng data cụ thể, tone chuyên nghiệp, output tiếng Việt có bullet point. Khi tạo báo cáo: luôn gồm tổng hợp KPI, chi tiết theo SBU, và 3 insight chính."</p>
+      <p style="margin-top:8px;font-size:12px;opacity:.8">Có: vai trò, context công ty, format mong muốn, quy tắc cụ thể.</p>
+    </div>
+  </div>
+
+  <!-- What to include in instructions -->
+  <div class="card">
+    <h3 style="font-size:14px">Checklist viết Instructions</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px">
+      <div>
+        <p style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">Nên có:</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">✓ Vai trò + phòng ban + ngành nghề</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">✓ Context công ty (quy mô, sản phẩm, thị trường)</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">✓ Tone/giọng điệu mong muốn</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">✓ Format output ưa thích</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">✓ Ngôn ngữ (tiếng Việt/Anh/cả hai)</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">✓ Quy tắc cụ thể cho domain</p>
+      </div>
+      <div>
+        <p style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">Không nên:</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">✗ Viết quá chung chung ("giúp tôi")</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">✗ Quá dài, lan man (5-10 dòng là đủ)</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">✗ Paste thông tin nhạy cảm vào instructions</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">✗ Copy instructions từ Project khác (mỗi Project cần context riêng)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Knowledge Base tips -->
+  <div class="card">
+    <h3 style="font-size:14px">Knowledge Base — upload tài liệu đúng cách</h3>
+    <p style="margin-bottom:10px">Claude đọc mọi file bạn upload và dùng làm tài liệu tham khảo. File càng chất lượng → output càng chính xác.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <p style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">Nên upload:</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">• Quy trình/SOP hiện tại</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">• Template báo cáo/email mẫu</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">• Brand guidelines, tone of voice</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">• Data/bảng số liệu cần phân tích</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">• Chính sách công ty liên quan</p>
+      </div>
+      <div>
+        <p style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px">Lưu ý:</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">• Max 30MB/file, hỗ trợ PDF, DOCX, CSV, TXT, HTML</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">• Dọn file trước khi upload (bỏ nội dung thừa)</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">• Paid plan: tự động bật RAG khi file nhiều</p>
+        <p style="font-size:12px;color:var(--text2);margin:3px 0">• Có thể kết nối Google Doc trực tiếp</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sharing (Team/Enterprise) — EXPANDED -->
+</div>
+
+<div class="sec" id="pr-shared">
+  <div class="sec-label">Chủ đề 3 · Tính năng</div>
+  <div class="sec-title">Shared Projects — chia sẻ Project trong team</div>
+  <div class="sec-desc">Tính năng dành cho Claude for Work (Team/Enterprise). Chia sẻ knowledge base và instructions cho cả team.</div>
+
+  <div id="s2-shared" class="scroll-anchor"></div>
+  <p style="font-size:14px;font-weight:600;margin:28px 0 8px">Shared Projects — chia sẻ Project trong team <span style="background:var(--purple-light);color:var(--purple);font-size:10px;padding:2px 8px;border-radius:12px;margin-left:4px">Team & Enterprise</span></p>
+  <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Tính năng này chỉ có trên Claude for Work (Team/Enterprise). Khác với Project cá nhân (ai cũng dùng được), Shared Project cho phép nhiều người cùng tổ chức dùng chung knowledge base.</p>
+
+  <!-- So sánh Project cá nhân vs Shared -->
+  <div class="compare-grid" style="margin-bottom:16px">
+    <div class="compare-card" style="background:var(--blue-light);border-color:rgba(46,95,107,.14)">
+      <h4 style="color:var(--blue)">Project cá nhân (Free, Pro, Max)</h4>
+      <p style="color:#1D4A6E">Chỉ bạn thấy và dùng</p>
+      <p style="color:#1D4A6E">Knowledge base + instructions riêng tư</p>
+      <p style="color:#1D4A6E">Free: tối đa 5 Projects</p>
+      <p style="color:#1D4A6E;margin-top:6px;font-size:12px">Phù hợp: công việc cá nhân, task riêng</p>
+    </div>
+    <div class="compare-card" style="background:var(--purple-light);border-color:rgba(107,79,160,.12)">
+      <h4 style="color:var(--purple)">Shared Project (Team & Enterprise)</h4>
+      <p style="color:#4A3670">Chia sẻ cho thành viên hoặc toàn org</p>
+      <p style="color:#4A3670">Knowledge base chung, chat vẫn riêng tư</p>
+      <p style="color:#4A3670">Unlimited Projects</p>
+      <p style="color:#4A3670;margin-top:6px;font-size:12px">Phù hợp: quy trình team, kiến thức chung phòng ban</p>
+    </div>
+  </div>
+
+  <!-- Cơ chế hoạt động -->
+  <div class="card">
+    <div class="card-label" style="color:var(--purple)">Cơ chế hoạt động</div>
+    <h3 style="font-size:14px">Shared Project hoạt động như thế nào?</h3>
+    <p style="margin-bottom:12px"><strong>Cốt lõi: Upload lên cloud, không phải trỏ vào máy local.</strong> File từ máy bạn phải được upload lên server Anthropic trước, sau đó mới trở thành knowledge base chung.</p>
+    <svg width="100%" viewBox="0 0 620 200" style="display:block;max-width:620px;margin:12px auto">
+      <rect x="30" y="10" width="160" height="50" rx="8" fill="var(--blue-light)" stroke="rgba(46,95,107,.18)" stroke-width="1"/>
+      <text x="110" y="30" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="12" font-weight="500" fill="var(--blue)">File trên máy bạn</text>
+      <text x="110" y="46" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="10" fill="var(--text3)">(local, riêng tư)</text>
+      <line x1="110" y1="60" x2="110" y2="80" stroke="var(--bg3)" stroke-width="1.5"/>
+      <polygon points="106,78 110,86 114,78" fill="var(--bg3)"/>
+      <text x="170" y="75" font-family="Be Vietnam Pro,sans-serif" font-size="10" fill="var(--text3)">upload thủ công</text>
+      <rect x="30" y="88" width="160" height="50" rx="8" fill="var(--purple-light)" stroke="rgba(107,79,160,.15)" stroke-width="1"/>
+      <text x="110" y="108" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="12" font-weight="500" fill="var(--purple)">Knowledge Base</text>
+      <text x="110" y="124" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="10" fill="var(--text3)">(server Anthropic)</text>
+      <line x1="190" y1="113" x2="250" y2="113" stroke="var(--bg3)" stroke-width="1.5"/>
+      <polygon points="248,109 256,113 248,117" fill="var(--bg3)"/>
+      <text x="220" y="105" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="10" fill="var(--text3)">auto share</text>
+      <rect x="258" y="78" width="170" height="70" rx="8" fill="var(--green-light)" stroke="rgba(45,127,94,.15)" stroke-width="1"/>
+      <text x="343" y="100" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="12" font-weight="500" fill="var(--green)">Thành viên được mời</text>
+      <text x="343" y="116" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="10" fill="var(--text3)">Dùng Claude với</text>
+      <text x="343" y="130" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="10" fill="var(--text3)">context chung</text>
+      <rect x="30" y="155" width="560" height="35" rx="6" fill="var(--red-light)" stroke="rgba(184,61,61,.1)" stroke-width="0.5"/>
+      <text x="310" y="177" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-size="11" fill="var(--red)">File trên máy local KHÔNG bao giờ tự động share. Phải upload thủ công vào Knowledge Base.</text>
+    </svg>
+  </div>
+
+  <!-- Phân quyền -->
+  <div class="card">
+    <h3 style="font-size:14px">Phân quyền trong Shared Project</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0">
+      <div style="background:var(--bg2);border-radius:var(--radius);padding:14px;border-left:3px solid var(--blue)">
+        <p style="font-size:13px;font-weight:600;color:var(--blue);margin:0 0 6px">Can use</p>
+        <p style="font-size:12px;color:var(--text2);margin:2px 0">Xem nội dung project, knowledge base, instructions</p>
+        <p style="font-size:12px;color:var(--text2);margin:2px 0">Chat với Claude trong project (chat riêng tư)</p>
+        <p style="font-size:12px;color:var(--red);margin:4px 0 0">Không thể sửa instructions, knowledge base, hoặc settings</p>
+      </div>
+      <div style="background:var(--bg2);border-radius:var(--radius);padding:14px;border-left:3px solid var(--purple)">
+        <p style="font-size:13px;font-weight:600;color:var(--purple);margin:0 0 6px">Can edit</p>
+        <p style="font-size:12px;color:var(--text2);margin:2px 0">Tất cả quyền của "Can use" +</p>
+        <p style="font-size:12px;color:var(--text2);margin:2px 0">Sửa instructions và knowledge base</p>
+        <p style="font-size:12px;color:var(--text2);margin:2px 0">Thêm/xóa thành viên, cập nhật settings</p>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text3);margin:4px 0 0">Cách chia sẻ: qua email cá nhân, bulk email, hoặc public cho toàn tổ chức.</p>
+  </div>
+
+  <!-- Điều quan trọng -->
+  <div class="card" style="border:1.5px solid var(--accent)">
+    <h3 style="font-size:14px">Điều quan trọng cần nhớ</h3>
+    <div style="display:grid;gap:10px;margin-top:10px">
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="color:var(--green);font-size:14px;flex-shrink:0">&#10004;</span>
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--green);margin:0">Knowledge base (file upload) — shared với thành viên</p>
+          <p style="font-size:12px;color:var(--text2);margin:2px 0 0">Mọi file bạn upload vào knowledge base đều hiển thị cho thành viên được mời.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="color:var(--accent);font-size:14px;flex-shrink:0">&#128274;</span>
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--accent);margin:0">Chat history — riêng tư, mặc định không ai thấy</p>
+          <p style="font-size:12px;color:var(--text2);margin:2px 0 0">Dù project là public, các cuộc chat của bạn vẫn hoàn toàn riêng tư. Người khác không thể xem trừ khi bạn chủ động share từng chat.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="color:var(--red);font-size:14px;flex-shrink:0">&#10060;</span>
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--red);margin:0">File trên máy local — không bao giờ tự động share</p>
+          <p style="font-size:12px;color:var(--text2);margin:2px 0 0">Chỉ file đã upload vào knowledge base mới được share. File trên máy tính của bạn hoàn toàn an toàn.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lưu ý file cũ -->
+  <div style="background:var(--yellow-light);border-radius:var(--radius);padding:12px 16px;margin:0 0 20px;font-size:13px;color:var(--yellow);line-height:1.6">
+    <strong>Lưu ý thực tế:</strong> File trong knowledge base không tự động sync với file gốc trên máy. Nếu tài liệu gốc thay đổi, bạn cần re-upload lại phiên bản mới. Claude chỉ đọc phiên bản đã upload, không biết file gốc đã cập nhật.
+  </div>
+
+  <!-- Project ideas by department -->
+  <div class="card">
+    <h3 style="font-size:14px">Ý tưởng Project theo phòng ban</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+      <div style="background:var(--blue-light);border-radius:var(--radius);padding:12px">
+        <p style="font-size:12px;font-weight:600;color:var(--blue);margin:0 0 4px">HR</p>
+        <p style="font-size:12px;color:#1D4A6E;margin:2px 0">"Tuyển dụng Q2" — upload JD templates, quy trình phỏng vấn, câu hỏi mẫu</p>
+      </div>
+      <div style="background:var(--green-light);border-radius:var(--radius);padding:12px">
+        <p style="font-size:12px;font-weight:600;color:var(--green);margin:0 0 4px">L&D</p>
+        <p style="font-size:12px;color:#1D5A40;margin:2px 0">"Đào tạo nội bộ 2026" — upload KPI, giáo trình, template báo cáo tháng</p>
+      </div>
+      <div style="background:var(--purple-light);border-radius:var(--radius);padding:12px">
+        <p style="font-size:12px;font-weight:600;color:var(--purple);margin:0 0 4px">PR / MKT</p>
+        <p style="font-size:12px;color:#4A3670;margin:2px 0">"Content Calendar" — upload brand guide, tone of voice, visual guidelines</p>
+      </div>
+      <div style="background:var(--yellow-light);border-radius:var(--radius);padding:12px">
+        <p style="font-size:12px;font-weight:600;color:var(--yellow);margin:0 0 4px">C&B / Kế toán</p>
+        <p style="font-size:12px;color:#7A5A12;margin:2px 0">"Chính sách phúc lợi" — upload policy files, bảng so sánh, quy định mới</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- When to use -->
+  <div style="background:var(--bg2);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:20px">
+    <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px">Khi nào nên tạo Project?</p>
+    <p style="font-size:13px;color:var(--text2);margin:3px 0">✓ Bạn làm việc về cùng 1 chủ đề nhiều lần (hàng tuần, hàng tháng)</p>
+    <p style="font-size:13px;color:var(--text2);margin:3px 0">✓ Bạn cần Claude luôn hiểu context mà không phải giải thích lại</p>
+    <p style="font-size:13px;color:var(--text2);margin:3px 0">✓ Có tài liệu tham khảo mà Claude cần đọc để output chính xác hơn</p>
+    <p style="font-size:13px;color:var(--text2);margin:3px 0">✗ Không cần cho câu hỏi 1 lần, task nhanh, hoặc topic khác nhau mỗi lần</p>
+  </div>
+</div>
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="sec" id="pr-task">
+  <div class="sec-label">Chủ đề 4 · Nguyên tắc</div>
+  <div class="sec-title">Task nào dùng AI? Task nào không?</div>
+  <div class="sec-desc">Framework 3 vùng xanh/vàng/đỏ giúp bạn quyết định nhanh.</div>
+  <!-- SECTION 4 -->
+<div>
+  
+  
+  
+
+  <div class="dtree" id="dt" >
+    <p style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:8px">Bài tập tương tác — thử quyết định</p>
+    <div class="dtree-q" id="dt-q">Nếu AI trả lời sai task này, bạn có phát hiện được không?</div>
+    <div class="dtree-btns" id="dt-btns">
+      <button class="dtree-btn dtree-yes" data-dt="yes">Có, tôi biết đúng sai</button>
+      <button class="dtree-btn dtree-no" data-dt="no">Không chắc</button>
+    </div>
+    <div class="dtree-result" id="dt-result"></div>
+    <div style="margin-top:12px"><button class="sim-btn" id="dt-reset" style="display:none;background:var(--bg3);color:var(--text)" data-action="dtReset">Thử lại với task khác</button></div>
+  </div>
+
+  <div id="s4-zones" class="scroll-anchor"></div>
+  <div class="zone-grid">
+    <div class="zone-card zone-green">
+      <h3>Vùng xanh — Dùng AI tự tin</h3>
+      <div class="zone-sub">Sai sót dễ phát hiện, dễ sửa, không gây hậu quả nghiêm trọng.</div>
+      <div class="zone-task"><span>✍️</span> Soạn nháp email, thông báo, bài viết <span class="tag tag-hr">All</span></div>
+      <div class="zone-task"><span>📊</span> Tạo file Excel, PowerPoint, Word <span class="tag tag-hr">All</span></div>
+      <div class="zone-task"><span>🔍</span> Tìm kiếm, tổng hợp, so sánh thông tin <span class="tag tag-hr">All</span></div>
+      <div class="zone-task"><span>💡</span> Brainstorm ý tưởng <span class="tag tag-mkt">MKT</span><span class="tag tag-ld">L&D</span></div>
+      <div class="zone-task"><span>🔄</span> Chuyển format: CSV→Excel, notes→action items <span class="tag tag-hr">All</span></div>
+      <div class="zone-task"><span>📝</span> Review, sửa lỗi, cải thiện văn bản <span class="tag tag-hr">All</span></div>
+    </div>
+    <div class="zone-card zone-yellow">
+      <h3>Vùng vàng — AI hỗ trợ, người kiểm duyệt kỹ</h3>
+      <div class="zone-sub">Output cần chuyên môn đánh giá. Luôn cần người xác nhận.</div>
+      <div class="zone-task"><span>📈</span> Phân tích data + đưa insight <span class="tag tag-cb">C&B</span><span class="tag tag-acc">KT</span></div>
+      <div class="zone-task"><span>⚖️</span> Soạn nháp nội dung pháp lý / chính sách <span class="tag tag-hr">HR</span></div>
+      <div class="zone-task"><span>💰</span> Tính toán tài chính phức tạp <span class="tag tag-acc">KT</span></div>
+      <div class="zone-task"><span>🔎</span> Tra cứu quy định pháp luật — AI có thể "bịa" số nghị định <span class="tag tag-hr">HR</span></div>
+    </div>
+    <div class="zone-card zone-red">
+      <h3>Vùng đỏ — Không nên dùng AI</h3>
+      <div class="zone-sub">Sai sót gây hậu quả nghiêm trọng, cần empathy hoặc trách nhiệm pháp lý.</div>
+      <div class="zone-task"><span>🚫</span> Quyết định nhân sự cuối cùng (tuyển/sa thải) <span class="tag tag-hr">HR</span></div>
+      <div class="zone-task"><span>🚫</span> Xử lý thông tin nhạy cảm (lương, CCCD, y tế) <span class="tag tag-hr">All</span></div>
+      <div class="zone-task"><span>🚫</span> Giao tiếp cần empathy sâu <span class="tag tag-hr">HR</span></div>
+      <div class="zone-task"><span>🚫</span> Ký duyệt, phê chuẩn chính thức <span class="tag tag-hr">All</span></div>
+      <div class="zone-task"><span>⚠️</span> Dùng AI output mà KHÔNG review <span class="tag tag-hr">All</span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+
+<div class="sec" id="pr-principles">
+  <div class="sec-label">Chủ đề 4 · Nguyên tắc</div>
+  <div class="sec-title">5 nguyên tắc vàng</div>
+  <div class="sec-desc">Ghi nhớ 5 điều này — áp dụng được suốt sự nghiệp làm việc với AI.</div>
+  <!-- SECTION 5 -->
+<div>
+  
+  
+  
+
+  <div id="s5-principles" class="scroll-anchor"></div>
+  <div class="principle-card"><h4>1. AI là "nhân viên thử việc giỏi"</h4><p>Nhanh, chăm, kiến thức rộng — nhưng chưa hiểu context công ty. Giao rõ → output tốt. Giao mơ hồ → output mơ hồ.</p></div>
+  <div class="principle-card"><h4>2. AI tạo "bản nháp đầu tiên", không phải "bản cuối cùng"</h4><p>Thay vì 2 giờ soạn từ trang trắng → AI tạo nháp 80% trong 2 phút → bạn chỉnh 20% trong 20 phút.</p></div>
+  <div class="principle-card"><h4>3. "Tin nhưng kiểm" — luôn verify</h4><p>AI có thể tự tin trả lời sai (hallucination). Đặc biệt: số liệu, trích dẫn pháp luật, thông tin người thật. Càng quan trọng → càng verify.</p></div>
+  <div class="principle-card"><h4>4. Đừng paste thông tin nhạy cảm</h4><p>Trước khi paste: "Nếu thông tin này bị lộ, có sao không?" Lương, CCCD, data khách hàng → KHÔNG paste.</p></div>
+  <div class="principle-card"><h4>5. AI giỏi hơn khi bạn giỏi hơn</h4><p>AI không thay thế chuyên môn — AI khuếch đại chuyên môn. Người hiểu sâu HR dùng AI cho HR hiệu quả hơn.</p></div>
+
+  <div class="card" style="text-align:center;border:2px solid var(--accent);margin-top:24px">
+    <p style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:12px">Công thức ghi nhớ</p>
+    <div style="font-size:clamp(16px,2.5vw,22px);font-weight:700;line-height:1.8;letter-spacing:-.3px">AI tạo nháp → <span style="color:var(--blue)">Bạn review</span> → <span style="color:var(--green)">Bạn quyết định</span> → <span style="color:var(--accent)">Bạn chịu trách nhiệm</span></div>
+  </div>
+
+  <div id="s5-quiz" class="quiz" style="margin-top:32px">
+    <h3>Kiểm tra nhanh</h3>
+    <div class="quiz-q">Bạn cần soạn email phúc lợi mới gửi toàn công ty. Nên dùng tool/tính năng nào?</div>
+    <div class="quiz-opts" id="q1-opts">
+      <button class="quiz-opt" data-quiz="q1" data-correct="false">Chat thường — gõ prompt mỗi lần</button>
+      <button class="quiz-opt" data-quiz="q1" data-correct="true">Project (có instructions + brand guide) + Skill (email nội bộ)</button>
+      <button class="quiz-opt" data-quiz="q1" data-correct="false">Cowork — để Claude tự gửi email</button>
+    </div>
+    <div class="quiz-feedback" id="q1-fb"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>Kiểm tra nhanh</h3>
+    <div class="quiz-q">Claude trả về "Nghị định 45/2026/NĐ-CP về BHXH". Bạn nên?</div>
+    <div class="quiz-opts" id="q2-opts">
+      <button class="quiz-opt" data-quiz="q2" data-correct="false">Tin và trích dẫn luôn trong báo cáo</button>
+      <button class="quiz-opt" data-quiz="q2" data-correct="false">Hỏi Claude xác nhận lại</button>
+      <button class="quiz-opt" data-quiz="q2" data-correct="true">Click citation, mở trang nguồn, kiểm tra nghị định có thật không</button>
+    </div>
+    <div class="quiz-feedback" id="q2-fb"></div>
+  </div>
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<div class="footer">
+  <p style="font-size:13px;font-weight:500;color:rgba(255,255,255,.6);margin-bottom:6px">AI Cơ Bản với Claude — Tài liệu tự đọc trước buổi học</p>
+  <p>Tham khảo: <a href="https://anthropic.skilljar.com/" target="_blank">Anthropic Academy</a> — <a href="https://support.claude.com" target="_blank">Claude Help Center</a></p>
+</div>
+
+<script>
+document.querySelectorAll('[data-target]').forEach(function(el){
+  el.addEventListener('click',function(){
+    var t=document.getElementById(this.getAttribute('data-target'));
+    if(t){var y=t.getBoundingClientRect().top+window.pageYOffset-60;window.scrollTo({top:y,behavior:'smooth'});}
+  });
+});
+var tabs=document.querySelectorAll('.tab');
+var firstIds=['pr-compare','pr-token','pr-eco','pr-task'];
+window.addEventListener('scroll',function(){
+  var cur=0;
+  firstIds.forEach(function(id,i){var el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<100)cur=i;});
+  tabs.forEach(function(t,i){if(i===cur)t.classList.add('active');else t.classList.remove('active');});
+});
+var sim1Step=0;
+document.querySelectorAll('[data-action="runSim1"]').forEach(function(b){b.addEventListener('click',function(){sim1Step++;var m=document.getElementById('sim1-m'+sim1Step);if(m)m.classList.add('visible');if(sim1Step>=2){this.disabled=true;this.textContent='Demo hoàn tất';}});});
+var sim2Step=0;
+document.querySelectorAll('[data-action="runSim2"]').forEach(function(b){b.addEventListener('click',function(){sim2Step++;var m=document.getElementById('sim2-m'+sim2Step);if(m){m.classList.add('visible');m.scrollIntoView({behavior:'smooth',block:'nearest'});}if(sim2Step>=3){this.disabled=true;this.textContent='Demo hoàn tất';}});});
+var dtSteps=[{q:"Nếu AI trả lời sai task này, bạn có phát hiện được không?",yes:1,no:'red'},{q:"Nếu AI sai, hậu quả có nhẹ và dễ sửa không?",yes:2,no:'yellow'},{q:"Task này có cần empathy hoặc phán đoán tình huống không?",yes:'red2',no:'green'}];
+var dtResults={green:{t:"Vùng xanh — Giao cho AI tự tin!",b:'var(--green-light)',c:'var(--green)'},yellow:{t:"Vùng vàng — AI soạn nháp, chuyên gia review kỹ.",b:'var(--yellow-light)',c:'var(--yellow)'},red:{t:"Vùng đỏ — Bạn không phát hiện được AI sai.",b:'var(--red-light)',c:'var(--red)'},red2:{t:"Vùng đỏ — Task cần empathy & phán đoán con người.",b:'var(--red-light)',c:'var(--red)'}};
+var dtCur=0;
+function dtN(a){var s=dtSteps[dtCur];var n=a==='yes'?s.yes:s.no;if(typeof n==='number'){dtCur=n;document.getElementById('dt-q').textContent=dtSteps[dtCur].q;if(dtCur===2){document.querySelector('[data-dt="yes"]').textContent='Có, cần empathy';document.querySelector('[data-dt="no"]').textContent='Không, thuần logic';}}else{var r=dtResults[n];var e=document.getElementById('dt-result');e.style.background=r.b;e.style.color=r.c;e.textContent=r.t;e.classList.add('show');document.getElementById('dt-btns').style.display='none';document.getElementById('dt-reset').style.display='inline-block';}}
+document.querySelectorAll('[data-dt]').forEach(function(b){b.addEventListener('click',function(){dtN(this.getAttribute('data-dt'));});});
+document.querySelectorAll('[data-action="dtReset"]').forEach(function(b){b.addEventListener('click',function(){dtCur=0;document.getElementById('dt-q').textContent=dtSteps[0].q;document.getElementById('dt-result').classList.remove('show');document.getElementById('dt-btns').style.display='flex';this.style.display='none';document.querySelector('[data-dt="yes"]').textContent='Có, tôi biết đúng sai';document.querySelector('[data-dt="no"]').textContent='Không chắc';});});
+document.querySelectorAll('[data-quiz]').forEach(function(b){b.addEventListener('click',function(){var q=this.getAttribute('data-quiz');var c=this.getAttribute('data-correct')==='true';var os=document.querySelectorAll('#'+q+'-opts .quiz-opt');var s=this;os.forEach(function(o){o.classList.add('disabled');if(o===s)o.classList.add(c?'correct':'wrong');});var f=document.getElementById(q+'-fb');f.classList.add('show');if(q==='q1'){f.className=c?'quiz-feedback show ok':'quiz-feedback show nok';f.textContent=c?'Chính xác! Project + Skill.':'Chưa tối ưu. Đáp án: Project + Skill.';}else{f.className=c?'quiz-feedback show ok':'quiz-feedback show nok';f.textContent=c?'Tuyệt vời! Luôn kiểm tra nguồn gốc.':'Cẩn thận! Mở nguồn, kiểm tra bằng mắt.';}});});
+
+
+// Sidebar link clicks
+document.querySelectorAll('.sidebar-link, .sidebar-title').forEach(function(el){
+  if(el.hasAttribute('data-target')){
+    el.addEventListener('click',function(){
+      var t=document.getElementById(this.getAttribute('data-target'));
+      if(t){var y=t.getBoundingClientRect().top+window.pageYOffset-60;window.scrollTo({top:y,behavior:'smooth'});}
+    });
+  }
+});
+
+// Sidebar active state on scroll
+var allSidebarTargets=['pr-compare','pr-how','pr-token','pr-models','pr-eco','pr-files','pr-connectors','pr-projects','pr-shared','pr-task','pr-principles'];
+window.addEventListener('scroll',function(){
+  var activeId='';
+  allSidebarTargets.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el&&el.getBoundingClientRect().top<120)activeId=id;
+  });
+  document.querySelectorAll('.sidebar-link').forEach(function(link){
+    var target=link.getAttribute('data-target');
+    if(target===activeId)link.classList.add('active');
+    else link.classList.remove('active');
+  });
+});
+</script>
+</body>
+</html>
