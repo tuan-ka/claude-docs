@@ -1250,6 +1250,24 @@
           </div>
         </div>
       </div>
+      <h3 class="h3 text-success" style="margin-top: 24px;">💡 Ví dụ thực — 3 task, 3 tool</h3>
+      <div class="grid-3">
+        <div class="card" style="padding: 14px; background: rgba(123,168,247,0.06);">
+          <strong class="text-primary">① Tóm tắt 30 PDF cho meeting</strong>
+          <p style="margin-top: 6px; font-size: 13px;">→ <strong class="text-success">Cowork mode</strong></p>
+          <p style="font-size: 12.5px; color: var(--text-muted);">Lý do: file thật + lặp lại nhiều lần → cần folder access + pipeline.</p>
+        </div>
+        <div class="card" style="padding: 14px; background: rgba(167,139,250,0.06);">
+          <strong class="text-purple">② Refactor <code>src/auth/</code> sang TS</strong>
+          <p style="margin-top: 6px; font-size: 13px;">→ <strong class="text-purple">Claude Code</strong></p>
+          <p style="font-size: 12.5px; color: var(--text-muted);">Lý do: code-heavy, cần đọc codebase + edit nhiều file + chạy test.</p>
+        </div>
+        <div class="card" style="padding: 14px; background: rgba(110,231,183,0.06);">
+          <strong class="text-success">③ Viết 1 tweet quảng bá blog post</strong>
+          <p style="margin-top: 6px; font-size: 13px;">→ <strong class="text-primary">Claude.ai chat</strong></p>
+          <p style="font-size: 12.5px; color: var(--text-muted);">Lý do: one-off, không file, không lặp → mở chat 30s là xong.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1291,6 +1309,25 @@
       <div class="card" style="background: rgba(252,211,77,0.06); border-color: rgba(252,211,77,0.3);">
         <p><strong class="text-warning">Mẹo Pro:</strong> Đừng dùng Claude để viết code/email ngay. Hãy dùng nó để
           <em>hỏi</em> về codebase / context trước. Một prompt cụ thể 50 từ tiết kiệm 20K token Claude phải đoán mò.</p>
+      </div>
+      <h3 class="h3 text-success" style="margin-top: 20px;">💡 Ví dụ thực — C-T-R cho 2 lĩnh vực khác nhau</h3>
+      <div class="grid-2">
+        <div class="card" style="padding: 16px; background: rgba(123,168,247,0.06);">
+          <span class="chip" style="margin-bottom: 10px;">Marketing</span>
+          <p style="font-size: 13px; line-height: 1.6;">
+            <strong class="text-primary">C:</strong> "Tôi là Content Lead Kaopiz, audience SME tech VN, brand voice tối giản."<br>
+            <strong class="text-success">T:</strong> "Viết 3 caption Instagram launch service AI Code Review."<br>
+            <strong class="text-warning">R:</strong> "≤ 150 ký tự, hook contrarian, kết bằng câu hỏi, không emoji loè loẹt, tag @kaopizvn."
+          </p>
+        </div>
+        <div class="card" style="padding: 16px; background: rgba(167,139,250,0.06);">
+          <span class="chip purple" style="margin-bottom: 10px;">Dev</span>
+          <p style="font-size: 13px; line-height: 1.6;">
+            <strong class="text-primary">C:</strong> "Project React 18 + TS strict, ESLint Airbnb, hooks-only. <code>calculateTax</code> hiện viết JS thuần, có 4 caller."<br>
+            <strong class="text-success">T:</strong> "Refactor sang TS strict, giữ signature, return type là <code>TaxResult</code>."<br>
+            <strong class="text-warning">R:</strong> "Không sửa caller; thêm 3 unit test (happy + 2 edge); không dùng <code>any</code>."
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -1379,6 +1416,15 @@
         <p style="margin-top: 12px;"><strong>Rule of thumb:</strong> Sau 3 lần iteration vẫn không ưng ý → prompt gốc
           sai tư duy, hãy viết lại từ đầu.</p>
       </div>
+      <div class="card" style="margin-top: 16px; padding: 16px; background: rgba(110,231,183,0.06); border-color: rgba(110,231,183,0.3);">
+        <h3 class="h3 text-success">💡 Ví dụ thực — 4D cho task "Viết blog post 800 từ về Claude Skills"</h3>
+        <ul class="bullets" style="margin-top: 8px;">
+          <li><strong>📝 Description:</strong> CTR đầy đủ — "Bạn là DevRel Kaopiz, audience dev SME VN. Viết blog 800 từ giới thiệu Claude Skills, hook contrarian. Format: H2 + bullet, có 1 code-block SKILL.md mẫu, kết bằng CTA dùng thử."</li>
+          <li><strong>🤝 Delegation:</strong> Giao Claude phần outline + draft + 3 ý tagline. Bạn giữ lại phần kể câu chuyện thực tế Kaopiz đã làm (Claude không biết).</li>
+          <li><strong>🔍 Diligence:</strong> Verify số liệu Anthropic (token tiết kiệm, % team dùng) — chỉ trích từ docs chính thức, không tin Claude tự bịa.</li>
+          <li><strong>⚖️ Discernment:</strong> Check Accuracy (số liệu khớp), Structure (H2 rõ, không sa đà), Voice (giọng Kaopiz — tối giản, không hype). Iteration 2-3 vòng trước publish.</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -1417,6 +1463,37 @@
         <p><strong class="text-primary">Mẹo Pro:</strong> Sau mỗi prompt thành công, dán vào file
           <code>my-prompts.md</code>. 3 tháng sau bạn có "kho prompt" cá nhân. Khi đủ thuần, đóng gói thành
           <em>Skill</em> (xem phần Skills).</p>
+      </div>
+      <h3 class="h3" style="margin-top: 24px;">❌ vs ✅ — Cùng 1 task "Viết caption LinkedIn"</h3>
+      <div class="grid-2">
+        <div class="card" style="border-color: var(--color-danger); padding: 16px;">
+          <span class="pill pill-hard" style="margin-bottom: 10px;">❌ SAI</span>
+          <div class="code-block no-traffic" style="font-size: 12px; margin: 0;">viết caption LinkedIn hay hay
+về AI cho công ty mình</div>
+          <p style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>Lý do:</strong> 1 dòng, không context (công ty nào, audience ai), không format (mấy phương án), không ràng buộc (độ dài, tone). Output sẽ generic, kiểu chung chung — gửi đi sẽ phải viết lại 80%.
+          </p>
+        </div>
+        <div class="card" style="border-color: var(--color-accent); padding: 16px;">
+          <span class="pill pill-easy" style="margin-bottom: 10px;">✅ ĐÚNG</span>
+          <div class="code-block no-traffic" style="font-size: 12px; margin: 0;">Bạn là Marketing Lead Kaopiz
+(công ty phần mềm VN, brand voice
+tối giản, hướng dev).
+
+Viết 3 phương án caption LinkedIn
+giới thiệu Claude Skills cho team.
+Audience: CTO/Eng Manager SME VN.
+
+Ràng buộc:
+- Mỗi caption ≤ 200 từ
+- Hook contrarian (đảo narrative)
+- Kết bằng câu hỏi mở
+- Không emoji loè loẹt
+- Tag @kaopizvn cuối</div>
+          <p style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>Lý do:</strong> Có đủ C-T-R. Output 3 phiên bản → chọn 1, sửa 5%. Tiết kiệm 1 giờ vs viết tay.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -1497,6 +1574,25 @@
               <li>Tóm tắt thread Slack 200 messages</li>
               <li>So sánh 2 file PDF khác nhau</li>
             </ul>
+            <details class="sample" style="margin-top: 14px; padding: 0;">
+              <summary class="sample-label" style="cursor: pointer; padding: 10px 14px; margin: 0; list-style: none;">📤 Output mẫu (click mở rộng)</summary>
+              <div class="sample-body" style="padding: 4px 14px 12px; font-size: 12px;">
+                <strong>TL;DR:</strong> Q1 vượt 12% kế hoạch nhờ AI service; headcount +8, margin giữ 23%; 2 risk cần xử lý trước Q2.<br><br>
+                <strong>5 điểm chính:</strong><br>
+                • AI Consulting đóng góp 38% revenue Q1, gấp đôi Q4/2025.<br>
+                • Java team thêm 8 dev — onboard 14 ngày OK, nhưng 3 dự án chậm 1-2 tuần.<br>
+                • Khách Nhật chiếm 62% pipeline mới, US 28%, EU 10%.<br>
+                • Margin giữ 23% nhờ giảm cost văn phòng (mở rộng WFH).<br>
+                • CSAT 4.6/5, NPS +18 so Q4.<br><br>
+                <strong>3 con số:</strong> Revenue <strong>+12%</strong> · Headcount <strong>+8</strong> · Margin <strong>23%</strong><br><br>
+                <strong>Action items:</strong><br>
+                • <em>Long (Sales)</em> review pipeline US Q2 — deadline 20/05.<br>
+                • <em>HR</em> mở JD 5 senior Java — deadline 30/04.<br><br>
+                <strong>Câu hỏi mở:</strong><br>
+                • 2 risk ở §4.3 cụ thể là gì? (báo cáo chỉ ghi "geo-political + FX")<br>
+                • CSAT 4.6 dựa trên bao nhiêu phản hồi? Sample size có đủ?
+              </div>
+            </details>
           </div>
         </div>
       </div>
@@ -1564,6 +1660,23 @@
               <li>Đúng keigo, không có lỗi ngữ pháp</li>
               <li>3 phiên bản khác biệt rõ ràng về tone</li>
             </ul>
+            <div class="sample" style="margin-top: 14px;">
+              <div class="sample-label">📤 Output mẫu — 3 email (rút gọn)</div>
+              <div class="sample-body" style="font-size: 12px;">
+                <strong>A) 拝啓 — Trang trọng (lần đầu):</strong><br>
+                Subject: 「React Native チーム 4 名のお見積りについて」<br>
+                田中様、お世話になっております。Kaopiz の Long でございます。先日ご相談いただいた React Native 4 名体制の件、お急ぎとのこと、明日までに正式お見積りをお送りします。30 分のキックオフ Call も可能です（Calendly: …）。<br>
+                <em>(dùng khi: lần đầu liên hệ, chưa quen)</em><br><br>
+                <strong>B) です/ます — Thân thiện (đã quen 6 tháng) ✓:</strong><br>
+                Subject: 「RN チーム 4 名 — 明日までにお見積り送ります」<br>
+                田中さん、お疲れさまです！RN 4 名の件、急ぎなんですね。明日 EOD までに見積り＋候補メンバー 2 名の CV お送りします。来週 Call 30 分どうですか？水 14:00 / 木 10:00 が空いてます。<br>
+                <em>(dùng khi: đã quen, deal đang nóng — recommend ✓)</em><br><br>
+                <strong>C) 大変お忙しい中 — Khẩn trương (chốt nhanh):</strong><br>
+                Subject: 「【急ぎ】RN 4 名 — 今週中に確定可能です」<br>
+                田中さん、急ぎとのことなので結論から：4 名アサイン可、来週月曜スタート可。詳細は Call で 15 分。本日中に空いてる時間あれば即押さえます。<br>
+                <em>(dùng khi: deadline cực gấp, cần chốt deal trong 24h)</em>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1623,10 +1736,18 @@
 
               KHÔNG ý nào trùng chủ đề.</div>
             <div class="sample">
-              <div class="sample-label">📤 Mẫu output 1 ý</div>
-              <div class="sample-body" style="font-size: 12px;">🔴 #21 - Hook: "Sa thải AI khỏi team, CEO này mất
-                $80K/tháng — đây là lý do"<br>Angle: case ngược — DN abandon AI và hậu quả thực tế<br>Format: carousel 8
-                trang</div>
+              <div class="sample-label">📤 Mẫu output — 3 ý (mỗi tầng 1)</div>
+              <div class="sample-body" style="font-size: 12px;">
+                🟢 <strong>#03</strong> — <em>Hook:</em> "Vinamilk dùng AI để dự báo nhu cầu sữa từng vùng — sai số chỉ 4%."<br>
+                <em>Angle:</em> case study DN VN ứng dụng AI thật, có số liệu.<br>
+                <em>Format:</em> carousel 6 trang + bảng kết quả.<br><br>
+                🟡 <strong>#14</strong> — <em>Hook:</em> "AI không thay thế chuyên gia. Nhưng nó đang thay thế người không dùng AI."<br>
+                <em>Angle:</em> controversy nhẹ — đảo lại narrative quen thuộc.<br>
+                <em>Format:</em> text post 200 từ + 1 hình meme tối giản.<br><br>
+                🔴 <strong>#21</strong> — <em>Hook:</em> "Sa thải AI khỏi team, CEO này mất $80K/tháng — đây là lý do."<br>
+                <em>Angle:</em> case ngược — DN abandon AI và hậu quả thực tế.<br>
+                <em>Format:</em> carousel 8 trang.
+              </div>
             </div>
             <h3 class="h3" style="margin-top: 12px;">Variations</h3>
             <ul class="bullets">
@@ -1701,6 +1822,21 @@
             </ul>
           </div>
         </div>
+        <details class="sample" style="margin-top: 16px; padding: 0;">
+          <summary class="sample-label" style="cursor: pointer; padding: 10px 14px; margin: 0; list-style: none;">📤 Output mẫu — 3 phiên bản dịch (click mở rộng)</summary>
+          <div class="sample-body" style="padding: 4px 14px 12px; font-size: 12px;">
+            <strong>1. Faithful</strong> (sát ý gốc, ~40 từ):<br>
+            "Dear [Name], please find attached the latest version of the proposal. I have updated the pricing section based on your feedback last week. I look forward to hearing your thoughts at your earliest convenience."<br><br>
+            <strong>2. Natural</strong> (như native CTO viết, ~35 từ):<br>
+            "Hi [Name], attaching the updated proposal — pricing reflects the feedback from last week's call. Happy to jump on a quick call if anything needs clarifying. Thanks!"<br><br>
+            <strong>3. Punchy</strong> (slide-style, ~25 từ):<br>
+            "[Name] — updated proposal attached. Pricing revised per your feedback. Let me know if you'd like to discuss. Thanks!"<br><br>
+            <strong>3 thuật ngữ khó dịch:</strong><br>
+            • <strong>"anh"</strong> → bỏ kính ngữ; dùng tên riêng (US business style flat hơn).<br>
+            • <strong>"ạ"</strong> → omit hoàn toàn; thay bằng "thanks" hoặc câu khẳng định ngắn.<br>
+            • <strong>"sớm ạ"</strong> → "at your earliest convenience" (formal) / "when you have a moment" (casual).
+          </div>
+        </details>
       </div>
     </div>
   </section>
@@ -1765,6 +1901,35 @@
               <li><strong>Warning:</strong> không có rate limit, brute-force được</li>
               <li><strong>Nit:</strong> return null → return Result type rõ hơn</li>
             </ul>
+            <details class="sample" style="margin-top: 14px; padding: 0;">
+              <summary class="sample-label" style="cursor: pointer; padding: 10px 14px; margin: 0; list-style: none;">📤 Output mẫu — function đã fix (click mở rộng)</summary>
+              <div class="code-block no-traffic" style="margin-top: 4px; font-size: 12px;"><span class="code-comment">// auth.ts — TS strict, bcrypt, JWT, rate-limit</span>
+<span class="code-key">type</span> <span class="code-tag">LoginResult</span> =
+  | { success: <span class="code-key">true</span>; token: string; role: string }
+  | { success: <span class="code-key">false</span>; error: <span class="code-str">'invalid_credentials'</span> | <span class="code-str">'rate_limited'</span> };
+
+<span class="code-key">export async function</span> <span class="code-tag">login</span>(
+  email: string,
+  password: string,
+  ip: string
+): <span class="code-tag">Promise</span>&lt;<span class="code-tag">LoginResult</span>&gt; {
+  <span class="code-key">if</span> (<span class="code-key">await</span> rateLimit.exceeded(ip, <span class="code-str">5</span>, <span class="code-str">60</span>)) {
+    <span class="code-key">return</span> { success: <span class="code-key">false</span>, error: <span class="code-str">'rate_limited'</span> };
+  }
+  <span class="code-key">const</span> user = <span class="code-key">await</span> db.users.findOne({ email });
+  <span class="code-key">if</span> (!user) <span class="code-key">return</span> { success: <span class="code-key">false</span>, error: <span class="code-str">'invalid_credentials'</span> };
+
+  <span class="code-key">const</span> ok = <span class="code-key">await</span> bcrypt.compare(password, user.passwordHash);
+  <span class="code-key">if</span> (!ok) <span class="code-key">return</span> { success: <span class="code-key">false</span>, error: <span class="code-str">'invalid_credentials'</span> };
+
+  <span class="code-key">const</span> token = jwt.sign(
+    { sub: user.id, role: user.role },
+    process.env.<span class="code-tag">JWT_SECRET</span>!,
+    { expiresIn: <span class="code-str">'2h'</span> }
+  );
+  <span class="code-key">return</span> { success: <span class="code-key">true</span>, token, role: user.role };
+}</div>
+            </details>
           </div>
         </div>
       </div>
@@ -1898,6 +2063,19 @@
             </ul>
           </div>
         </div>
+        <div class="sample" style="margin-top: 16px;">
+          <div class="sample-label">📤 Output mẫu — 2 cặp Q&amp;A của bot</div>
+          <div class="sample-body" style="font-size: 12px;">
+            <strong>👤 User:</strong> "Em có bao nhiêu ngày phép năm nay?"<br>
+            <strong>🤖 Bot:</strong> Theo <code>kaopiz-employee-handbook.pdf §4.2 — Annual Leave</code>, nhân viên full-time có:<br>
+            • <strong>14 ngày</strong> phép năm cho năm đầu tiên<br>
+            • <strong>+1 ngày</strong>/năm thâm niên (max 20 ngày)<br>
+            • Phép chưa dùng được carry-over tối đa 5 ngày sang năm sau (§4.2.3)<br>
+            Bạn vào HR portal &gt; My Profile để xem số ngày còn lại của riêng mình nhé.<br><br>
+            <strong>👤 User:</strong> "Bonus tháng 13 năm nay tính theo công thức nào?"<br>
+            <strong>🤖 Bot:</strong> Tôi không tìm thấy thông tin này trong tài liệu được cung cấp (đã check <code>policy-luong-2026.pdf</code>, <code>kaopiz-employee-handbook.pdf</code>, <code>quy-che-wfh.docx</code>). Bạn vui lòng email <strong>hr@kaopiz.com</strong> hoặc Slack @hr-team để được hỗ trợ chính xác.
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1958,6 +2136,23 @@
             </ul>
           </div>
         </div>
+        <details class="sample" style="margin-top: 16px; padding: 0;">
+          <summary class="sample-label" style="cursor: pointer; padding: 10px 14px; margin: 0; list-style: none;">📤 Output mẫu — snippet HTML Claude trả (click mở rộng)</summary>
+          <div class="code-block no-traffic" style="margin-top: 4px; font-size: 12px;"><span class="code-comment">&lt;!-- Hero --&gt;</span>
+<span class="code-tag">&lt;section</span> <span class="code-key">class</span>=<span class="code-str">"hero"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;h1&gt;</span>Code review của bạn — done trong 4 giờ.<span class="code-tag">&lt;/h1&gt;</span>
+  <span class="code-tag">&lt;p</span> <span class="code-key">class</span>=<span class="code-str">"sub"</span><span class="code-tag">&gt;</span>Senior reviewers + AI rubric. Bắt 92% bug trước prod.<span class="code-tag">&lt;/p&gt;</span>
+  <span class="code-tag">&lt;a</span> <span class="code-key">class</span>=<span class="code-str">"cta"</span> <span class="code-key">href</span>=<span class="code-str">"#book"</span><span class="code-tag">&gt;</span>Book a demo →<span class="code-tag">&lt;/a&gt;</span>
+<span class="code-tag">&lt;/section&gt;</span>
+
+<span class="code-comment">&lt;!-- 3 cột tính năng --&gt;</span>
+<span class="code-tag">&lt;section</span> <span class="code-key">class</span>=<span class="code-str">"features grid-3"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;div</span> <span class="code-key">class</span>=<span class="code-str">"feat"</span><span class="code-tag">&gt;</span>🚀 <span class="code-tag">&lt;h3&gt;</span>4-hour SLA<span class="code-tag">&lt;/h3&gt;&lt;p&gt;</span>Reviewer chạm code trong 4h.<span class="code-tag">&lt;/p&gt;&lt;/div&gt;</span>
+  <span class="code-tag">&lt;div</span> <span class="code-key">class</span>=<span class="code-str">"feat"</span><span class="code-tag">&gt;</span>⚡ <span class="code-tag">&lt;h3&gt;</span>AI rubric<span class="code-tag">&lt;/h3&gt;&lt;p&gt;</span>Critical / Warning / Nit, không bỏ sót.<span class="code-tag">&lt;/p&gt;&lt;/div&gt;</span>
+  <span class="code-tag">&lt;div</span> <span class="code-key">class</span>=<span class="code-str">"feat"</span><span class="code-tag">&gt;</span>🔒 <span class="code-tag">&lt;h3&gt;</span>NDA-ready<span class="code-tag">&lt;/h3&gt;&lt;p&gt;</span>Code không train model. Enterprise tier.<span class="code-tag">&lt;/p&gt;&lt;/div&gt;</span>
+<span class="code-tag">&lt;/section&gt;</span>
+<span class="code-comment">&lt;!-- … bảng so sánh, testimonial, footer omit --&gt;</span></div>
+        </details>
       </div>
     </div>
   </section>
@@ -2041,6 +2236,25 @@
             </ul>
           </div>
         </div>
+        <div class="sample" style="margin-top: 16px;">
+          <div class="sample-label">📤 Output mẫu — Dashboard + Insights</div>
+          <div class="sample-body" style="font-size: 12px;">
+            <strong>4 KPI cards (text-only):</strong><br>
+            ┌──────────────────┬──────────────────┬──────────────────┬──────────────────┐<br>
+            │ Revenue Q4       │ Top Sales Rep    │ Industry hot     │ Pipeline (open)  │<br>
+            │ <strong>12.4M VND</strong> ↑18%   │ <strong>Hùng</strong> — 28 deal   │ <strong>Fintech</strong> +45%    │ <strong>8.2M VND</strong>         │<br>
+            │ vs Q3 10.5M      │ conv 41% (avg 28%)│ ↑3× so 2024      │ 24 deal active   │<br>
+            └──────────────────┴──────────────────┴──────────────────┴──────────────────┘<br><br>
+            <strong>3 Insights:</strong><br>
+            ① <strong>Fintech tăng 3×</strong> sau khi launch case study Tanaka-san (Q3) — nên tăng allocation team RN.<br>
+            ② <strong>Sales rep onboard Q3</strong> (Hùng, Mai) outperform top-quartile cũ — quy trình onboard mới hiệu quả.<br>
+            ③ <strong>Deal size trung bình giảm 12%</strong> — đang win nhiều deal nhỏ hơn; cần check có cannibalize deal lớn không.<br><br>
+            <strong>3 Action có số:</strong><br>
+            ① Mở 2 slot RN senior cho Fintech vertical — deadline 15/05.<br>
+            ② Document playbook onboard Hùng/Mai — share team, target Q2.<br>
+            ③ Phân tích cohort deal &lt; 50K — conversion vs retention 90 ngày.
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -2104,6 +2318,27 @@
               Output: 1 file HTML, save ./pitches/</div>
           </div>
         </div>
+        <details class="sample" style="margin-top: 16px; padding: 0;">
+          <summary class="sample-label" style="cursor: pointer; padding: 10px 14px; margin: 0; list-style: none;">📤 Output mẫu — slide #3 "Giải pháp Kaopiz" (click mở rộng)</summary>
+          <div class="code-block no-traffic" style="margin-top: 4px; font-size: 12px;"><span class="code-comment">&lt;!-- Slide 3/12 — Giải pháp Kaopiz --&gt;</span>
+<span class="code-tag">&lt;section</span> <span class="code-key">class</span>=<span class="code-str">"slide"</span> <span class="code-key">data-slide</span>=<span class="code-str">"3"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;span</span> <span class="code-key">class</span>=<span class="code-str">"eyebrow"</span><span class="code-tag">&gt;</span>SOLUTION<span class="code-tag">&lt;/span&gt;</span>
+  <span class="code-tag">&lt;h2&gt;</span>Offshore team Kaopiz — như team của bạn, ở Việt Nam.<span class="code-tag">&lt;/h2&gt;</span>
+
+  <span class="code-tag">&lt;ul</span> <span class="code-key">class</span>=<span class="code-str">"value-props"</span><span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;li&gt;</span><span class="code-tag">&lt;strong&gt;</span>Onboard 14 ngày<span class="code-tag">&lt;/strong&gt;</span> — không phải 3 tháng.<span class="code-tag">&lt;/li&gt;</span>
+    <span class="code-tag">&lt;li&gt;</span><span class="code-tag">&lt;strong&gt;</span>Senior-led<span class="code-tag">&lt;/strong&gt;</span> — Tech Lead 8+ năm trong mỗi team.<span class="code-tag">&lt;/li&gt;</span>
+    <span class="code-tag">&lt;li&gt;</span><span class="code-tag">&lt;strong&gt;</span>Múi giờ JP-friendly<span class="code-tag">&lt;/strong&gt;</span> — overlap 6h/ngày, daily JP.<span class="code-tag">&lt;/li&gt;</span>
+  <span class="code-tag">&lt;/ul&gt;</span>
+
+  <span class="code-tag">&lt;div</span> <span class="code-key">class</span>=<span class="code-str">"metric"</span><span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;span</span> <span class="code-key">class</span>=<span class="code-str">"metric-num"</span><span class="code-tag">&gt;</span>5 năm<span class="code-tag">&lt;/span&gt;</span>
+    <span class="code-tag">&lt;span</span> <span class="code-key">class</span>=<span class="code-str">"metric-label"</span><span class="code-tag">&gt;</span>200+ project · 40+ khách JP<span class="code-tag">&lt;/span&gt;</span>
+  <span class="code-tag">&lt;/div&gt;</span>
+
+  <span class="code-tag">&lt;footer</span> <span class="code-key">class</span>=<span class="code-str">"slide-foot"</span><span class="code-tag">&gt;</span>Kaopiz · Slide 3/12<span class="code-tag">&lt;/footer&gt;</span>
+<span class="code-tag">&lt;/section&gt;</span></div>
+        </details>
       </div>
     </div>
   </section>
@@ -2182,6 +2417,23 @@
               Nếu hours > 110% estimate → cảnh báo.</div>
           </div>
         </div>
+        <details class="sample" style="margin-top: 16px; padding: 0;">
+          <summary class="sample-label" style="cursor: pointer; padding: 10px 14px; margin: 0; list-style: none;">📤 Output mẫu — DOCX section "Done this week" (click mở rộng)</summary>
+          <div class="sample-body" style="padding: 4px 14px 12px; font-size: 12px;">
+            <strong>Weekly Report — Project KPZ-Web · Tuần 19 (06–10/05/2026)</strong><br><br>
+            <strong>Tóm tắt:</strong> Sprint hoàn thành 7/8 ticket, 1 ticket P1 bị delay do thiếu input từ khách. Hours bám sát estimate (92%). Risk: Yellow.<br><br>
+            <strong>✅ Done this week:</strong><br>
+            • <strong>KPZ-1042</strong> — Refactor checkout flow · @Hùng · 16h<br>
+            • <strong>KPZ-1051</strong> — Add SSO Google · @Mai · 12h<br>
+            • <strong>KPZ-1058</strong> — Fix bug thanh toán Momo · @Long · 4h<br>
+            • <strong>KPZ-1061</strong> — Update API docs · @Linh · 6h<br>
+            • <strong>KPZ-1063</strong> — Performance tuning DB · @Hùng · 10h<br><br>
+            <strong>🟡 In-progress:</strong> KPZ-1055 — Dashboard analytics · 60% (cần input mockup từ khách)<br><br>
+            <strong>⏱ Hours vs estimate:</strong> 92h / 100h (92% — healthy)<br>
+            <strong>🚩 Risk flag:</strong> 🟡 <strong>Yellow</strong> — KPZ-1055 chưa đủ resource design, đã ping @account_lead 2 lần.<br><br>
+            <strong>📅 Next week priorities:</strong> KPZ-1055 (block-list), KPZ-1067 (mobile push), KPZ-1070 (security audit).
+          </div>
+        </details>
       </div>
     </div>
   </section>
@@ -2255,6 +2507,16 @@
           </ul>
         </div>
       </div>
+      <div class="card" style="margin-top: 16px; padding: 16px; background: rgba(110,231,183,0.06); border-color: rgba(110,231,183,0.3);">
+        <h3 class="h3 text-success">💡 Ví dụ thực — Skill <code>kaopiz-proposal-jp</code> trong action</h3>
+        <p style="margin-top: 8px; font-size: 13.5px; line-height: 1.65;">
+          <strong>Sales hỏi:</strong> "Khách Tanaka-san, fintech 50 ng, cần proposal RN team 4 ng, deadline 8 tuần."<br>
+          → Claude semantic-match description Skill → trigger <code>kaopiz-proposal-jp</code> (không cần user gọi tên).<br>
+          → Skill load <code>brand-voice-jp.md</code> + <code>template-proposal.docx</code> + 3 case study Golden.<br>
+          → Generate DOCX 12 mục đúng tone keigo, có pricing range, timeline Gantt.<br>
+          <strong>→ Kết quả:</strong> sales nhận file proposal-tanaka-finpay-2026.docx sau <strong>12 phút</strong> thay vì 4-6h. Sửa 5%, gửi đi.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -2306,6 +2568,17 @@
       <div class="card" style="background: rgba(110,231,183,0.06);">
         <p><strong class="text-success">Rule of thumb:</strong> Bỏ 30 phút phỏng vấn kỹ + 5 ví dụ Golden → tiết kiệm 50
           giờ debug sau này. Skill chất lượng = chiều sâu context và ví dụ.</p>
+      </div>
+      <div class="card" style="margin-top: 14px; padding: 16px; background: rgba(110,231,183,0.06); border-color: rgba(110,231,183,0.3);">
+        <h3 class="h3 text-success">💡 Ví dụ phỏng vấn thực — Skill <code>kaopiz-weekly-report</code></h3>
+        <p style="margin-top: 6px; font-size: 13px; color: var(--text-muted);">Bước 1 (Interview) khi bạn nói với Claude "tôi muốn tạo skill weekly report":</p>
+        <ul class="bullets" style="margin-top: 8px; font-size: 13.5px;">
+          <li><strong>🎤 Q1:</strong> "Skill này làm gì? Output cuối là gì?" → <em>"Generate DOCX weekly report từ JIRA + Slack + timesheet, lưu Drive, post Slack #project."</em></li>
+          <li><strong>🎤 Q2:</strong> "Trigger phrase user hay dùng?" → <em>"weekly report", "báo cáo tuần", "summary tuần", "tổng hợp tuần này", hoặc tự động mỗi thứ 6 16:00."</em></li>
+          <li><strong>🎤 Q3:</strong> "Constraint gì?" → <em>"KHÔNG bịa số liệu. Dùng template <code>weekly-template.docx</code>. Risk flag chỉ red/yellow/green. Hours &gt; 110% estimate → cảnh báo."</em></li>
+          <li><strong>🎤 Q4:</strong> "Edge case nào?" → <em>"JIRA timeout → retry 2 lần rồi escalate. Timesheet thiếu &gt; 30% → flag và hỏi PM trước khi chạy tiếp."</em></li>
+        </ul>
+        <p style="margin-top: 8px; font-size: 13px;"><strong>Output sau Interview:</strong> Claude tự draft <code>SKILL.md</code> v1 — bạn chỉ tinh chỉnh ~10%.</p>
       </div>
     </div>
   </section>
@@ -2503,6 +2776,19 @@
           - Liệt kê 5 biến thể câu lệnh user thật trong description
           - Thêm "proactively" để Claude tự kích hoạt khi thấy workflow phù hợp
           - Đo: trigger rate &gt; 90%, 0 false positive
+        </div>
+      </div>
+      <h3 class="h3 text-success" style="margin-top: 18px;">✅ 2 GOOD example mở rộng</h3>
+      <div class="grid-2">
+        <div class="card" style="border-color: var(--color-accent); padding: 16px;">
+          <span class="pill pill-easy" style="margin-bottom: 8px;">✅ GOOD #2</span>
+          <p style="margin-top: 6px; font-family: var(--font-mono); font-size: 13px; line-height: 1.6;">"Triage JIRA tickets Kaopiz <strong>[What]</strong> khi user nói 'review inbox', 'bugs hôm nay', hoặc lúc 9:00 daily qua Scheduled Task <strong>[When]</strong>."</p>
+          <p style="margin-top: 8px; font-size: 12.5px; color: var(--text-muted);"><strong>Lý do:</strong> 3 trigger phrase thực tế + 1 trigger lịch trình → cover được manual + auto. Action "Triage" rõ, Object "JIRA tickets Kaopiz" có scope cụ thể.</p>
+        </div>
+        <div class="card" style="border-color: var(--color-accent); padding: 16px;">
+          <span class="pill pill-easy" style="margin-bottom: 8px;">✅ GOOD #3</span>
+          <p style="margin-top: 6px; font-family: var(--font-mono); font-size: 13px; line-height: 1.6;">"Screen CV ứng viên theo rubric 5 tiêu chí <strong>[What]</strong> khi user upload PDF/DOCX vào folder <code>~/recruiting/inbox/</code> hoặc nói 'screen CV này' <strong>[When]</strong>."</p>
+          <p style="margin-top: 8px; font-size: 12.5px; color: var(--text-muted);"><strong>Lý do:</strong> Trigger điều kiện folder rất cụ thể (không nhầm với bài toán khác), kèm trigger phrase thông thường. Object "CV ứng viên theo rubric 5 tiêu chí" mô tả output expectation.</p>
         </div>
       </div>
     </div>
@@ -2749,6 +3035,41 @@
             </div>
           </div>
         </div>
+        <div class="grid-2" style="margin-top: 16px; gap: 16px;">
+          <div>
+            <h3 class="h3 text-success">📚 Reference mẫu — <code>brand-voice-jp.md</code></h3>
+            <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment"># Kaopiz · Brand voice for JP proposals</span>
+
+<span class="code-key">## Tone</span>
+- 丁寧語 (teineigo), formal but not stiff
+- Persuasive but humble — never boastful
+- Avoid: slang, emoji, hyperbole, 「絶対」「最高」
+
+<span class="code-key">## Vocabulary</span>
+- Kaopiz: <span class="code-str">弊社</span> (humble we) · 当社 OK in body
+- Khách: <span class="code-str">御社</span> (your company)
+- Team: <span class="code-str">体制</span> instead of チーム in formal sections
+- Ngân sách: <span class="code-str">ご予算</span> with お/ご prefix
+
+<span class="code-key">## Structure rules</span>
+- 1 ý → 1 đoạn ≤ 4 dòng
+- Mỗi mục mở bằng câu khẳng định, đóng bằng đề xuất
+- KHÔNG trích case study chưa được approve trong <span class="code-tag">references/case-studies-approved.md</span></div>
+          </div>
+          <div>
+            <h3 class="h3 text-success">📤 Output mẫu — Executive Summary (1 mục)</h3>
+            <div class="sample" style="margin: 0;">
+              <div class="sample-body" style="font-size: 12px;">
+                <strong>1. エグゼクティブ・サマリー</strong><br><br>
+                田中CTO様、<br><br>
+                御社が現在直面されている <strong>React Native 開発リソース不足</strong>と <strong>3 ヶ月以内のリリース要件</strong>に対し、弊社 Kaopiz は <strong>Senior 1 名 + Mid 3 名の 4 名体制</strong>を 14 日以内にアサイン可能でございます。<br><br>
+                Java/Fintech 領域で 5 年以上の実績があり、過去には類似規模の Fintech スタートアップ様 2 社で MVP リリースを 10 週で完了した実績がございます（詳細は §6 ケーススタディ）。<br><br>
+                ご予算 <span style="font-style: italic; color: var(--text-muted);">[USD X / month]</span> 範囲内で、初月オンボーディング費用を 50% 軽減するプランをご提案いたします。<br><br>
+                次のステップとして、30 分のキックオフ・コールにて体制詳細とタイムラインをご相談させていただければ幸いです。
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -2869,6 +3190,52 @@
             </ul>
           </div>
         </div>
+        <div class="grid-2" style="margin-top: 16px; gap: 16px;">
+          <div>
+            <h3 class="h3 text-success">📚 Reference mẫu — <code>rubric-2026.md</code></h3>
+            <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment"># CV Screening Rubric · Kaopiz · 2026</span>
+
+<span class="code-key">## 1. Years of exp (0-5đ)</span>
+0-1y → 0đ · 2-3y → 2đ · 4-6y → 4đ · 7+y → 5đ
+
+<span class="code-key">## 2. Tech match với JD (0-5đ)</span>
+0-30% match → 0đ · 30-60% → 2đ · 60-85% → 4đ · &gt;85% → 5đ
+<span class="code-comment"># VD: JD Java Spring Senior — match Spring Boot 3+, JPA, Kafka</span>
+
+<span class="code-key">## 3. Career progression (0-3đ)</span>
+Stuck same role 4y+ → 0đ · normal → 2đ · clear leadership growth → 3đ
+
+<span class="code-key">## 4. Communication signals (0-3đ)</span>
+CV typos / no soft skills → 0đ · OK → 2đ · public talks/blog/OSS → 3đ
+
+<span class="code-key">## 5. Red flags (-2đ mỗi cái)</span>
+- Job hopping &lt; 1y nhiều lần
+- Tech stack mismatch hoàn toàn
+- Không có dự án thực tế</div>
+          </div>
+          <div>
+            <h3 class="h3 text-success">📤 Output mẫu — 1 row Excel master</h3>
+            <div class="sample" style="margin: 0;">
+              <div class="sample-body" style="font-size: 11.5px; overflow-x: auto;">
+                <pre style="margin: 0; white-space: pre; font-family: inherit;">┌───────────────┬─────┬───────────────────┬───────┬───────┬──────────────────────────┐
+│ Name          │ Exp │ Tech              │ Score │ Flag  │ Note                     │
+├───────────────┼─────┼───────────────────┼───────┼───────┼──────────────────────────┤
+│ Nguyễn Văn A  │ 5y  │ Java Spring, Kafka│  14đ  │ 🟢 G │ Strong fit JD-127        │
+│ Trần Thị B    │ 2y  │ React Native      │   8đ  │ 🟡 Y │ Mid-pool, RN khan        │
+│ Lê C          │ 8y  │ PHP CodeIgniter   │   3đ  │ 🔴 R │ Stack mismatch JD hiện  │
+└───────────────┴─────┴───────────────────┴───────┴───────┴──────────────────────────┘</pre>
+                <br>
+                <strong>Email HR Lead — Top 5 hôm nay:</strong><br>
+                ① Nguyễn Văn A (14đ) — Spring + Kafka match 90% JD-127, có blog tech.<br>
+                ② Phạm D (13đ) — Senior Java 7y, từng làm Fintech, soft skill mạnh.<br>
+                ③ Hoàng E (12đ) — RN 4y, có app trên Play Store 100K+ DL.<br>
+                ④ Vũ F (11đ) — Java mid 4y, OSS contributor (Spring Boot).<br>
+                ⑤ Đặng G (11đ) — Backend Java 5y, từng lead team 3 ng.<br>
+                Link Excel: <code>~/recruiting/master-2026.xlsx</code> (rows 142-191).
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -2964,6 +3331,57 @@
             </ul>
           </div>
         </div>
+        <div class="grid-2" style="margin-top: 16px; gap: 16px;">
+          <div>
+            <h3 class="h3 text-success">📚 Reference mẫu — <code>severity-matrix.md</code></h3>
+            <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment"># Severity Matrix · Kaopiz · ngữ cảnh khách enterprise</span>
+
+<span class="code-key">## P0 — Critical (react ≤ 30 phút, page TL)</span>
+- Production down, khách mất tiền
+- Data loss / breach (PII, credentials)
+- &gt; 50% user không login được
+- Notify: TL + Engineering Manager + Account Lead
+
+<span class="code-key">## P1 — High (react ≤ 4h, assign cùng ngày)</span>
+- Feature core lỗi, có workaround
+- Performance &gt; 5s với &gt; 30% request
+- Notify: TL + assigned dev
+
+<span class="code-key">## P2 — Medium (react ≤ 1 ngày)</span>
+- Feature phụ lỗi, &lt; 10% user ảnh hưởng
+- Notify: assigned dev
+
+<span class="code-key">## P3 — Low (next sprint)</span>
+- Cosmetic, typo, edge case hiếm
+- Notify: backlog only</div>
+          </div>
+          <div>
+            <h3 class="h3 text-success">📤 Output mẫu — Ticket trước/sau triage</h3>
+            <div class="grid-2" style="gap: 8px;">
+              <div class="card" style="padding: 12px; border-color: var(--color-danger);">
+                <span class="pill pill-hard" style="margin-bottom: 6px;">❌ Trước</span>
+                <div style="font-size: 12px; font-family: var(--font-mono);">
+                  <strong>KPZ-2104</strong><br>
+                  Title: "loi thanh toan"<br>
+                  Priority: <em>(none)</em><br>
+                  Assignee: <em>(none)</em><br>
+                  Description: "khach JP bao loi"<br>
+                  Comments: 0
+                </div>
+              </div>
+              <div class="card" style="padding: 12px; border-color: var(--color-success);">
+                <span class="pill pill-easy" style="margin-bottom: 6px;">✅ Sau</span>
+                <div style="font-size: 12px; font-family: var(--font-mono);">
+                  <strong>KPZ-2104</strong><br>
+                  Title: <strong>"[Payment] Momo callback timeout cho khách JP — 18% fail rate"</strong><br>
+                  Priority: <strong>P1</strong> (matrix §High)<br>
+                  Assignee: <strong>@backend-team</strong> (routing.md → Payment)<br>
+                  Comment khách (JP): <em>"田中様、本件確認中です。本日中に状況をご報告いたします。"</em>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -3020,6 +3438,30 @@
       </div>
       <div class="quote">Claude không trả lời câu hỏi. Claude tự chạy loop cho đến khi task hoàn thành hoặc gặp blocker
         thực sự.<div class="quote-by">— Triết lý Claude Code</div>
+      </div>
+      <div class="card" style="margin-top: 16px; padding: 16px; background: rgba(196,181,253,0.06); border-color: rgba(196,181,253,0.3);">
+        <h3 class="h3 text-purple">💡 Ví dụ thực — Cùng task "Thêm POST /api/feedback"</h3>
+        <div class="grid-2" style="margin-top: 10px;">
+          <div>
+            <p style="font-size: 13px;"><strong class="text-danger">❌ Old way</strong> — copy-paste qua chat:</p>
+            <ul class="bullets bullets-x" style="font-size: 13px;">
+              <li>4-5 lần copy code editor → chat → copy lại</li>
+              <li>Phải tự nhớ pattern <code>contact/route.ts</code></li>
+              <li>Quên test edge case (rate-limit, email invalid)</li>
+              <li>Tổng <strong>~3 giờ</strong>, vẫn miss 1-2 bug</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size: 13px;"><strong class="text-purple">✅ New way</strong> — Claude Code EPCC:</p>
+            <ul class="bullets bullets-check" style="font-size: 13px;">
+              <li>1 prompt CTR + Plan Mode duyệt 6 bước</li>
+              <li>Claude tự đọc <code>contact/route.ts</code>, áp pattern</li>
+              <li>Tự viết 4 test (1 happy + 3 edge)</li>
+              <li>Tổng <strong>~35 phút</strong>, 4/4 test pass, lint clean</li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin-top: 8px; font-size: 13px; text-align: center;"><strong class="text-purple">Tuần → ngày, ngày → giờ, giờ → phút.</strong></p>
       </div>
     </div>
   </section>
@@ -3090,6 +3532,16 @@
         </table>
         <p style="margin-top: 8px;"><strong>Kham phá + Kế hoạch = 50% thời gian.</strong></p>
       </div>
+      <div class="card" style="margin-top: 16px; padding: 16px; background: rgba(110,231,183,0.06); border-color: rgba(110,231,183,0.3);">
+        <h3 class="h3 text-success">💡 Ví dụ thực — Bug fix "test fail intermittently trên CI"</h3>
+        <ul class="bullets" style="margin-top: 8px; font-size: 13.5px;">
+          <li><strong>① Gather:</strong> Claude grep error message → tìm thấy <code>src/utils/date.ts</code> dùng <code>new Date()</code> không pin timezone.</li>
+          <li><strong>② Action:</strong> Edit file, thay <code>new Date()</code> bằng injectable clock; update 2 call site.</li>
+          <li><strong>③ Verify:</strong> Run <code>pnpm test --related</code> → 1 test vẫn fail (edge case DST transition).</li>
+          <li><strong>④ Iterate:</strong> Đọc test failure, thấy mock clock thiếu UTC offset → fix → run lại → green ✅.</li>
+        </ul>
+        <p style="margin-top: 8px; font-size: 13px;"><strong>Total:</strong> 3 vòng loop, ~12 phút. Bạn không động phím — chỉ duyệt diff cuối.</p>
+      </div>
     </div>
   </section>
 
@@ -3154,6 +3606,17 @@
         </div>
         <p style="margin-top: 10px;"><strong>Lợi ích:</strong> code phase đi theo đường thẳng, không zigzag. Tránh AI
           viết lệch stack.</p>
+      </div>
+      <div class="card" style="margin-top: 16px; padding: 16px; background: rgba(196,181,253,0.06); border-color: rgba(196,181,253,0.3);">
+        <h3 class="h3 text-purple">💡 Ví dụ thực — Migrate ESM → CJS toàn project (~80 file)</h3>
+        <ul class="bullets" style="margin-top: 8px; font-size: 13.5px;">
+          <li><strong>① Shift+Tab × 2 → Plan Mode</strong> (read-only). Không sợ Claude phá codebase.</li>
+          <li><strong>② Giao C-T-R</strong>: "Project React 18 + Vite, đang ESM. Migrate sang CJS để tương thích Jest legacy. Giữ <code>tsconfig</code>, không đụng <code>vite.config.ts</code>."</li>
+          <li><strong>③ Claude trả 8-step plan</strong>: scan import, replace pattern, update package.json, fix dynamic imports, run tests, v.v.</li>
+          <li><strong>④ Bạn review</strong> → bỏ Bước 5 (đã có ESLint rule auto handle), thêm bước backup branch.</li>
+          <li><strong>⑤ Approve → Auto Accept</strong>. Claude code thẳng, ~12 phút xong, 0 file lệch convention.</li>
+        </ul>
+        <p style="margin-top: 8px; font-size: 13px;"><strong>So với không Plan Mode:</strong> Claude sẽ "đoán" → migrate sai 5-10 file → fix dần → ~1 giờ + nhiều zigzag. Plan Mode tiết kiệm <strong>5×</strong> thời gian.</p>
       </div>
     </div>
   </section>
@@ -3519,6 +3982,29 @@
             </ul>
           </div>
         </div>
+        <details class="sample" style="margin-top: 16px; padding: 0;">
+          <summary class="sample-label" style="cursor: pointer; padding: 10px 14px; margin: 0; list-style: none;">📤 Output mẫu — Plan + commit (click mở rộng)</summary>
+          <div class="sample-body" style="padding: 4px 14px 12px; font-size: 12px;">
+            <strong>Claude trả về trong Plan Mode:</strong><br><br>
+            <strong>Plan — Add POST /api/feedback (6 bước, read-only)</strong><br>
+            ① Đọc <code>src/app/api/contact/route.ts</code> để bám pattern Route Handler + zod (~30s).<br>
+            ② Tạo <code>src/app/api/feedback/route.ts</code>: zod schema <code>{name, email, msg}</code>, validate, insert Supabase <code>feedbacks</code>, post Slack <code>#feedback</code> qua webhook env <code>SLACK_FEEDBACK_HOOK</code>.<br>
+            ③ Tạo <code>src/app/api/feedback/route.test.ts</code>: 1 happy case + 3 edge (email invalid, msg empty, rate-limit triggered).<br>
+            ④ Update <code>src/lib/rate-limit.ts</code> để export config 5/phút/IP cho route mới (KHÔNG đụng <code>supabase/migrations/</code>).<br>
+            ⑤ Update <code>CLAUDE.md</code> §"Active routes" — thêm 1 dòng cho <code>/api/feedback</code>.<br>
+            ⑥ Run <code>pnpm lint &amp;&amp; pnpm test --related</code> trước khi commit.<br><br>
+            <em>Đợi bạn duyệt rồi tôi chuyển sang Auto Accept.</em><br><br>
+            <strong>───── Sau khi approve, code xong, commit message:</strong><br><br>
+            <code style="display: block; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">feat(api): add POST /api/feedback with zod + Slack notify
+
+- Validate body với zod schema {name, email, msg}
+- Insert vào Supabase table feedbacks
+- Post notification tới #feedback (rate-limit 5/phút/IP)
+- Test: happy + 3 edge case (invalid email, empty msg, rate-limited)
+
+Closes KPZ-2087</code>
+          </div>
+        </details>
       </div>
     </div>
   </section>
@@ -3768,6 +4254,39 @@
               tháng sau.</p>
             <div class="card" style="background: rgba(123,168,247,0.08);">
               <p><strong class="text-primary">Hỗ trợ:</strong> @tuanka mentor capstone. Slot 1-on-1 mỗi thứ 4 16:00.</p>
+            </div>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top: 16px; gap: 16px;">
+          <div>
+            <h3 class="h3 text-purple">📤 Output mẫu — MCP payload Salesforce</h3>
+            <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment">// Claude → MCP server → Salesforce: create_lead</span>
+{
+  <span class="code-key">"tool"</span>: <span class="code-str">"salesforce__create_lead"</span>,
+  <span class="code-key">"input"</span>: {
+    <span class="code-key">"name"</span>: <span class="code-str">"Tanaka Hiroshi"</span>,
+    <span class="code-key">"company"</span>: <span class="code-str">"FinPay K.K."</span>,
+    <span class="code-key">"email"</span>: <span class="code-str">"tanaka@finpay.jp"</span>,
+    <span class="code-key">"country"</span>: <span class="code-str">"JP"</span>,
+    <span class="code-key">"inquiry"</span>: <span class="code-str">"RN team 4 ng, deadline 8 tuần"</span>,
+    <span class="code-key">"source"</span>: <span class="code-str">"website_form"</span>,
+    <span class="code-key">"score"</span>: <span class="code-str">82</span>,
+    <span class="code-key">"next_action"</span>: <span class="code-str">"send_proposal_jp"</span>
+  }
+}
+
+<span class="code-comment">// Response: { id: "00Q5g000...", url: "https://..." }</span></div>
+          </div>
+          <div>
+            <h3 class="h3 text-purple">📤 Output mẫu — Subagent reviewer trả về</h3>
+            <div class="sample" style="margin: 0;">
+              <div class="sample-body" style="font-size: 12px;">
+                <strong>Email reviewer · 田中様 / FinPay 案件</strong><br><br>
+                <span style="color: #6ee7b7;">✅ Tone phù hợp</span> — giữ 丁寧語 nhất quán, không có hyperbole.<br>
+                <span style="color: #fcd34d;">⚠️ Câu mở thiếu cá nhân hóa</span> — đang dùng template "ご連絡ありがとうございます", thêm 1 câu nhắc đến "fintech 50 ng" để khách thấy bạn đã đọc inquiry.<br>
+                <span style="color: #fca5a5;">❌ CTA mơ hồ</span> — "ご都合の良い時間" → đề xuất 2 timeslot cụ thể (vd: 水曜 14:00 JST / 木曜 10:00 JST). Calendly link có sẵn, dùng đi.<br><br>
+                <strong>Verdict:</strong> 🟡 Cần fix CTA trước khi gửi. Tone & câu mở chấp nhận được nhưng nên iterate 1 lần nữa.
+              </div>
             </div>
           </div>
         </div>
@@ -4073,16 +4592,6 @@
     const chartSection = document.getElementById('progress');
     if (chartSection) chartObserver.observe(chartSection);
   </script>
-
-</body>
-
-</html>
-
-</section>
-
-
-
-
 
 </body>
 
