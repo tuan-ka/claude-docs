@@ -1308,7 +1308,7 @@
       </div>
       <div class="card" style="background: rgba(252,211,77,0.06); border-color: rgba(252,211,77,0.3);">
         <p><strong class="text-warning">Mẹo Pro:</strong> Đừng dùng Claude để viết code/email ngay. Hãy dùng nó để
-          <em>hỏi</em> về codebase / context trước. Một prompt cụ thể 50 từ tiết kiệm 20K token Claude phải đoán mò.</p>
+          <em>hỏi</em> về codebase / context trước. Một prompt cụ thể 50 từ tiết kiệm 20K token <em>(đơn vị xử lý của AI — đại khái 1 từ ≈ 1.3 token; Claude tính chi phí và giới hạn ngữ cảnh theo số token)</em> Claude phải đoán mò.</p>
       </div>
       <h3 class="h3 text-success" style="margin-top: 20px;">💡 Ví dụ thực — C-T-R cho 2 lĩnh vực khác nhau</h3>
       <div class="grid-2">
@@ -1583,7 +1583,7 @@ Ràng buộc:
                 • Java team thêm 8 dev — onboard 14 ngày OK, nhưng 3 dự án chậm 1-2 tuần.<br>
                 • Khách Nhật chiếm 62% pipeline mới, US 28%, EU 10%.<br>
                 • Margin giữ 23% nhờ giảm cost văn phòng (mở rộng WFH).<br>
-                • CSAT 4.6/5, NPS +18 so Q4.<br><br>
+                • CSAT <em>(Customer Satisfaction — điểm hài lòng KH, thang 1-5)</em> 4.6/5, NPS <em>(Net Promoter Score — chỉ số đo % khách sẵn sàng giới thiệu cho người khác)</em> +18 so Q4.<br><br>
                 <strong>3 con số:</strong> Revenue <strong>+12%</strong> · Headcount <strong>+8</strong> · Margin <strong>23%</strong><br><br>
                 <strong>Action items:</strong><br>
                 • <em>Long (Sales)</em> review pipeline US Q2 — deadline 20/05.<br>
@@ -1623,7 +1623,7 @@ Ràng buộc:
             <h3 class="h3" style="margin-top: 12px;">Common pitfalls</h3>
             <ul class="bullets bullets-x">
               <li>Yêu cầu "viết email tiếng Nhật" mà không cho context khách → output gượng</li>
-              <li>Quên ràng buộc keigo → AI chọn casual form</li>
+              <li>Quên ràng buộc keigo <em>(敬語 — tiếng Nhật trang trọng, dùng với khách hàng / cấp trên)</em> → AI chọn casual form</li>
               <li>Không nói rõ độ dài → email 500 từ, mất khách</li>
             </ul>
             <h3 class="h3" style="margin-top: 12px;">Variations</h3>
@@ -1958,7 +1958,7 @@ Ràng buộc:
         <div class="col">
           <p class="lead">Giải quyết bài toán: copy-paste lặp lại bối cảnh mỗi lần mở chat mới.</p>
           <ul class="bullets">
-            <li><strong>Knowledge Base</strong> — tải lên hàng ngàn trang tài liệu (Brand guidelines, past reports). RAG
+            <li><strong>Knowledge Base</strong> — tải lên hàng ngàn trang tài liệu (Brand guidelines, past reports). RAG <em>(Retrieval-Augmented Generation — kỹ thuật cho AI tự tìm + đọc đoạn tài liệu liên quan trước khi trả lời)</em>
               tự động.</li>
             <li><strong>Custom Instructions</strong> — ràng buộc cố định format, tone giọng cho mọi cuộc thoại trong
               Project.</li>
@@ -1997,7 +1997,7 @@ Ràng buộc:
             <div class="sample input">
               <div class="sample-label">📥 Input</div>
               <div class="sample-body">Tạo "trợ lý nhân sự ảo" trả lời câu hỏi: ngày phép, lương, quy chế WFH, đánh giá
-                KPI.<br>Tài liệu có sẵn: <strong>kaopiz-employee-handbook.pdf</strong>,
+                KPI <em>(Key Performance Indicator — chỉ số đo hiệu quả công việc)</em>.<br>Tài liệu có sẵn: <strong>kaopiz-employee-handbook.pdf</strong>,
                 <strong>quy-che-wfh.docx</strong>, <strong>policy-luong-2026.pdf</strong>.</div>
             </div>
             <h3 class="h3" style="margin-top: 12px;">4 bước</h3>
@@ -2389,7 +2389,7 @@ Ràng buộc:
                 </div>
               </div>
             </div>
-            <p><strong class="text-success">ROI:</strong> 2.5h × 4 tuần × 12 tháng = <strong>120 giờ/năm</strong>/PM. 10
+            <p><strong class="text-success">ROI <em style="font-weight: 400; color: var(--color-text-dim);">(Return on Investment — lợi tức đầu tư, giá trị nhận được so với công bỏ ra)</em>:</strong> 2.5h × 4 tuần × 12 tháng = <strong>120 giờ/năm</strong>/PM. 10
               PM = 1200h.</p>
           </div>
           <div class="col">
@@ -2654,7 +2654,7 @@ Ràng buộc:
     <div class="slide-inner reveal">
       <span class="chip">Skills · Lý thuyết 4/8</span>
       <h2 class="h2">Progressive Disclosure — <span class="text-primary">phép thuật cốt lõi</span></h2>
-      <p class="lead">Đủ lớn để mạnh, đủ gọn để nhanh. Skill 2000 dòng <em>sẽ giết chết context window</em> của bạn.</p>
+      <p class="lead">Đủ lớn để mạnh, đủ gọn để nhanh. Skill 2000 dòng <em>sẽ giết chết context window</em> <em style="color: var(--color-text-dim);">(cửa sổ ngữ cảnh — bộ nhớ ngắn hạn AI đọc trong 1 lần; vd Claude Opus 4.7 [1M context] = ~1 triệu token)</em> của bạn.</p>
       <div class="funnel">
         <div class="funnel-step">
           <div class="funnel-step-num">01 · SCAN</div>
@@ -2893,6 +2893,376 @@ Ràng buộc:
             <div class="metric-label">Failed API calls</div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILL 9: QUIZ -->
+  <section class="slide" id="skill-quiz" data-label="Quiz Skills">
+    <div class="slide-inner reveal">
+      <span class="chip">Skills · Kiểm tra hiểu bài</span>
+      <h2 class="h2">Quiz — <span class="text-primary">5 câu để chốt kiến thức</span></h2>
+      <p class="lead">Đọc câu hỏi, suy nghĩ <strong>30 giây</strong> trước khi mở đáp án. Kết hợp lý thuyết Skill + ví dụ
+        <code>kaopiz-jira</code> / <code>kaopiz-gmail</code>.
+      </p>
+
+      <!-- Q1 -->
+      <div class="card" style="margin-top: 14px;">
+        <h3 class="h3" style="margin: 0 0 8px;">Câu 1 — Khi nào Claude tự động kích hoạt skill <code>kaopiz-gmail</code>?
+        </h3>
+        <ol type="A" style="margin: 0 0 8px 22px; line-height: 1.85; font-size: 14.5px;">
+          <li>Khi file <code>SKILL.md</code> tồn tại trong project</li>
+          <li>Khi user gõ chính xác <code>/kaopiz-gmail</code></li>
+          <li>Khi prompt user khớp với mô tả <code>description</code> trong frontmatter</li>
+          <li>Khi MCP server <code>gmail</code> đang chạy</li>
+        </ol>
+        <details class="sample" style="margin: 0; padding: 0;">
+          <summary class="sample-label"
+            style="cursor: pointer; padding: 8px 14px; margin: 0; list-style: none;">💡 Click để xem đáp án &
+            giải thích</summary>
+          <div class="sample-body" style="padding: 6px 14px 12px; font-size: 13.5px;">
+            <strong class="text-success">Đáp án: C</strong> — Skill được kích hoạt khi prompt user khớp ngữ nghĩa với
+            field <code>description</code> trong YAML frontmatter. Đó là lý do <code>description</code> phải viết kỹ
+            (liệt trigger phrase cụ thể: <em>"email mới", "tìm mail về..."</em>). A sai vì có file mà không có trigger
+            phrase thì Claude không biết khi nào dùng. B sai — slash command là cách <strong>force activate</strong>,
+            nhưng không phải cách <em>tự động</em>. D sai vì MCP và Skill là 2 layer độc lập.
+          </div>
+        </details>
+      </div>
+
+      <!-- Q2 -->
+      <div class="card" style="margin-top: 12px;">
+        <h3 class="h3" style="margin: 0 0 8px;">Câu 2 — Câu nào ĐÚNG về quan hệ MCP và Skill?</h3>
+        <ol type="A" style="margin: 0 0 8px 22px; line-height: 1.85; font-size: 14.5px;">
+          <li>Skill thay thế MCP, làm cùng việc nhưng đơn giản hơn</li>
+          <li>MCP cung cấp tool/data; Skill dạy Claude quy trình dùng tool đó (rule, confirm, format)</li>
+          <li>Skill chỉ dùng được khi KHÔNG có MCP</li>
+          <li>MCP và Skill phải đi cặp — không có MCP thì Skill vô dụng</li>
+        </ol>
+        <details class="sample" style="margin: 0; padding: 0;">
+          <summary class="sample-label"
+            style="cursor: pointer; padding: 8px 14px; margin: 0; list-style: none;">💡 Click để xem đáp án &
+            giải thích</summary>
+          <div class="sample-body" style="padding: 6px 14px 12px; font-size: 13.5px;">
+            <strong class="text-success">Đáp án: B</strong> — Khẩu hiệu vàng: <em>"MCP connects to data, Skills teach
+              Claude what to do with it."</em> MCP <code>mcp-atlassian</code> trả raw issues; Skill
+            <code>kaopiz-jira</code> bắt confirm trước logwork, format output theo project, map tiếng Việt → JQL <em>(Jira Query Language — cú pháp truy vấn Jira)</em>. Hai
+            thứ <strong>bổ sung</strong>, không thay thế. D sai — Skill có thể dùng độc lập (vd skill viết tài liệu
+            Markdown không cần MCP nào).
+          </div>
+        </details>
+      </div>
+
+      <!-- Q3 -->
+      <div class="card" style="margin-top: 12px;">
+        <h3 class="h3" style="margin: 0 0 8px;">Câu 3 — Tại sao tách <code>references/triage-buckets.md</code> ra khỏi
+          <code>SKILL.md</code>?
+        </h3>
+        <ol type="A" style="margin: 0 0 8px 22px; line-height: 1.85; font-size: 14.5px;">
+          <li><strong>Progressive Disclosure</strong> — SKILL.md ngắn → Claude đọc trigger nhanh, chỉ load reference khi
+            thật sự cần dùng tới logic chi tiết</li>
+          <li>Để dễ git commit từng phần</li>
+          <li>Để encrypt thông tin nhạy cảm</li>
+          <li>Vì SKILL.md có giới hạn cứng 100 dòng</li>
+        </ol>
+        <details class="sample" style="margin: 0; padding: 0;">
+          <summary class="sample-label"
+            style="cursor: pointer; padding: 8px 14px; margin: 0; list-style: none;">💡 Click để xem đáp án &
+            giải thích</summary>
+          <div class="sample-body" style="padding: 6px 14px 12px; font-size: 13.5px;">
+            <strong class="text-success">Đáp án: A</strong> — Progressive Disclosure là pattern lõi của Skill. Frontend
+            <code>SKILL.md</code> nên &lt; 500 dòng (ideal &lt; 200) → Claude scan nhanh quyết định trigger; khi vào use
+            case cụ thể mới đọc reference đó. Tiết kiệm token và giữ Skill dễ maintain. D sai — không có giới hạn
+            <em>cứng</em>, nhưng &gt; 500 dòng là dấu hiệu cần refactor sang reference.
+          </div>
+        </details>
+      </div>
+
+      <!-- Q4 -->
+      <div class="card" style="margin-top: 12px;">
+        <h3 class="h3" style="margin: 0 0 8px;">Câu 4 — Điều gì làm <code>kaopiz-gmail</code> trở thành skill <em>cá
+            nhân hóa</em>, không phải skill generic?</h3>
+        <ol type="A" style="margin: 0 0 8px 22px; line-height: 1.85; font-size: 14.5px;">
+          <li>Tên có chữ "kaopiz"</li>
+          <li>Viết bằng tiếng Việt</li>
+          <li>Hardcode account cụ thể (<code>mrkathust@gmail.com</code>), VIP list sếp/khách (<code>@tsubasa.co.jp</code>), pattern Jira (<code>AILAB08</code>, <code>FACEA</code>), tone keigo cho khách Nhật
+          </li>
+          <li>Đặt trong project Kaopiz</li>
+        </ol>
+        <details class="sample" style="margin: 0; padding: 0;">
+          <summary class="sample-label"
+            style="cursor: pointer; padding: 8px 14px; margin: 0; list-style: none;">💡 Click để xem đáp án &
+            giải thích</summary>
+          <div class="sample-body" style="padding: 6px 14px 12px; font-size: 13.5px;">
+            <strong class="text-success">Đáp án: C</strong> — Cá nhân hóa = Skill encode <strong>workflow của chính
+              bạn</strong>. Cùng MCP <code>gmail</code> nhưng người khác clone về phải sửa
+            <code>references/triage-buckets.md</code> (VIP list khác, project code khác, tone giao tiếp khác). A/B/D chỉ
+            là vỏ — không thay đổi hành vi Claude. Đó là điểm khác giữa "skill chia sẻ team" và "skill cá nhân".
+          </div>
+        </details>
+      </div>
+
+      <!-- Q5 -->
+      <div class="card" style="margin-top: 12px;">
+        <h3 class="h3" style="margin: 0 0 8px;">Câu 5 — User nói <em>"xóa hết mail Jira"</em>. Skill
+          <code>kaopiz-gmail</code> nên làm gì?
+        </h3>
+        <ol type="A" style="margin: 0 0 8px 22px; line-height: 1.85; font-size: 14.5px;">
+          <li>Gọi luôn <code>mcp__gmail__batch_delete_emails</code> cho nhanh</li>
+          <li>Bảo user tự xóa trong Gmail web</li>
+          <li><strong>Confirm 2 lần</strong> (xóa hàng loạt nguy hiểm) + suggest <strong>archive</strong> thay vì
+            delete; nếu user vẫn muốn xóa thì show payload + đợi xác nhận cuối</li>
+          <li>Search rồi auto-delete sau 5 giây countdown</li>
+        </ol>
+        <details class="sample" style="margin: 0; padding: 0;">
+          <summary class="sample-label"
+            style="cursor: pointer; padding: 8px 14px; margin: 0; list-style: none;">💡 Click để xem đáp án &
+            giải thích</summary>
+          <div class="sample-body" style="padding: 6px 14px 12px; font-size: 13.5px;">
+            <strong class="text-success">Đáp án: C</strong> — Nguyên tắc cứng của Skill: <strong>write action không
+              undo được</strong> → luôn confirm. Xóa hàng loạt còn nguy hiểm hơn gửi 1 email nhầm. Skill
+            <code>kaopiz-gmail</code> ghi rõ trong table edge case: confirm 2 lần + suggest archive (Gmail giữ 30 ngày
+            mới xóa khỏi Trash, archive an toàn hơn). A/D thiếu safeguard, B đẩy việc cho user là bỏ giá trị Skill.
+          </div>
+        </details>
+      </div>
+
+      <div class="card"
+        style="background: rgba(123,168,247,0.06); border-color: rgba(123,168,247,0.3); margin-top: 16px;">
+        <p><strong class="text-primary">📊 Score:</strong> 5/5 = nắm chắc, ready build skill cho team. 3-4/5 = ôn lại
+          phần Progressive Disclosure + nguyên tắc write action. ≤ 2/5 = quay lại slide 1-8 đọc lại trước khi vào hands-on.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRSE EXAMPLE - SKILL kaopiz-brse-report -->
+  <section class="slide" id="skill-brse-example" data-label="Ví dụ BrSE">
+    <div class="slide-inner reveal">
+      <span class="chip green">CHO HỌC VIÊN BrSE · VÍ DỤ THỰC TẾ</span>
+      <h2 class="h2">Skill <code>kaopiz-brse-report</code> — <span class="text-primary">tự động hóa 週次報告 cho khách
+          Nhật</span></h2>
+      <p class="lead">BrSE <em>(Bridge SE — vai trò cầu nối giữa khách Nhật và team dev VN)</em> mỗi tuần phải làm:
+        週次報告, 議事録, dịch spec JP↔VN, 質問事項 list. Mất <strong>2-3 giờ/tuần</strong> chỉ để format keigo.
+        Skill rút xuống <strong>15 phút</strong>: BrSE quẳng raw notes tiếng Việt → Skill ra báo cáo keigo đúng template
+        khách Tsubasa.</p>
+      <div class="split">
+        <div class="col">
+          <h3 class="h3 text-success">Tình huống thực</h3>
+          <div class="sample input">
+            <div class="sample-label">📥 Input — raw notes tiếng Việt từ PM</div>
+            <div class="sample-body" style="font-size: 12.5px;">
+              Tuần 19 (4-8/5):<br>
+              - Em An code xong booking API mock (TSP5-104), đang viết unit test<br>
+              - Em Bình làm UI dashboard, mới được 40% (TSP5-103)<br>
+              - Em Cường merge xong logic reservation (TSP5-101)<br>
+              - Vướng vụ retry payment, không biết bao nhiêu lần thì stop, đang đợi khách<br>
+              - Tuần sau định cho An xong API, Bình xong UI để Tanaka-san review T5<br>
+              - Tuần lễ 5/3-5/5 nên team mất 3 ngày
+            </div>
+          </div>
+          <h3 class="h3" style="margin-top: 12px;">4 use case skill cover</h3>
+          <ul class="bullets bullets-check">
+            <li><strong>週次報告</strong> — weekly report keigo với 5 sections chuẩn</li>
+            <li><strong>議事録</strong> — meeting minutes có action item table (担当 cụ thể, 期限 ngày cụ thể)</li>
+            <li><strong>Dịch JP↔VN</strong> — spec/email khách + tóm 要点 action cho team</li>
+            <li><strong>質問事項 list</strong> — bilingual table 4 cột, phân 4 categories (仕様確認 / 設計判断 / 環境 / 業務知識)</li>
+          </ul>
+          <h3 class="h3" style="margin-top: 12px;">Nguyên tắc cứng (chống "fake report")</h3>
+          <ul class="bullets bullets-x">
+            <li><strong>Không bịa số liệu</strong> — thiếu % progress → để TBD, không đoán</li>
+            <li><strong>Không tự promise deadline</strong> — relay từ team, hỏi clarify nếu thiếu</li>
+            <li><strong>Cross-ref Jira key</strong> bắt buộc — khách Nhật trace được</li>
+            <li><strong>Keigo bắt buộc</strong>: 〜です・ます không đủ, phải 〜でございます / お〜いたします</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3 class="h3 text-success">📤 Output — 週次報告 keigo</h3>
+          <div class="code-block no-traffic" style="font-size: 11.5px;"><span class="code-comment">// Subject: TSUBASA-PHASE5 週次報告 (2026/05/04 ~ 05/08)</span>
+
+            田中 様
+
+            お世話になっております。Kaopizの Khuất Anh Tuấn です。
+            TSUBASA-PHASE5 の今週分の進捗をご報告いたします。
+
+            <strong>## 1. 今週の進捗</strong>
+            <strong>完了</strong>:
+            ・[TSP5-101] 予約ロジック設計レビュー (進捗 100%)
+            ・[TSP5-104] booking API mock 実装 (進捗 100%)
+
+            <strong>実施中</strong>:
+            ・[TSP5-103] 管理画面 UI (進捗 40%)
+
+            <strong>## 2. 来週の予定</strong>
+            ・[TSP5-104] 単体テスト 完了
+            ・[TSP5-103] UI レビュー会 (5/15 開催希望)
+
+            <strong>## 3. リスク・課題</strong>
+            <span class="text-danger">[要対応]</span> 決済 retry 回数の仕様が未確定
+                — 田中様のご回答お待ちしております (Q1)
+            [情報] 祝日 (5/3-5/5) で工数 -8h、来週 recovery 予定
+
+            <strong>## 4. 質問事項</strong>
+            | No | 質問                              | 期限   |
+            | Q1 | 決済失敗時 retry 3 回でよろしいか? | 5/12   |
+
+            以上、よろしくお願いいたします。
+            ----
+            Khuất Anh Tuấn / TSUBASA-PHASE5 BrSE</div>
+          <div class="card"
+            style="background: rgba(110,231,183,0.06); border-color: rgba(110,231,183,0.3); margin-top: 12px;">
+            <p style="font-size: 13px;"><strong class="text-success">💡 Tại sao Skill quan trọng với BrSE:</strong>
+              Skill encode <em>quy trình BrSE senior</em> (cross-ref Jira, không bịa, keigo đúng pattern, flag risk
+              kèm Q&A). Junior dùng Skill ra output ngang senior — đó là <strong>scale expertise</strong>, không
+              chỉ tiết kiệm thời gian.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRSE EXERCISES - 4 bài graduated -->
+  <section class="slide" id="skill-brse-exercises" data-label="Bài tập BrSE">
+    <div class="slide-inner reveal">
+      <span class="chip green">BRSE · 4 BÀI TẬP GRADUATED</span>
+      <h2 class="h2">Luyện tay với <span class="text-primary"><code>kaopiz-brse-report</code></span></h2>
+      <p class="lead">Làm tuần tự từ DỄ → CHALLENGE. Mỗi bài có <strong>checkpoint cụ thể</strong> để self-check —
+        đáp án ẩn, click khi đã suy nghĩ kỹ.</p>
+
+      <!-- Bài 1 -->
+      <div class="card" style="margin-top: 14px; border-left: 3px solid var(--color-success);">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <span class="pill" style="background: rgba(110,231,183,0.15); color: var(--color-success);">🟢 BÀI 1 ·
+            DỄ</span>
+          <span style="color: var(--color-text-dim); font-size: 12.5px;">⏱ 15 phút</span>
+          <strong>週次報告 từ raw notes Vietnamese</strong>
+        </div>
+        <p style="margin: 8px 0 6px; font-size: 14px;">PM team Kaopiz quẳng cho bạn 6 dòng ghi chú lẫn lộn (như input ở
+          slide trước). Yêu cầu generate báo cáo tuần TSUBASA-PHASE5 keigo đầy đủ 5 sections.</p>
+        <details class="sample" style="margin: 6px 0 0; padding: 0;">
+          <summary class="sample-label" style="cursor: pointer; padding: 8px 14px; margin: 0; list-style: none;">
+            ✅ Click để xem 6 checkpoint Claude phải pass</summary>
+          <div class="sample-body" style="padding: 6px 14px 12px; font-size: 13px;">
+            <ul style="margin: 0 0 0 18px; line-height: 1.7;">
+              <li>Có đúng 5 sections theo template (進捗 / 予定 / リスク / 質問 / その他)</li>
+              <li>Mỗi task đều có Jira key (TSP5-104, TSP5-103, TSP5-101)</li>
+              <li>Section 3 flag rõ vụ retry payment là <code>[要対応]</code></li>
+              <li>Section 4 có Q1 hỏi retry count, deadline ngày cụ thể (KHÔNG "tuần sau")</li>
+              <li>Section 5 mention nghỉ lễ 5/3-5/5 ảnh hưởng -3 ngày</li>
+              <li>Tone keigo: mở <code>お世話になっております</code>, kết
+                <code>以上、よろしくお願いいたします</code>
+              </li>
+            </ul>
+            <p style="margin: 8px 0 0; padding: 8px; background: rgba(252,211,77,0.08); border-radius: 6px;">
+              <strong class="text-warning">⚠️ Bẫy:</strong> Claude dễ tự đoán <em>retry count = 3</em> → SAI.
+              Phải để TBD và đẩy vào Q1 hỏi khách. Tương tự, không bịa % progress nếu user không nói.</p>
+          </div>
+        </details>
+      </div>
+
+      <!-- Bài 2 -->
+      <div class="card" style="margin-top: 12px; border-left: 3px solid #fbbf24;">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <span class="pill" style="background: rgba(251,191,36,0.15); color: #fbbf24;">🟡 BÀI 2 · TRUNG BÌNH</span>
+          <span style="color: var(--color-text-dim); font-size: 12.5px;">⏱ 20 phút</span>
+          <strong>Dịch email Tanaka-san → action items VN</strong>
+        </div>
+        <p style="margin: 8px 0 6px; font-size: 14px;">Tanaka-san gửi email JP yêu cầu 2 việc (đẩy deadline TSP5-102 từ
+          5/14 → 5/12 + thêm super-admin role) + xin meeting 5/14. Bạn cần dịch sang VN cho team + tóm action items.</p>
+        <details class="sample" style="margin: 6px 0 0; padding: 0;">
+          <summary class="sample-label" style="cursor: pointer; padding: 8px 14px; margin: 0; list-style: none;">
+            ✅ Click để xem 7 checkpoint</summary>
+          <div class="sample-body" style="padding: 6px 14px 12px; font-size: 13px;">
+            <ul style="margin: 0 0 0 18px; line-height: 1.7;">
+              <li>Bản dịch giữ technical term EN: <code>release</code>, <code>module</code>, <code>admin</code>,
+                <code>staff</code>, <code>super-admin</code>
+              </li>
+              <li>Giữ kính ngữ Nhật <code>Tanaka-san</code> / <code>田中PM</code>, không Việt hóa thành "ông Tanaka"
+              </li>
+              <li>Section <strong>要点まとめ</strong> liệt 3 actions: estimate đẩy deadline / estimate impact role /
+                schedule meeting</li>
+              <li>Flag rõ cả 2 đều cần báo <code>見積もり / 工数影響</code></li>
+              <li>Highlight: spec super-admin chi tiết chưa nhận (<code>別途資料</code>)</li>
+              <li>Suggest BrSE confirm với team dev TRƯỚC khi reply (không tự promise)</li>
+              <li>Không bịa số liệu (không nói "thêm 2 ngày OK" nếu chưa hỏi team)</li>
+            </ul>
+            <p style="margin: 8px 0 0; padding: 8px; background: rgba(252,211,77,0.08); border-radius: 6px;">
+              <strong class="text-warning">⚠️ Bẫy:</strong> <code>前倒し</code> nghĩa là <strong>đẩy lên / sớm
+                hơn</strong>, KHÔNG phải lùi lại. Claude dịch sai chỗ này → cả thông điệp ngược.</p>
+          </div>
+        </details>
+      </div>
+
+      <!-- Bài 3 -->
+      <div class="card" style="margin-top: 12px; border-left: 3px solid #fb923c;">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <span class="pill" style="background: rgba(251,146,60,0.15); color: #fb923c;">🟠 BÀI 3 · KHÓ</span>
+          <span style="color: var(--color-text-dim); font-size: 12.5px;">⏱ 30 phút</span>
+          <strong>議事録 từ transcript meeting hỗn loạn (VN/JP mix)</strong>
+        </div>
+        <p style="margin: 8px 0 6px; font-size: 14px;">60 phút meeting với khách: chốt retry 3 lần, role 3 loại có
+          super-admin, performance target 200ms (ok), concurrent 1000 user (chưa test). Action item cho cả 2 bên.
+          Generate 議事録 chuẩn.</p>
+        <details class="sample" style="margin: 6px 0 0; padding: 0;">
+          <summary class="sample-label" style="cursor: pointer; padding: 8px 14px; margin: 0; list-style: none;">
+            ✅ Click để xem 9 checkpoint</summary>
+          <div class="sample-body" style="padding: 6px 14px 12px; font-size: 13px;">
+            <ul style="margin: 0 0 0 18px; line-height: 1.7;">
+              <li>Header có 件名, 日時, 参加者 (5 người, phân biệt Kaopiz vs Tsubasa)</li>
+              <li>Section <strong>議事内容</strong> chia theo agenda (spec / performance / Q&A)</li>
+              <li>Section <strong>決定事項</strong> liệt rõ 4 chốt: retry=3 / role=3 loại + quyền cụ thể /
+                super-admin trong phase 5 / phase 6 mới CI/CD</li>
+              <li><strong>Action items table</strong> có 担当 (Tên cụ thể, KHÔNG "Kaopiz team"), 期限 (ngày cụ thể), 内容</li>
+              <li>Phân biệt Kaopiz action vs Tsubasa action (Tanaka phải gửi mockup 5/12)</li>
+              <li>Section <strong>質疑応答</strong> ghi 2 Q&A trong meeting (postman / CI-CD)</li>
+              <li>次回打ち合わせ chốt 5/14 9:00-9:30</li>
+              <li>Concurrent 1000 user — flag <code>未確認</code>, KHÔNG ghi <code>対応可能</code> vì chưa verify</li>
+              <li>Toàn bộ keigo, KHÔNG có <code>了解です</code> / <code>お疲れ様です</code> với khách</li>
+            </ul>
+            <p style="margin: 8px 0 0; padding: 8px; background: rgba(252,211,77,0.08); border-radius: 6px;">
+              <strong class="text-warning">⚠️ Bẫy:</strong> Action item viết chung chung kiểu "Kaopiz update spec"
+              → fail. Phải tên cụ thể (Cường). Concurrent 1000 chưa test → không khẳng định.</p>
+          </div>
+        </details>
+      </div>
+
+      <!-- Bài 4 -->
+      <div class="card" style="margin-top: 12px; border-left: 3px solid var(--color-danger);">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <span class="pill" style="background: rgba(248,113,113,0.15); color: var(--color-danger);">🔴 BÀI 4 ·
+            CHALLENGE</span>
+          <span style="color: var(--color-text-dim); font-size: 12.5px;">⏱ 45 phút</span>
+          <strong>Auto-generate weekly report kết hợp Jira MCP</strong>
+        </div>
+        <p style="margin: 8px 0 6px; font-size: 14px;">Modify SKILL.md thêm <strong>Use case 5</strong>: skill tự pull
+          data từ Jira (project AILAB08, JQL <code>updated &gt;= -1w</code>) → generate weekly report keigo. Không phải
+          hỏi user input thủ công nữa.</p>
+        <details class="sample" style="margin: 6px 0 0; padding: 0;">
+          <summary class="sample-label" style="cursor: pointer; padding: 8px 14px; margin: 0; list-style: none;">
+            ✅ Click để xem 8 checkpoint</summary>
+          <div class="sample-body" style="padding: 6px 14px 12px; font-size: 13px;">
+            <ul style="margin: 0 0 0 18px; line-height: 1.7;">
+              <li>SKILL.md được update, KHÔNG xóa Use case 1-4 cũ</li>
+              <li>Use case 5 reference rõ tool MCP <code>mcp__mcp-atlassian__jira_search</code></li>
+              <li>JQL trong skill đúng cú pháp Jira</li>
+              <li>Khi gọi thực tế, Claude tự build JQL không hỏi user</li>
+              <li>Output đầy đủ 5 section như Use case 1</li>
+              <li>Task không có % progress → để TBD, không bịa</li>
+              <li>Task summary tiếng Việt → Skill phải translate sang Nhật cho khách</li>
+              <li>Vẫn show preview trước khi user OK paste — không auto-send</li>
+            </ul>
+            <p style="margin: 8px 0 0; padding: 8px; background: rgba(252,211,77,0.08); border-radius: 6px;">
+              <strong class="text-warning">⚠️ Bẫy:</strong> Claude dễ over-engineer — bắt buộc phải có Jira MCP.
+              SKILL.md phải graceful: nếu MCP down → fallback Use case 1 (manual input).</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="card"
+        style="background: rgba(123,168,247,0.06); border-color: rgba(123,168,247,0.3); margin-top: 14px;">
+        <p><strong class="text-primary">📊 Chấm:</strong> 4/4 = BrSE Senior, ready dùng Claude productively · 3/4 =
+          BrSE Mid, luyện thêm edge case · 2/4 = BrSE Junior, review keigo + nguyên tắc cứng · ≤1/4 = đọc lại
+          <code>SKILL.md</code> + references trước khi tiếp.
+        </p>
       </div>
     </div>
   </section>
@@ -3902,7 +4272,7 @@ CV typos / no soft skills → 0đ · OK → 2đ · public talks/blog/OSS → 3đ
         <div class="ex-meta">
           <span class="pill pill-hard">KHÓ</span>
           <span>⏱ 45 phút</span>
-          <span>🛠 Claude Code (CLI)</span>
+          <span>🛠 Claude Code (CLI — Command Line Interface, chạy bằng dòng lệnh terminal)</span>
           <span>🎯 Dev / SRE</span>
         </div>
         <div class="split">
@@ -4100,7 +4470,7 @@ Closes KPZ-2087</code>
     <div class="slide-inner reveal">
       <span class="chip purple">Subagent · Decision</span>
       <h2 class="h2">Khi NÊN, khi KHÔNG dùng subagent — <span class="text-purple">tradeoff thực tế</span></h2>
-      <p class="lead">Subagent <strong>không phải free speed boost</strong>. Mỗi agent ~10s overhead khởi tạo + LLM thinking. Nếu task quá nhẹ, parallel <em>chậm hơn</em> sequential. Quy tắc: cân nhắc 4 yếu tố trước khi spawn.</p>
+      <p class="lead">Subagent <strong>không phải free speed boost</strong>. Mỗi agent ~10s overhead khởi tạo + LLM <em style="color: var(--color-text-dim);">(Large Language Model — mô hình ngôn ngữ lớn, vd Claude / GPT)</em> thinking. Nếu task quá nhẹ, parallel <em>chậm hơn</em> sequential. Quy tắc: cân nhắc 4 yếu tố trước khi spawn.</p>
       <div class="grid-4" style="margin-top: 8px;">
         <div class="card" style="padding: 16px;">
           <div class="card-icon">⏱</div>
@@ -4115,7 +4485,7 @@ Closes KPZ-2087</code>
         <div class="card" style="padding: 16px;">
           <div class="card-icon" style="background: rgba(196,181,253,0.18); color: var(--color-purple);">🧠</div>
           <div class="card-title">Context pollution?</div>
-          <p class="card-desc">Raw data lớn (PDF, JSON 5K dòng) → subagent <em>luôn</em> thắng (main giữ summary thay vì raw).</p>
+          <p class="card-desc"><em style="color: var(--color-text-dim); font-size: 12.5px;">(ô nhiễm ngữ cảnh — main thread bị nhồi raw data nặng làm Claude "quên" info quan trọng)</em><br>Raw data lớn (PDF, JSON 5K dòng) → subagent <em>luôn</em> thắng (main giữ summary thay vì raw).</p>
         </div>
         <div class="card" style="padding: 16px;">
           <div class="card-icon" style="background: rgba(252,211,77,0.18); color: var(--color-warning);">🎭</div>
@@ -4322,6 +4692,203 @@ main.show_user(<span class="code-str">"5 urgent · 32 normal · 13 spam"</span>)
   spam: [...],
   drafts: [{ email_id, draft_text }]
 }</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGENT TEAM — KHÁI NIỆM -->
+  <section class="slide" id="agent-team" data-label="Agent Team">
+    <div class="slide-inner reveal">
+      <span class="chip purple">Subagent · Khái niệm</span>
+      <h2 class="h2">Agent team — <span class="text-purple">orchestrator + specialists + contract</span></h2>
+      <p class="lead"><strong>Agent team = nhiều "Claude con" chạy song song, mỗi con làm 1 phần việc theo chuyên môn, cùng dựa trên 1 contract chung.</strong> Không phải "chia để chạy nhanh hơn" — mà là <em>ép orchestrator phải nghĩ đến contract trước khi code</em>.</p>
+      <h3 class="h3 text-purple" style="margin-top: 8px;">3 thành phần cốt lõi</h3>
+      <div class="grid-3">
+        <div class="card" style="padding: 14px;">
+          <span class="chip purple" style="margin-bottom: 8px;">🎯 ORCHESTRATOR</span>
+          <h3 class="h3" style="font-size: 16px;">Claude chính (main thread)</h3>
+          <ul class="bullets" style="font-size: 13px;">
+            <li>Hiểu yêu cầu tổng thể</li>
+            <li><strong>Viết contract trước</strong> (schema, interface, response shape)</li>
+            <li>Chia việc, phân công file <em>không chồng chéo</em></li>
+            <li>Verify cuối: đọc lại file, chạy test thật — <em>không tin summary của agent</em></li>
+          </ul>
+        </div>
+        <div class="card" style="padding: 14px;">
+          <span class="chip green" style="margin-bottom: 8px;">🧑‍💻 SPECIALISTS</span>
+          <h3 class="h3" style="font-size: 16px;">Claude con (subagents)</h3>
+          <ul class="bullets" style="font-size: 13px;">
+            <li>Mỗi agent có <code>subagent_type</code> riêng</li>
+            <li>Context window <em>độc lập</em> — không thấy hội thoại của orchestrator</li>
+            <li>Trả về tóm tắt 200–250 từ → main thread giữ context gọn</li>
+            <li>VD: <code>backend-implementer</code>, <code>frontend-implementer</code>, <code>test-writer</code>, <code>Explore</code>, <code>researcher</code></li>
+          </ul>
+        </div>
+        <div class="card" style="padding: 14px;">
+          <span class="chip warn" style="margin-bottom: 8px;">📜 CONTRACT</span>
+          <h3 class="h3" style="font-size: 16px;">File "shape" để 3 agents bám</h3>
+          <ul class="bullets" style="font-size: 13px;">
+            <li>Zod schema, TS interface, response body</li>
+            <li>Cả 3 agents <strong>đọc cùng 1 file</strong> — không tự đoán</li>
+            <li>Là phần <em>dễ bị bỏ qua</em> nhưng quan trọng nhất</li>
+            <li>Không có contract → 3 output ráp vào sẽ vỡ</li>
+          </ul>
+        </div>
+      </div>
+      <h3 class="h3 text-purple" style="margin-top: 16px;">Vì sao contract là chìa khóa? — ví dụ "không contract → vỡ"</h3>
+      <div class="split">
+        <div class="col">
+          <div class="card" style="background: rgba(252,165,165,0.06); border-color: rgba(252,165,165,0.3); padding: 14px;">
+            <span class="chip" style="background: rgba(252,165,165,0.15); color: #fca5a5; margin-bottom: 8px;">❌ KHÔNG có contract</span>
+            <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment">// FE đoán shape</span>
+fetch(<span class="code-str">'/api/feedback'</span>)
+  .then(r =&gt; r.json())
+  .then(d =&gt; d.<span class="code-key">data</span>.id) <span class="code-comment">// 💥</span>
+
+<span class="code-comment">// BE trả khác</span>
+return Response.json({
+  <span class="code-key">ok</span>: <span class="code-str">true</span>,
+  <span class="code-key">id</span>: record.id
+})
+
+<span class="code-comment">// Test viết theo shape thứ 3</span>
+expect(body.<span class="code-key">status</span>).toBe(<span class="code-str">'ok'</span>) <span class="code-comment">// 💥</span></div>
+            <p style="font-size: 13px; margin-top: 10px;">Cả 3 agents code đúng <em>theo cách của họ</em>. Ráp vào → vỡ. Debug mất 30 phút để align lại.</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card" style="background: rgba(187,247,208,0.06); border-color: rgba(187,247,208,0.3); padding: 14px;">
+            <span class="chip green" style="margin-bottom: 8px;">✅ CÓ contract</span>
+            <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment">// lib/schema.ts (orchestrator viết TRƯỚC)</span>
+<span class="code-key">export const</span> feedbackSchema = z.object({
+  name: z.string().trim().min(<span class="code-str">1</span>).max(<span class="code-str">100</span>),
+  email: z.string().email(),
+  msg: z.string().trim().min(<span class="code-str">1</span>).max(<span class="code-str">2000</span>),
+});
+
+<span class="code-key">export type</span> FeedbackResponse =
+  | { ok: <span class="code-str">true</span>; id: string }
+  | { ok: <span class="code-str">false</span>; error: <span class="code-str">'validation_error'</span>;
+      fieldErrors?: ... };</div>
+            <p style="font-size: 13px; margin-top: 10px;">3 agents <strong>cùng import</strong> từ file này → BE trả đúng shape, FE parse đúng shape, Test assert đúng shape. Ráp vào → chạy.</p>
+          </div>
+        </div>
+      </div>
+      <h3 class="h3 text-purple" style="margin-top: 16px;">Pattern 4 bước</h3>
+      <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment">// 1. ORCHESTRATOR — viết contract</span>
+write(<span class="code-str">'lib/schema.ts'</span>)   <span class="code-comment">// zod + types</span>
+write(<span class="code-str">'lib/db.ts'</span>)       <span class="code-comment">// mock interface</span>
+write(<span class="code-str">'lib/slack.ts'</span>)    <span class="code-comment">// helper signature</span>
+
+<span class="code-comment">// 2. SPAWN 3 SPECIALISTS song song (1 message, 3 tool calls)</span>
+parallel:
+  spawn(<span class="code-str">backend-implementer</span>,  spec_BE)   <span class="code-comment">// owns: app/api/feedback/route.ts</span>
+  spawn(<span class="code-str">frontend-implementer</span>, spec_FE)   <span class="code-comment">// owns: components/FeedbackForm.tsx</span>
+  spawn(<span class="code-str">test-writer</span>,          spec_TEST) <span class="code-comment">// owns: tests/**</span>
+
+<span class="code-comment">// 3. MỖI AGENT trả tóm tắt 200 từ — không kể chi tiết</span>
+{ files_modified, schema_signature, side_effects, verification, uncertainty }
+
+<span class="code-comment">// 4. ORCHESTRATOR verify (KHÔNG tin summary)</span>
+read(...) <span class="code-comment">// đọc lại file thật</span>
+exec(<span class="code-str">'npx tsc --noEmit && npx vitest run && npx playwright test'</span>)</div>
+      <h3 class="h3 text-purple" style="margin-top: 16px;">⚖️ 1 Agent đơn vs Agent Team — chọn cái nào?</h3>
+      <div class="split">
+        <div class="col">
+          <div class="card" style="background: rgba(123,168,247,0.06); border-color: rgba(123,168,247,0.3); padding: 14px;">
+            <span class="chip" style="background: rgba(123,168,247,0.15); color: #7ba8f7; margin-bottom: 8px;">🧑‍💻 1 AGENT ĐƠN</span>
+            <h3 class="h3" style="font-size: 15px; margin-bottom: 8px;">Main thread + 1 specialist</h3>
+            <div class="code-block no-traffic" style="font-size: 11.5px; margin-bottom: 8px;"><span class="code-comment">// Main delegate 1 việc focus</span>
+result = spawn(<span class="code-str">code-reviewer</span>, {
+  files: [<span class="code-str">'src/auth.ts'</span>],
+  rubric: <span class="code-str">'OWASP Top 10'</span>
+})
+
+<span class="code-comment">// Main đọc result, dùng tiếp</span>
+print(result.findings)</div>
+            <p style="font-size: 12.5px; margin: 0;"><strong>Phù hợp khi:</strong></p>
+            <ul class="bullets" style="font-size: 12.5px;">
+              <li>Task <em>focus</em> 1 chuyên môn (review, research, scan)</li>
+              <li>Output dùng được luôn — không cần ráp với output khác</li>
+              <li>Bảo vệ context window main (đọc nhiều file → trả tóm tắt)</li>
+              <li>VD: <em>Explore tìm 1 symbol</em>, <em>review security 1 file</em>, <em>tóm tắt 50 trang docs</em></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card" style="background: rgba(196,181,253,0.06); border-color: rgba(196,181,253,0.3); padding: 14px;">
+            <span class="chip purple" style="margin-bottom: 8px;">👥 AGENT TEAM</span>
+            <h3 class="h3" style="font-size: 15px; margin-bottom: 8px;">Main thread + N specialists + contract</h3>
+            <div class="code-block no-traffic" style="font-size: 11.5px; margin-bottom: 8px;"><span class="code-comment">// Main viết contract trước</span>
+write(<span class="code-str">'lib/schema.ts'</span>)
+
+<span class="code-comment">// Spawn N specialists PARALLEL</span>
+parallel:
+  be   = spawn(<span class="code-str">backend-implementer</span>, ...)
+  fe   = spawn(<span class="code-str">frontend-implementer</span>, ...)
+  test = spawn(<span class="code-str">test-writer</span>, ...)
+
+<span class="code-comment">// Main verify cross-cutting</span>
+exec(<span class="code-str">'npm test'</span>)</div>
+            <p style="font-size: 12.5px; margin: 0;"><strong>Phù hợp khi:</strong></p>
+            <ul class="bullets" style="font-size: 12.5px;">
+              <li>Feature có <em>nhiều layer độc lập</em> (FE+BE+Test, hoặc 3 module song song)</li>
+              <li>Output các agents phải <em>ráp được vào nhau</em> → cần contract</li>
+              <li>Main thread đóng vai TL — verify cuối, không tự code</li>
+              <li>VD: <em>full feature CRUD</em>, <em>refactor 5 module song song</em>, <em>migrate stack</em></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <table class="cmp-table" style="margin-top: 14px;">
+        <thead>
+          <tr>
+            <th>Tiêu chí</th>
+            <th>🧑‍💻 1 Agent đơn</th>
+            <th>👥 Agent Team</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Số agents</strong></td>
+            <td>1 specialist</td>
+            <td>1 orchestrator + N specialists (thường 2–4)</td>
+          </tr>
+          <tr>
+            <td><strong>Contract</strong></td>
+            <td>Không cần</td>
+            <td class="text-purple"><strong>Bắt buộc</strong> — file shape chung cho N agents</td>
+          </tr>
+          <tr>
+            <td><strong>Coordination</strong></td>
+            <td>Đơn giản — main đọc 1 result</td>
+            <td>Phức tạp — main phân công file, cross-check N results</td>
+          </tr>
+          <tr>
+            <td><strong>Overhead spawn</strong></td>
+            <td class="text-success">~10s (1 lần)</td>
+            <td>~30s+ (N lần parallel)</td>
+          </tr>
+          <tr>
+            <td><strong>Verify cuối</strong></td>
+            <td>Đọc result, dùng</td>
+            <td>Đọc lại file thật + chạy test + cross-check shape</td>
+          </tr>
+          <tr>
+            <td><strong>Rủi ro chính</strong></td>
+            <td>Agent miss context (vì không thấy hội thoại)</td>
+            <td>3 agents <em>lệch contract</em> → ráp vào vỡ</td>
+          </tr>
+          <tr>
+            <td><strong>Ví dụ task</strong></td>
+            <td>"Review <code>src/auth.ts</code> về security"</td>
+            <td>"Implement <code>POST /api/feedback</code> + form + test"</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="card" style="background: rgba(252,211,77,0.06); border-color: rgba(252,211,77,0.3); margin-top: 14px;">
+        <h3 class="h3 text-warning">💡 Rule of thumb</h3>
+        <p style="font-size: 13.5px; margin: 0;">Vẽ được sơ đồ <strong>"3 việc song song với contract rõ ràng giữa chúng"</strong> → agent team. Vẽ không được → tự code hoặc 1 agent đơn. Đừng dùng agent team cho task &lt; 30 phút làm tay (overhead spawn &gt; gain).</p>
       </div>
     </div>
   </section>
@@ -4597,7 +5164,7 @@ pnpm test (full suite)</div>
       </table>
       <div class="card" style="background: linear-gradient(135deg, rgba(196,181,253,0.08), rgba(110,231,183,0.06)); margin-top: 14px; padding: 18px;">
         <h3 class="h3 text-purple">💎 Insight cho dev senior</h3>
-        <p style="font-size: 14.5px; line-height: 1.65;">Subagent về bản chất là <strong>fork-join concurrency cho LLM</strong>. Cùng tư duy như multi-thread programming: tách task thành <em>independent units</em>, parallel chỉ thắng khi units đủ nặng để overhead bù được, và phải có <strong>integration point</strong> rõ ràng (schema khớp, format đồng nhất). Áp dụng tư duy <code>Promise.all()</code> + <code>reduce()</code> — chỉ khác là worker là LLM.</p>
+        <p style="font-size: 14.5px; line-height: 1.65;">Subagent về bản chất là <strong>fork-join concurrency</strong> <em style="color: var(--color-text-dim); font-weight: 400;">(mẫu lập trình song song: tách task — fork → chạy đồng thời → gộp kết quả — join)</em> <strong>cho LLM</strong>. Cùng tư duy như multi-thread programming: tách task thành <em>independent units</em>, parallel chỉ thắng khi units đủ nặng để overhead bù được, và phải có <strong>integration point</strong> rõ ràng (schema khớp, format đồng nhất). Áp dụng tư duy <code>Promise.all()</code> + <code>reduce()</code> — chỉ khác là worker là LLM.</p>
       </div>
     </div>
   </section>
