@@ -4408,6 +4408,138 @@ Closes KPZ-2087</code>
     </div>
   </section>
 
+  <!-- WORKFLOW VS AGENT — KHÁI NIỆM ANTHROPIC -->
+  <section class="slide" id="workflow-vs-agent" data-label="Workflow vs Agent">
+    <div class="slide-inner reveal">
+      <span class="chip purple">Khái niệm Anthropic</span>
+      <h2 class="h2">Workflow vs Agent — <span class="text-purple">2 đầu của thang agentic</span></h2>
+      <p class="lead">Trong blog <em>"Building effective agents"</em> (Anthropic, 12/2024), Anthropic phân biệt rõ:
+        <strong>Workflow</strong> = LLM được điều phối qua code paths cố định (bạn viết flow). <strong>Agent</strong> = LLM
+        <em>tự</em> quyết định flow + tool dùng (LLM viết flow). Subagent / Agent Team các slide sau đều nằm trên thang này.</p>
+      <table class="cmp-table" style="margin-top: 8px;">
+        <thead>
+          <tr>
+            <th>Tiêu chí</th>
+            <th>📐 Workflow</th>
+            <th class="text-purple">🤖 Agent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Ai quyết định bước tiếp?</strong></td>
+            <td>Code của bạn (cứng, đoán trước)</td>
+            <td>LLM (dynamic, tự loop)</td>
+          </tr>
+          <tr>
+            <td><strong>Ưu điểm</strong></td>
+            <td class="text-success">Predictable · rẻ · dễ debug</td>
+            <td class="text-success">Linh hoạt · xử lý task mở</td>
+          </tr>
+          <tr>
+            <td><strong>Nhược điểm</strong></td>
+            <td class="text-danger">Cứng · không thích ứng task mới</td>
+            <td class="text-danger">Khó debug · tốn token · có thể loop vô hạn</td>
+          </tr>
+          <tr>
+            <td><strong>Ví dụ</strong></td>
+            <td>"Đọc PDF → tóm tắt → dịch → lưu" (4 bước cố định)</td>
+            <td>Claude Code tự loop EPCC đến khi test pass</td>
+          </tr>
+          <tr>
+            <td><strong>Khi nào chọn?</strong></td>
+            <td>Task <em>biết trước</em> các bước</td>
+            <td>Task <em>không biết trước</em> phải làm gì để thành công</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="h3 text-purple" style="margin-top: 16px;">5 pattern Workflow Anthropic định nghĩa</h3>
+      <div class="grid-3">
+        <div class="card" style="padding: 14px;">
+          <span class="chip" style="margin-bottom: 6px;">① Prompt Chaining</span>
+          <p style="font-size: 13px; margin: 0;">Chia 1 task lớn thành <strong>chuỗi prompts nối tiếp</strong>. Output prompt 1 = input prompt 2. VD: outline → draft → polish.</p>
+        </div>
+        <div class="card" style="padding: 14px;">
+          <span class="chip green" style="margin-bottom: 6px;">② Routing</span>
+          <p style="font-size: 13px; margin: 0;">Phân loại input rồi <strong>route</strong> đến prompt/model phù hợp. VD: query đơn → Haiku, query phức → Opus.</p>
+        </div>
+        <div class="card" style="padding: 14px;">
+          <span class="chip warn" style="margin-bottom: 6px;">③ Parallelization</span>
+          <p style="font-size: 13px; margin: 0;">Chạy nhiều LLM call <strong>song song</strong>: <em>sectioning</em> (chia việc) hoặc <em>voting</em> (đa số phiếu).</p>
+        </div>
+        <div class="card" style="padding: 14px; border-color: var(--color-purple);">
+          <span class="chip purple" style="margin-bottom: 6px;">④ Orchestrator-Workers</span>
+          <p style="font-size: 13px; margin: 0;">1 LLM chính điều phối N LLM con. <strong>← Chính là Agent Team các slide sau</strong> (orchestrator + specialists + contract).</p>
+        </div>
+        <div class="card" style="padding: 14px;">
+          <span class="chip" style="margin-bottom: 6px;">⑤ Evaluator-Optimizer</span>
+          <p style="font-size: 13px; margin: 0;">1 LLM viết, 1 LLM chấm điểm, <strong>lặp đến khi đạt</strong>. VD: viết email → review → sửa → review lại.</p>
+        </div>
+        <div class="card" style="padding: 14px; background: linear-gradient(135deg, rgba(196,181,253,0.06), rgba(123,168,247,0.04));">
+          <span class="chip purple" style="margin-bottom: 6px;">+ AGENT</span>
+          <p style="font-size: 13px; margin: 0;">Vượt khỏi 5 pattern trên — LLM <em>tự</em> chọn pattern nào dùng khi nào. VD: Claude Code, Cowork agentic mode.</p>
+        </div>
+      </div>
+      <h3 class="h3 text-purple" style="margin-top: 16px;">💡 Ví dụ thực — Cùng task "Báo cáo tuần", 3 cách triển khai</h3>
+      <div class="grid-3">
+        <div class="card" style="padding: 14px;">
+          <span class="chip" style="margin-bottom: 8px;">① Prompt Chaining (Workflow)</span>
+          <p style="font-size: 12.5px; margin: 0 0 8px;">Code điều phối 4 bước cứng — mỗi bước 1 LLM call:</p>
+          <div class="code-block no-traffic" style="font-size: 11px; padding: 10px;"><span class="code-comment"># Code (Python/JS) chạy flow</span>
+jira_data = mcp.jira_search(...)
+<span class="code-comment"># LLM call 1: extract done tasks</span>
+done = llm(<span class="code-str">"Extract done tasks"</span>, jira_data)
+
+<span class="code-comment"># LLM call 2: classify risk</span>
+risks = llm(<span class="code-str">"Flag risks"</span>, done)
+
+<span class="code-comment"># LLM call 3: format DOCX</span>
+docx = llm(<span class="code-str">"Format weekly report"</span>,
+           done, risks)
+
+save(docx, <span class="code-str">"~/reports/"</span>)</div>
+          <p style="font-size: 12px; margin-top: 8px;"><strong class="text-success">Ưu:</strong> ~$0.05/lần, đoán được kết quả · <strong class="text-danger">Nhược:</strong> task hơi khác (vd Slack thread) → phải sửa code.</p>
+        </div>
+        <div class="card" style="padding: 14px; border-color: var(--color-purple);">
+          <span class="chip purple" style="margin-bottom: 8px;">④ Orchestrator-Workers (Workflow)</span>
+          <p style="font-size: 12.5px; margin: 0 0 8px;">Main spawn 3 specialist <strong>parallel</strong>, aggregate cuối:</p>
+          <div class="code-block no-traffic" style="font-size: 11px; padding: 10px;"><span class="code-comment"># Main code điều phối</span>
+parallel:
+  jira  = spawn(<span class="code-str">jira-extractor</span>)
+  slack = spawn(<span class="code-str">slack-summarizer</span>)
+  excel = spawn(<span class="code-str">timesheet-parser</span>)
+
+<span class="code-comment"># Main aggregate 3 result</span>
+report = llm(<span class="code-str">"Merge into DOCX"</span>,
+             jira, slack, excel)
+
+save(report)</div>
+          <p style="font-size: 12px; margin-top: 8px;"><strong class="text-success">Ưu:</strong> nhanh 3× (parallel), context sạch · <strong class="text-danger">Nhược:</strong> tốn token hơn, vẫn cần code điều phối.</p>
+        </div>
+        <div class="card" style="padding: 14px; background: linear-gradient(135deg, rgba(196,181,253,0.06), rgba(123,168,247,0.04));">
+          <span class="chip purple" style="margin-bottom: 8px;">🤖 Agent (Cowork)</span>
+          <p style="font-size: 12.5px; margin: 0 0 8px;">Không code — Claude <em>tự</em> quyết định flow:</p>
+          <div class="code-block no-traffic" style="font-size: 11px; padding: 10px;"><span class="code-comment"># Bạn chỉ nói:</span>
+&gt; <span class="code-str">"Tổng hợp báo cáo tuần
+   project Tsubasa, lưu vào
+   ~/reports/. Có gì lạ tuần này
+   thì flag riêng."</span>
+
+<span class="code-comment"># Claude tự loop:</span>
+<span class="code-comment"># - Thấy nên đọc Jira → đọc</span>
+<span class="code-comment"># - Phát hiện anomaly → tự dig</span>
+<span class="code-comment"># - Tự pick format DOCX phù hợp</span>
+<span class="code-comment"># - Stop khi user say OK</span></div>
+          <p style="font-size: 12px; margin-top: 8px;"><strong class="text-success">Ưu:</strong> không cần code, xử lý task mở · <strong class="text-danger">Nhược:</strong> ~$0.5/lần, đôi khi lạc hướng, khó debug.</p>
+        </div>
+      </div>
+      <div class="card" style="background: rgba(252,211,77,0.06); border-color: rgba(252,211,77,0.3); margin-top: 14px;">
+        <h3 class="h3 text-warning">💡 Mental model</h3>
+        <p style="font-size: 13.5px; margin: 0;">Workflow ↔ Agent <strong>không phải đối lập</strong> — là <em>thang đo agentic</em>. Càng "cứng" càng predictable nhưng kém linh hoạt; càng "agentic" càng linh hoạt nhưng khó kiểm soát.
+          <strong>Quy tắc Anthropic:</strong> ưu tiên Workflow (rẻ, debug dễ) → chỉ leo lên Agent khi Workflow không cover được task.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- SUBAGENT -->
   <section class="slide" id="subagent" data-label="Subagent">
     <div class="slide-inner reveal">
