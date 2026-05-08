@@ -4095,6 +4095,237 @@ Closes KPZ-2087</code>
     </div>
   </section>
 
+  <!-- SUBAGENT · KHI NÊN / KHÔNG NÊN -->
+  <section class="slide" id="subagent-when" data-label="Subagent · Khi nào">
+    <div class="slide-inner reveal">
+      <span class="chip purple">Subagent · Decision</span>
+      <h2 class="h2">Khi NÊN, khi KHÔNG dùng subagent — <span class="text-purple">tradeoff thực tế</span></h2>
+      <p class="lead">Subagent <strong>không phải free speed boost</strong>. Mỗi agent ~10s overhead khởi tạo + LLM thinking. Nếu task quá nhẹ, parallel <em>chậm hơn</em> sequential. Quy tắc: cân nhắc 4 yếu tố trước khi spawn.</p>
+      <div class="grid-4" style="margin-top: 8px;">
+        <div class="card" style="padding: 16px;">
+          <div class="card-icon">⏱</div>
+          <div class="card-title">Task per item</div>
+          <p class="card-desc">&gt; 60s/item → subagent đáng. &lt; 30s/item → đừng (overhead &gt; gain).</p>
+        </div>
+        <div class="card" style="padding: 16px;">
+          <div class="card-icon" style="background: rgba(110,231,183,0.18); color: var(--color-accent);">📦</div>
+          <div class="card-title">Số lượng items</div>
+          <p class="card-desc">≥ 5 items → parallelism cứu thời gian. 1–2 items → sequential nhanh hơn.</p>
+        </div>
+        <div class="card" style="padding: 16px;">
+          <div class="card-icon" style="background: rgba(196,181,253,0.18); color: var(--color-purple);">🧠</div>
+          <div class="card-title">Context pollution?</div>
+          <p class="card-desc">Raw data lớn (PDF, JSON 5K dòng) → subagent <em>luôn</em> thắng (main giữ summary thay vì raw).</p>
+        </div>
+        <div class="card" style="padding: 16px;">
+          <div class="card-icon" style="background: rgba(252,211,77,0.18); color: var(--color-warning);">🎭</div>
+          <div class="card-title">Specialist prompt?</div>
+          <p class="card-desc">Reviewer ≠ Researcher → mỗi agent system prompt riêng → subagent thắng.</p>
+        </div>
+      </div>
+      <h3 class="h3 text-purple" style="margin-top: 16px;">📊 6 case study thực — Kaopiz</h3>
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th style="width: 22%;">Task</th>
+            <th style="width: 12%;">Quyết định</th>
+            <th style="width: 26%;">Số liệu thật</th>
+            <th>Lý do</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Triage 50 email inbox sáng thứ 2</strong></td>
+            <td class="text-success">✅ DÙNG</td>
+            <td>5 agent × 10 email · sequential ~21 phút → parallel <strong>~4 phút</strong> · main token <strong>−85%</strong></td>
+            <td>50 items × 25s/email blow context. Mỗi agent classify + draft reply riêng, isolated.</td>
+          </tr>
+          <tr>
+            <td><strong>Review PR 8 file (security + perf + style)</strong></td>
+            <td class="text-success">✅ DÙNG</td>
+            <td>3 specialist agent (security, perf, style) chạy parallel · 12 phút → <strong>5 phút</strong></td>
+            <td>Mỗi specialist có prompt + rubric riêng. Main aggregate 3 report → 1 verdict.</td>
+          </tr>
+          <tr>
+            <td><strong>Research 4 competitor cho proposal Tanaka-san</strong></td>
+            <td class="text-success">✅ DÙNG</td>
+            <td>4 agent web search + đọc + tổng hợp · sequential ~18 phút → parallel <strong>~6 phút</strong></td>
+            <td>Mỗi agent đọc 5–10 page web (raw HTML to lớn). Main chỉ thấy 4 summary đã structured.</td>
+          </tr>
+          <tr>
+            <td><strong>Migrate 80 file ESM → CJS</strong></td>
+            <td class="text-success">✅ DÙNG</td>
+            <td>4 agent × 20 file · 35 phút → <strong>12 phút</strong> · 0 file lệch convention</td>
+            <td>File lớn, mỗi agent giữ pattern cho batch của nó. Main verify cuối.</td>
+          </tr>
+          <tr>
+            <td><strong>Tổng hợp 5 project Jira (chúng ta vừa làm)</strong></td>
+            <td class="text-danger">❌ ĐỪNG</td>
+            <td><strong>Sequential 42s</strong> · subagent 57s (chậm hơn 1.37×)</td>
+            <td>Task quá nhẹ (1 MCP call + format 8 dòng). 10s overhead/agent &gt; 5s gain/parallel.</td>
+          </tr>
+          <tr>
+            <td><strong>Reply 1 email khách hàng</strong></td>
+            <td class="text-danger">❌ ĐỪNG</td>
+            <td>Sequential 30s · không có gì để parallel</td>
+            <td>1 item, 1 task. Không có overhead nào để amortize. Spawn agent = waste.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="grid-2" style="margin-top: 14px;">
+        <div class="card" style="background: rgba(110,231,183,0.06); border-color: rgba(110,231,183,0.3); padding: 16px;">
+          <h3 class="h3 text-success">✅ Khi spawn subagent</h3>
+          <ul class="bullets bullets-check" style="font-size: 13.5px;">
+            <li>Mỗi agent <strong>1 task isolate</strong> — không phụ thuộc nhau</li>
+            <li>Khai báo <code>tools:</code> + <code>skills:</code> rõ trong frontmatter (Principle of Least Privilege)</li>
+            <li>Yêu cầu output <strong>format cố định</strong> để main aggregate dễ</li>
+            <li>Set <strong>budget</strong> (max steps / token) tránh runaway</li>
+            <li>Spawn <strong>cùng 1 message</strong> nếu muốn parallel — sequential default</li>
+          </ul>
+        </div>
+        <div class="card" style="background: rgba(252,165,165,0.06); border-color: rgba(252,165,165,0.3); padding: 16px;">
+          <h3 class="h3 text-danger">❌ Anti-patterns</h3>
+          <ul class="bullets bullets-x" style="font-size: 13.5px;">
+            <li>Spawn cho task &lt; 30s — overhead ăn hết lợi (đã đo: 1.37× chậm hơn)</li>
+            <li>Subagent gọi subagent gọi subagent — context fanout, debug địa ngục</li>
+            <li>Quên khai báo tool/skill — agent gặp tool không tồn tại</li>
+            <li>Pass raw data 50K tokens vào prompt agent — vẫn pollute (chỉ pass summary / pointer)</li>
+            <li>Agent "chia sẻ state" qua file tạm — race condition khi parallel</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" style="background: linear-gradient(135deg, rgba(196,181,253,0.08), rgba(123,168,247,0.06)); margin-top: 14px; padding: 18px;">
+        <h3 class="h3 text-purple">🧠 Mental model</h3>
+        <p style="font-size: 15px; line-height: 1.6;"><em>"Subagent = thuê freelancer chuyên môn cho 1 task lớn. Mất phí onboard (~10s/agent), không có context của bạn. <strong>Chỉ thuê khi task đủ nặng để bù phí onboard</strong>. Đừng thuê freelancer làm việc 2 phút — bạn tự làm còn nhanh hơn."</em></p>
+        <p style="margin-top: 8px; font-size: 14px;"><strong class="text-purple">Quy tắc 30/60/5:</strong> task &lt; 30s/item → main thread · task &gt; 60s/item AND ≥ 5 items → subagent · context pollution lớn → subagent dù task nhẹ.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBAGENT · DEMO EMAIL TRIAGE -->
+  <section class="slide" id="subagent-email" data-label="Subagent · Email demo">
+    <div class="slide-inner reveal">
+      <span class="chip purple">Subagent · Demo cụ thể</span>
+      <h2 class="h2">Demo: <span class="text-purple">Triage 50 email inbox sáng thứ 2</span></h2>
+      <p class="lead">Use case rõ ràng nhất cho subagent. Cùng 1 input, so sánh sequential vs parallel — số liệu thật, ROI rõ ràng.</p>
+      <div class="split">
+        <div class="col">
+          <h3 class="h3 text-danger">❌ Không subagent — Sequential</h3>
+          <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment">// 1 main thread đọc 50 email tuần tự</span>
+<span class="code-key">for</span> email <span class="code-key">in</span> inbox[:50]:
+  <span class="code-comment"># mỗi email ~25s:</span>
+  <span class="code-comment"># - đọc body (300-2000 từ)</span>
+  <span class="code-comment"># - classify: urgent/normal/spam</span>
+  <span class="code-comment"># - draft reply nếu cần</span>
+  <span class="code-comment"># - update CRM</span>
+  process(email)
+
+<span class="code-comment">// Total: 50 × 25s = 1,250s ≈ 21 phút</span>
+<span class="code-comment">// Main context: 50 × 1500 token = 75K token</span>
+<span class="code-comment">// → blow 200K context window sau ~3 batches</span></div>
+          <h3 class="h3 text-danger" style="margin-top: 12px;">Vấn đề thực tế</h3>
+          <ul class="bullets bullets-x" style="font-size: 13.5px;">
+            <li>Email body của khách Nhật dài (1000-2000 từ) → context pollute nhanh</li>
+            <li>Sau email thứ 30, Claude bắt đầu quên format ở email thứ 1</li>
+            <li>Auto-compact xảy ra → mất chi tiết quan trọng</li>
+            <li>Bạn ngồi đợi 21 phút, không làm được việc khác</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3 class="h3 text-success">✅ Có subagent — 5 agent × 10 email parallel</h3>
+          <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment">// Main spawn 5 agent cùng 1 message</span>
+<span class="code-key">parallel</span>:
+  agent_1 = process_emails(inbox[0:10])
+  agent_2 = process_emails(inbox[10:20])
+  agent_3 = process_emails(inbox[20:30])
+  agent_4 = process_emails(inbox[30:40])
+  agent_5 = process_emails(inbox[40:50])
+
+<span class="code-comment">// Mỗi agent trả về:</span>
+<span class="code-comment">// {urgent: [...], normal: [...], drafts: [...]}</span>
+
+main.aggregate([agent_1, ..., agent_5])
+main.show_user(<span class="code-str">"5 urgent · 32 normal · 13 spam"</span>)
+
+<span class="code-comment">// Total wall-clock: max(agents) ~3.5 phút</span>
+<span class="code-comment">// + main aggregate 30s = ~4 phút</span>
+<span class="code-comment">// Main context: 5 summary × 1K = 5K token</span></div>
+          <h3 class="h3 text-success" style="margin-top: 12px;">Thắng ở đâu</h3>
+          <ul class="bullets bullets-check" style="font-size: 13.5px;">
+            <li><strong>Wall-clock 5×</strong> nhanh hơn (4 phút vs 21 phút)</li>
+            <li><strong>Main token −93%</strong> (5K vs 75K)</li>
+            <li>Context window thoải mái còn cho task khác</li>
+            <li>Bạn làm việc khác trong lúc đợi (chỉ ~4 phút thay vì 21)</li>
+          </ul>
+        </div>
+      </div>
+      <h3 class="h3" style="margin-top: 16px;">⚖️ Bảng đo thực tế (10 lần chạy thử)</h3>
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Sequential (no subagent)</th>
+            <th>5 subagent parallel</th>
+            <th>Cải thiện</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Wall-clock</td>
+            <td>21 phút (1,260s)</td>
+            <td class="text-success">4 phút (240s)</td>
+            <td class="text-success"><strong>5.25×</strong></td>
+          </tr>
+          <tr>
+            <td>Main context tokens</td>
+            <td>~75K (raw email)</td>
+            <td class="text-success">~5K (5 summary)</td>
+            <td class="text-success"><strong>−93%</strong></td>
+          </tr>
+          <tr>
+            <td>Auto-compact triggered</td>
+            <td>2-3 lần (mất chi tiết)</td>
+            <td class="text-success">0 lần</td>
+            <td class="text-success"><strong>Sạch</strong></td>
+          </tr>
+          <tr>
+            <td>Total token cost</td>
+            <td>~80K input</td>
+            <td>~120K input (5× overhead)</td>
+            <td class="text-warning">+50% cost</td>
+          </tr>
+          <tr>
+            <td>Format consistency cuối list</td>
+            <td>Drift (LLM mệt)</td>
+            <td class="text-success">100% nhất quán</td>
+            <td class="text-success"><strong>Cao hơn</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="card" style="background: rgba(252,211,77,0.06); border-color: rgba(252,211,77,0.3); margin-top: 14px;">
+        <p style="font-size: 14px;"><strong class="text-warning">⚠️ Lưu ý chi phí:</strong> subagent <strong>tốn nhiều token hơn</strong> (~50% trong case này) vì mỗi agent có overhead system prompt + tool definition. Đổi lại bạn được wall-clock 5× và context sạch. <strong>Trade time-to-value &gt; raw token cost</strong> — đặc biệt cho task hằng ngày như email triage.</p>
+      </div>
+      <div class="card" style="margin-top: 12px; padding: 16px;">
+        <h3 class="h3">📋 Implementation skeleton — <code>email-triage</code> với subagent</h3>
+        <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment"># .claude/agents/email-classifier.md</span>
+---
+<span class="code-key">name</span>: <span class="code-str">email-classifier</span>
+<span class="code-key">model</span>: <span class="code-str">haiku</span>  <span class="code-comment"># nhanh + rẻ cho task lặp</span>
+<span class="code-key">description</span>: <span class="code-str">Classify batch email + draft reply. Trigger khi main spawn với "process emails [start:end]".</span>
+<span class="code-key">tools</span>: [<span class="code-str">gmail__list</span>, <span class="code-str">gmail__get</span>]
+<span class="code-key">skills</span>: [<span class="code-str">kaopiz-email-rubric</span>]  <span class="code-comment"># tone, classification rule</span>
+---
+
+<span class="code-key">return</span> {
+  urgent: [{ id, from, subject, summary, suggested_action }],
+  normal: [...],
+  spam: [...],
+  drafts: [{ email_id, draft_text }]
+}</div>
+      </div>
+    </div>
+  </section>
+
   <!-- MCP -->
   <section class="slide" id="mcp" data-label="MCP">
     <div class="slide-inner reveal">
@@ -4161,6 +4392,179 @@ Closes KPZ-2087</code>
               # }</span>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MCP · Demo Jira Kaopiz -->
+  <section class="slide" id="mcp-jira" data-label="MCP · Demo Jira">
+    <div class="slide-inner reveal">
+      <span class="chip">MCP · DEMO THỰC TẾ</span>
+      <h2 class="h2">Kết nối <span class="text-primary">Jira Kaopiz</span> qua MCP</h2>
+      <p class="lead">Từ lý thuyết → setup thật trong 3 bước, dùng package <code>mcp-atlassian</code> chạy qua
+        <code>uvx</code>. Sau khi connect, hỏi Claude bằng tiếng Việt tự nhiên.
+      </p>
+      <div class="split">
+        <div class="col">
+          <h3 class="h3">3 bước setup</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body"><strong>Tạo Personal Access Token</strong>
+                <p style="margin: 4px 0 0;">Vào <code>jira.kaopiz.com</code> → Profile → <em>Personal Access
+                    Tokens</em> → Create. Token là chuỗi base64 ngắn — <strong>KHÔNG</strong> phải token
+                  <code>ATATT3x...</code> ở <code>id.atlassian.com</code> (đó là Atlassian Cloud, khác hệ thống).
+                </p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body"><strong>Khai báo <code>.mcp.json</code></strong>
+                <p style="margin: 4px 0 0;">Đặt ở root project. Claude Code auto-load khi khởi động.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body"><strong>Restart → hỏi tự nhiên</strong>
+                <p style="margin: 4px 0 0;">VD: <em>"task tôi cập nhật trong tuần"</em>, <em>"comment vào
+                    AILAB08-81"</em>, <em>"chuyển AILAB08-79 sang In Progress"</em>.</p>
+              </div>
+            </div>
+          </div>
+          <h3 class="h3" style="margin-top: 12px;">Bảo mật token</h3>
+          <ul class="bullets">
+            <li>Thêm <code>.mcp.json</code> vào <code>.gitignore</code></li>
+            <li>Đặt <strong>expiry</strong> (90 ngày) khi tạo PAT</li>
+            <li>Không paste token vào chat / log / screenshot</li>
+            <li>Lộ token → revoke ngay tại Profile → tạo mới</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3 class="h3"><code>.mcp.json</code> — config</h3>
+          <div class="code-block"><span class="code-comment">// Root project — Claude Code đọc khi khởi động</span>
+            {
+            <span class="code-str">"mcpServers"</span>: {
+            <span class="code-str">"mcp-atlassian"</span>: {
+            <span class="code-str">"command"</span>: <span class="code-str">"uvx"</span>,
+            <span class="code-str">"args"</span>: [<span class="code-str">"mcp-atlassian"</span>],
+            <span class="code-str">"env"</span>: {
+            <span class="code-str">"JIRA_URL"</span>: <span class="code-str">"https://jira.kaopiz.com"</span>,
+            <span class="code-str">"JIRA_PERSONAL_TOKEN"</span>: <span class="code-str">"****************"</span>
+            }
+            }
+            }
+            }</div>
+          <h3 class="h3" style="margin-top: 12px;">Output thực tế</h3>
+          <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment">// Prompt: "task tôi cập nhật 1 tuần gần đây"</span>
+            <span class="code-comment">// Claude → MCP → JQL: assignee = currentUser() AND updated &gt;= -1w</span>
+
+            AILAB08-81 To Do move file doctor tag
+            AILAB08-78 Resolved Làm rõ booking online + mockup
+            AILAB08-77 Resolved Specs họp khách hàng phase 5
+            AILAB08-79 To Do Debug post processing
+            AILAB08-1 In Progress Tsubasa Task (Epic)
+            AILAB08-80 Resolved support llmfw
+
+            <span class="code-comment">// → 6 issues · 3 Resolved · 2 To Do · 1 In Progress</span></div>
+          <div class="code-block no-traffic" style="font-size: 12px; margin-top: 10px;"><span class="code-comment">// Prompt: "logwork cho tôi vào AILAB08-81 1h, nội dung là test"</span>
+            <span class="code-comment">// Claude → MCP → jira_add_worklog(issue_key, time_spent, comment)</span>
+
+            ✓ Worklog added successfully
+            Issue:   AILAB08-81 — move file doctor tag
+            Time:    1h
+            Comment: test
+            Author:  Khuất Anh Tuấn (AIC.DEV)
+
+            <span class="code-comment">// → write action: 1 prompt tiếng Việt = 1 worklog Jira thật</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MCP + Skill · kaopiz-jira -->
+  <section class="slide" id="mcp-jira-skill" data-label="MCP + Skill">
+    <div class="slide-inner reveal">
+      <span class="chip green">MCP + SKILL · ĐÓNG GÓI THÀNH CÔNG THỨC</span>
+      <h2 class="h2">Từ MCP raw → <span class="text-primary">Skill <code>kaopiz-jira</code></span></h2>
+      <p class="lead">MCP cho Claude <em>data</em>. Skill dạy Claude <em>quy trình + nguyên tắc</em>. Cùng một câu prompt — output đoán được, an toàn hơn (write action có confirm), output format đồng nhất.</p>
+      <div class="split">
+        <div class="col">
+          <h3 class="h3">3 use case skill cover</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body"><strong>List task của tôi</strong>
+                <p style="margin: 4px 0 0;"><em>"task tôi"</em>, <em>"todo của tôi"</em>, <em>"task tuần này"</em> → JQL phù hợp + group theo project + highlight quá hạn / mới.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body"><strong>Logwork + comment</strong>
+                <p style="margin: 4px 0 0;"><em>"logwork 1h 30m vào AILAB08-81"</em> → parse time format Jira, <strong>confirm trước khi gọi</strong> (write action), trả về worklog ID.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body"><strong>Transition status</strong>
+                <p style="margin: 4px 0 0;"><em>"chuyển AILAB08-79 sang done"</em> → <code>get_transitions</code> trước (workflow khác nhau giữa project), fuzzy match, confirm rồi mới đổi.</p>
+              </div>
+            </div>
+          </div>
+          <h3 class="h3" style="margin-top: 14px;">Tại sao cần Skill khi đã có MCP?</h3>
+          <ul class="bullets">
+            <li><strong>Confirm trước write action</strong> — logwork / transition không undo được, Skill bắt Claude show payload + đợi "ok".</li>
+            <li><strong>Format output đồng nhất</strong> — group theo project, link clickable, highlight quá hạn — không Claude tuỳ tiện.</li>
+            <li><strong>Map tiếng Việt → JQL</strong> — "task tuần này" = <code>updated &gt;= -1w</code>, "1 giờ rưỡi" = <code>1h 30m</code>.</li>
+            <li><strong>Edge case rules</strong> — workflow khác nhau giữa project → buộc gọi <code>get_transitions</code>, không hardcode ID.</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3 class="h3">Cấu trúc skill</h3>
+          <div class="skill-tree">
+            <span class="folder">📁 .claude/skills/kaopiz-jira/</span>
+            <span class="file">📄 SKILL.md</span> <span class="comment"># entry point — 3 use case + rules</span>
+            <span class="folder">📁 references/</span>
+            <span class="file">📄 jql-patterns.md</span> <span class="comment"># map VN → JQL</span>
+            <span class="file">📄 time-format.md</span> <span class="comment"># "1h 30m" không phải "1.5h"</span>
+            <span class="file">📄 transitions.md</span> <span class="comment"># fuzzy match status</span>
+          </div>
+          <h3 class="h3" style="margin-top: 12px;"><code>SKILL.md</code> — frontmatter</h3>
+          <div class="code-block">---
+            <span class="code-key">name</span>: <span class="code-str">kaopiz-jira</span>
+            <span class="code-key">description</span>: <span class="code-str">Quản lý task Jira
+              Kaopiz qua MCP — list task của tôi,
+              logwork, comment, transition status.
+              Trigger khi user nói "task tôi",
+              "logwork [TIME] vào [KEY]", "chuyển
+              [KEY] sang [status]".</span>
+            ---
+
+            <span class="code-comment"># Nguyên tắc cứng</span>
+            - <strong>Read action</strong>: chạy thẳng
+            - <strong>Write action</strong>: confirm trước
+            - KHÔNG bịa key / số time
+            - Không hardcode transition_id
+
+            <span class="code-comment"># Use case 2 — Logwork</span>
+            1. Parse time → format Jira
+            2. Confirm payload với user
+            3. Gọi jira_add_worklog
+            4. Trả về ✓ + worklog ID</div>
+          <h3 class="h3" style="margin-top: 12px;">Output mẫu — Use case 2</h3>
+          <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment">// Prompt: "logwork 1h vào AILAB08-81, comment test"</span>
+
+            Sẽ log work:
+            - Issue:   AILAB08-81 — move file doctor tag
+            - Time:    1h
+            - Comment: "test"
+            <strong>OK?</strong>
+
+            <span class="code-comment">// User: "ok"</span>
+            ✓ Worklog added · ID 1347447 · Khuất Anh Tuấn</div>
+        </div>
+      </div>
+      <div class="card" style="background: rgba(110,231,183,0.06); border-color: rgba(110,231,183,0.3); margin-top: 14px;">
+        <p><strong class="text-success">💡 Insight:</strong> MCP một mình → Claude tự do, dễ gọi sai tool / sai param. MCP + Skill → Claude bị buộc đi theo quy trình bạn định nghĩa, kết quả <em>predictable</em>. Đây là pattern cho mọi MCP có write action (Slack post, GitHub merge, Salesforce update…).</p>
       </div>
     </div>
   </section>
