@@ -4326,6 +4326,282 @@ main.show_user(<span class="code-str">"5 urgent · 32 normal · 13 spam"</span>)
     </div>
   </section>
 
+  <!-- SUBAGENT · DEMO DEV (FE/BE/TEST) -->
+  <section class="slide" id="subagent-dev" data-label="Subagent · Dev FE/BE/Test">
+    <div class="slide-inner reveal">
+      <span class="chip purple">Subagent · Demo cho Dev</span>
+      <h2 class="h2">Build feature parallel — <span class="text-purple">FE + BE + Test cùng lúc</span></h2>
+      <p class="lead">Case study cụ thể: implement feature <code>POST /api/feedback</code> (form UI + API endpoint + tests). Cùng 1 phút, 3 dev sẽ chia ra mỗi người 1 mảng. Subagent làm y hệt — 3 specialist agent chạy parallel, main thread đóng vai TL aggregate.</p>
+      <div class="card" style="background: rgba(123,168,247,0.06); padding: 16px;">
+        <h3 class="h3">📥 Input — Feature spec</h3>
+        <p style="font-size: 14px;">Project Next.js 14 + Supabase. Cần endpoint <code>POST /api/feedback</code> nhận <code>{name, email, msg}</code>, validate zod, lưu DB, gửi Slack notification. Kèm form UI <code>&lt;FeedbackForm /&gt;</code> và test (unit + e2e).</p>
+      </div>
+      <h3 class="h3 text-purple" style="margin-top: 16px;">🎭 3 specialist agent — định nghĩa</h3>
+      <div class="grid-3">
+        <div class="card" style="padding: 14px;">
+          <span class="chip purple" style="margin-bottom: 8px;">🔧 BACKEND</span>
+          <h3 class="h3" style="font-size: 16px;"><code>backend-implementer</code></h3>
+          <div class="code-block no-traffic" style="font-size: 11px;"><span class="code-comment"># .claude/agents/backend-implementer.md</span>
+---
+<span class="code-key">name</span>: <span class="code-str">backend-implementer</span>
+<span class="code-key">model</span>: <span class="code-str">sonnet</span>
+<span class="code-key">description</span>: <span class="code-str">Implement Next.js Route Handler + zod schema + Supabase insert + Slack webhook.</span>
+<span class="code-key">tools</span>: [<span class="code-str">Read</span>, <span class="code-str">Write</span>, <span class="code-str">Edit</span>, <span class="code-str">Bash(pnpm:*)</span>]
+<span class="code-key">skills</span>: [<span class="code-str">kaopiz-api-pattern</span>]
+---
+
+You are a senior BE engineer.
+
+<span class="code-comment"># Task</span>
+1. Đọc src/app/api/contact/route.ts → bám pattern.
+2. Tạo /api/feedback/route.ts:
+   - zod schema
+   - rate-limit 5/phút/IP
+   - Supabase insert
+   - Slack webhook
+3. Run pnpm typecheck.
+
+<span class="code-comment"># Return</span>
+{ files_created, files_modified,
+  schema_signature, errors }</div>
+        </div>
+        <div class="card" style="padding: 14px;">
+          <span class="chip green" style="margin-bottom: 8px;">🎨 FRONTEND</span>
+          <h3 class="h3" style="font-size: 16px;"><code>frontend-implementer</code></h3>
+          <div class="code-block no-traffic" style="font-size: 11px;"><span class="code-comment"># .claude/agents/frontend-implementer.md</span>
+---
+<span class="code-key">name</span>: <span class="code-str">frontend-implementer</span>
+<span class="code-key">model</span>: <span class="code-str">sonnet</span>
+<span class="code-key">description</span>: <span class="code-str">Build React Hook Form + zod resolver + shadcn/ui component, gọi POST /api/feedback.</span>
+<span class="code-key">tools</span>: [<span class="code-str">Read</span>, <span class="code-str">Write</span>, <span class="code-str">Edit</span>, <span class="code-str">Bash(pnpm:*)</span>]
+<span class="code-key">skills</span>: [<span class="code-str">kaopiz-ui-pattern</span>]
+---
+
+You are a senior FE engineer.
+
+<span class="code-comment"># Task</span>
+1. Đọc src/components/ContactForm.tsx
+   → reuse pattern, hook, validation.
+2. Tạo &lt;FeedbackForm /&gt;:
+   - React Hook Form + zod resolver
+   - shadcn/ui Input + Button
+   - i18n VN error message
+   - Loading + success state
+3. Run pnpm lint.
+
+<span class="code-comment"># Return</span>
+{ component_path, props_signature,
+  zod_schema_used, errors }</div>
+        </div>
+        <div class="card" style="padding: 14px;">
+          <span class="chip warn" style="margin-bottom: 8px;">🧪 TEST</span>
+          <h3 class="h3" style="font-size: 16px;"><code>test-writer</code></h3>
+          <div class="code-block no-traffic" style="font-size: 11px;"><span class="code-comment"># .claude/agents/test-writer.md</span>
+---
+<span class="code-key">name</span>: <span class="code-str">test-writer</span>
+<span class="code-key">model</span>: <span class="code-str">haiku</span>
+<span class="code-key">description</span>: <span class="code-str">Viết unit test (Vitest) + e2e test (Playwright) — đợi schema từ BE/FE rồi viết.</span>
+<span class="code-key">tools</span>: [<span class="code-str">Read</span>, <span class="code-str">Write</span>, <span class="code-str">Bash(pnpm test:*)</span>]
+<span class="code-key">skills</span>: [<span class="code-str">kaopiz-test-rubric</span>]
+---
+
+You are a senior QA engineer.
+
+<span class="code-comment"># Task (đợi BE+FE xong)</span>
+1. Unit test (Vitest):
+   - happy: valid {name, email, msg}
+   - edge: invalid email
+   - edge: msg empty
+   - edge: rate-limit triggered
+2. E2E test (Playwright):
+   - Submit form → success toast
+   - Server error → error message
+3. Run pnpm test → assert 6/6 pass.
+
+<span class="code-comment"># Return</span>
+{ test_files, pass_count, coverage }</div>
+        </div>
+      </div>
+      <h3 class="h3 text-purple" style="margin-top: 16px;">🎬 Coordination pattern — main thread đóng vai TL</h3>
+      <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment">// Phase 1 — main spawn 2 agent BE + FE PARALLEL (cùng message)</span>
+parallel:
+  be_result = spawn(<span class="code-str">backend-implementer</span>, spec)
+  fe_result = spawn(<span class="code-str">frontend-implementer</span>, spec)
+
+<span class="code-comment">// Phase 2 — đợi cả 2 xong, integration check</span>
+assert be_result.schema_signature === fe_result.zod_schema_used  <span class="code-comment">// schema phải khớp</span>
+
+<span class="code-comment">// Phase 3 — pass schema xuống test agent (sequential, vì depends on phase 1)</span>
+test_result = spawn(<span class="code-str">test-writer</span>, {
+  schema: be_result.schema_signature,
+  component: fe_result.component_path,
+  api_route: be_result.files_created[0]
+})
+
+<span class="code-comment">// Phase 4 — main verify + commit</span>
+<span class="code-key">if</span> (test_result.pass_count === 6) {
+  exec(<span class="code-str">"git commit -m 'feat(api): add POST /api/feedback'"</span>)
+}
+<span class="code-key">else</span> {
+  show_user(<span class="code-str">"Test fail — review trước khi commit"</span>)
+}</div>
+      <h3 class="h3" style="margin-top: 16px;">⚖️ Bảng so sánh thời gian</h3>
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Phase</th>
+            <th>Sequential (1 dev / main thread)</th>
+            <th>3 subagent (BE + FE parallel, Test sau)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Đọc codebase + bám pattern</td>
+            <td>~10 phút (đọc cả BE + FE)</td>
+            <td class="text-success">~5 phút (mỗi agent đọc song song)</td>
+          </tr>
+          <tr>
+            <td>Implement BE</td>
+            <td>~25 phút</td>
+            <td class="text-success">~12 phút (specialist focus)</td>
+          </tr>
+          <tr>
+            <td>Implement FE</td>
+            <td>~20 phút</td>
+            <td class="text-success">~10 phút (parallel với BE)</td>
+          </tr>
+          <tr>
+            <td>Viết test (đợi schema BE+FE)</td>
+            <td>~25 phút</td>
+            <td>~15 phút (sequential sau phase 1)</td>
+          </tr>
+          <tr>
+            <td>Integration + verify + commit</td>
+            <td>~10 phút (mệt, hay miss)</td>
+            <td class="text-success">~5 phút (main fresh, format đồng nhất)</td>
+          </tr>
+          <tr style="background: rgba(196,181,253,0.08);">
+            <td><strong>TỔNG</strong></td>
+            <td><strong>~90 phút</strong></td>
+            <td class="text-success"><strong>~35 phút</strong> (2.5×)</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="card" style="background: rgba(252,211,77,0.06); border-color: rgba(252,211,77,0.3); margin-top: 14px;">
+        <h3 class="h3 text-warning">⚠️ Khi nào KHÔNG dùng pattern này</h3>
+        <ul class="bullets bullets-x" style="font-size: 13.5px;">
+          <li><strong>Feature &lt; 30 phút làm tay</strong> (đổi text label, thêm 1 field) → overhead spawn agent &gt; gain. Code thẳng.</li>
+          <li><strong>Schema không tách được</strong> — BE và FE phải share state phức tạp realtime → khó coordinate, code thẳng.</li>
+          <li><strong>Stack không có pattern rõ</strong> — agent không có tham chiếu để bám → output drift. Cần CLAUDE.md + skill rubric trước.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBAGENT · DEV PATTERNS KHÁC -->
+  <section class="slide" id="subagent-dev-patterns" data-label="Subagent · Dev patterns">
+    <div class="slide-inner reveal">
+      <span class="chip purple">Subagent · 3 dev pattern khác</span>
+      <h2 class="h2">3 pattern subagent <span class="text-purple">cho dev hằng ngày</span></h2>
+      <p class="lead">Ngoài "build feature parallel", còn 3 use case dev rất hay dùng subagent. Mỗi cái có concrete agent definition + ví dụ thật.</p>
+      <div class="grid-3" style="margin-top: 8px;">
+        <div class="card" style="padding: 16px;">
+          <div class="card-icon" style="background: rgba(252,165,165,0.18); color: var(--color-danger);">🔍</div>
+          <div class="card-title">① PR Review — 4 specialist</div>
+          <p class="card-desc" style="margin-bottom: 10px;">PR 12 file thay đổi. Spawn 4 agent parallel, mỗi agent 1 lăng kính. Main aggregate ra 1 verdict.</p>
+          <div class="code-block no-traffic" style="font-size: 11px; padding: 10px;"><span class="code-comment"># 4 agent chạy parallel</span>
+- <span class="code-str">security-reviewer</span> (OWASP rubric)
+- <span class="code-str">perf-reviewer</span> (N+1, bundle size)
+- <span class="code-str">a11y-reviewer</span> (WCAG 2.1)
+- <span class="code-str">style-reviewer</span> (ESLint + naming)
+
+<span class="code-comment"># Main aggregate</span>
+verdict = merge_findings(reviewers)
+post_to_github_pr(verdict)</div>
+          <p style="font-size: 12.5px; margin-top: 10px;"><strong>ROI:</strong> sequential ~30 phút, parallel ~10 phút. Format đồng nhất, không bias (mỗi agent context riêng).</p>
+        </div>
+        <div class="card" style="padding: 16px;">
+          <div class="card-icon" style="background: rgba(252,211,77,0.18); color: var(--color-warning);">🐞</div>
+          <div class="card-title">② Bug hunt — repro song song</div>
+          <p class="card-desc" style="margin-bottom: 10px;">Bug "test fail intermittent". Spawn 3 agent thử reproduce ở 3 env khác nhau cùng lúc.</p>
+          <div class="code-block no-traffic" style="font-size: 11px; padding: 10px;"><span class="code-comment"># 3 agent với env khác</span>
+- <span class="code-str">repro-node18</span> (Node 18 LTS)
+- <span class="code-str">repro-node20</span> (Node 20)
+- <span class="code-str">repro-node22</span> (Node 22 latest)
+
+<span class="code-comment"># Mỗi agent</span>
+1. checkout branch
+2. pnpm i &amp;&amp; pnpm test --repeat=20
+3. capture flaky output
+
+<span class="code-comment"># Main</span>
+diff env results → narrow root cause</div>
+          <p style="font-size: 12.5px; margin-top: 10px;"><strong>ROI:</strong> repro 3 env tay = 45 phút. Parallel = 15 phút. Phát hiện bug do timer race chỉ ở Node 22.</p>
+        </div>
+        <div class="card" style="padding: 16px;">
+          <div class="card-icon" style="background: rgba(196,181,253,0.18); color: var(--color-purple);">🔄</div>
+          <div class="card-title">③ Refactor lớn — split by directory</div>
+          <p class="card-desc" style="margin-bottom: 10px;">Migrate <code>src/</code> 80 file ESM → CJS. Chia 4 agent, mỗi agent xử 1 thư mục con.</p>
+          <div class="code-block no-traffic" style="font-size: 11px; padding: 10px;"><span class="code-comment"># 4 agent với batch riêng</span>
+- <span class="code-str">migrator-utils</span> (src/utils/, 18 file)
+- <span class="code-str">migrator-api</span> (src/app/api/, 24 file)
+- <span class="code-str">migrator-comp</span> (src/components/, 28 file)
+- <span class="code-str">migrator-lib</span> (src/lib/, 10 file)
+
+<span class="code-comment"># Mỗi agent</span>
+1. Read pattern từ migration-rule.md
+2. Apply trong batch
+3. pnpm typecheck batch
+
+<span class="code-comment"># Main verify cuối</span>
+pnpm test (full suite)</div>
+          <p style="font-size: 12.5px; margin-top: 10px;"><strong>ROI:</strong> sequential ~35 phút, parallel ~12 phút. Pattern nhất quán giữa 4 batch (cùng đọc <code>migration-rule.md</code>).</p>
+        </div>
+      </div>
+      <h3 class="h3 text-purple" style="margin-top: 16px;">📐 Decision matrix — chọn pattern nào?</h3>
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Đặc điểm task</th>
+            <th>Pattern phù hợp</th>
+            <th>Ví dụ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Task có <strong>nhiều chiều phân tích độc lập</strong></td>
+            <td class="text-success">Specialist parallel</td>
+            <td>PR review (security + perf + a11y + style)</td>
+          </tr>
+          <tr>
+            <td>Task có <strong>nhiều layer cần phối hợp</strong></td>
+            <td class="text-purple">FE/BE/Test parallel</td>
+            <td>Build feature: API + UI + tests</td>
+          </tr>
+          <tr>
+            <td>Task <strong>lặp lại trên N items độc lập</strong></td>
+            <td class="text-warning">Map-reduce parallel</td>
+            <td>Migrate 80 file, triage 50 email, screen 100 CV</td>
+          </tr>
+          <tr>
+            <td>Task cần <strong>thử nhiều env / config</strong></td>
+            <td>Hypothesis-test parallel</td>
+            <td>Reproduce bug ở 3 Node version, A/B test 4 prompt</td>
+          </tr>
+          <tr>
+            <td>Task <strong>tuần tự, depends on nhau</strong></td>
+            <td class="text-danger">KHÔNG dùng subagent</td>
+            <td>Refactor 1 function, fix 1 bug, đổi 1 config</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="card" style="background: linear-gradient(135deg, rgba(196,181,253,0.08), rgba(110,231,183,0.06)); margin-top: 14px; padding: 18px;">
+        <h3 class="h3 text-purple">💎 Insight cho dev senior</h3>
+        <p style="font-size: 14.5px; line-height: 1.65;">Subagent về bản chất là <strong>fork-join concurrency cho LLM</strong>. Cùng tư duy như multi-thread programming: tách task thành <em>independent units</em>, parallel chỉ thắng khi units đủ nặng để overhead bù được, và phải có <strong>integration point</strong> rõ ràng (schema khớp, format đồng nhất). Áp dụng tư duy <code>Promise.all()</code> + <code>reduce()</code> — chỉ khác là worker là LLM.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- MCP -->
   <section class="slide" id="mcp" data-label="MCP">
     <div class="slide-inner reveal">
@@ -4565,6 +4841,125 @@ main.show_user(<span class="code-str">"5 urgent · 32 normal · 13 spam"</span>)
       </div>
       <div class="card" style="background: rgba(110,231,183,0.06); border-color: rgba(110,231,183,0.3); margin-top: 14px;">
         <p><strong class="text-success">💡 Insight:</strong> MCP một mình → Claude tự do, dễ gọi sai tool / sai param. MCP + Skill → Claude bị buộc đi theo quy trình bạn định nghĩa, kết quả <em>predictable</em>. Đây là pattern cho mọi MCP có write action (Slack post, GitHub merge, Salesforce update…).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MCP + Skill · Gmail (cá nhân hóa) -->
+  <section class="slide" id="mcp-gmail-skill" data-label="MCP + Skill · Gmail">
+    <div class="slide-inner reveal">
+      <span class="chip green">MCP + SKILL · CÁ NHÂN HÓA INBOX</span>
+      <h2 class="h2">Gmail cá nhân + Skill <span class="text-primary"><code>kaopiz-gmail</code></span></h2>
+      <p class="lead">Cùng MCP server <code>@gongrzhe/server-gmail-autoauth-mcp</code>, Skill biến Claude
+        từ <em>"liệt kê 50 email gần nhất"</em> → <em>"3 email cần action ngay, 12 noise đã gộp, 7 promo đã skip"</em>.
+        Personalize theo workflow Kaopiz: nhận diện sếp, khách Nhật, ticket Jira.</p>
+      <div class="split">
+        <div class="col">
+          <h3 class="h3">4 use case skill cover</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body"><strong>Triage inbox</strong>
+                <p style="margin: 4px 0 0;"><em>"email mới"</em>, <em>"có gì hôm nay"</em> → phân
+                  <strong>5 bucket</strong>: 🔴 cần action / 🟡 đáng đọc / 🔵 Jira-noise (gộp) / ⚪ promo
+                  (skip) / 🚨 security. Chỉ liệt chi tiết 🔴🟡.
+                </p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body"><strong>Tìm mail liên quan Jira/dự án</strong>
+                <p style="margin: 4px 0 0;"><em>"mail về AILAB08-81"</em>, <em>"có ai hỏi gì về phase 5"</em> → build
+                  Gmail query, cross-ref với <code>jira_get_issue</code> để show status song song.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body"><strong>Draft reply theo tone</strong>
+                <p style="margin: 4px 0 0;">Detect ngôn ngữ + đối tượng (khách VN/Nhật keigo / EN / đồng nghiệp) → render
+                  template phù hợp, KHÔNG gửi thẳng — show review.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-body"><strong>Send với confirm</strong>
+                <p style="margin: 4px 0 0;"><em>"gửi mail cho khaidq nội dung X"</em> → show payload (to/cc/subject/body) →
+                  đợi "OK gửi?" → mới gọi <code>send_email</code>. Email đi rồi không undo.</p>
+              </div>
+            </div>
+          </div>
+          <h3 class="h3" style="margin-top: 14px;">Personalization cho <code>mrkathust@gmail.com</code></h3>
+          <ul class="bullets">
+            <li><strong>VIP list</strong>: <code>khaidq@kaopiz.com</code>, <code>hung@kaopiz.com</code>,
+              <code>@tsubasa.co.jp</code> — auto bucket 🔴
+            </li>
+            <li><strong>Auto-dismiss</strong>: Google security alert nếu match thời điểm OAuth vừa làm</li>
+            <li><strong>Jira cross-ref</strong>: gặp pattern <code>[A-Z]+-\d+</code> → check status</li>
+            <li><strong>Keigo cho khách Nhật</strong>: 「お世話になっております」 mặc định</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3 class="h3">Cấu trúc skill</h3>
+          <div class="skill-tree">
+            <span class="folder">📁 .claude/skills/kaopiz-gmail/</span>
+            <span class="file">📄 SKILL.md</span> <span class="comment"># 4 use case + nguyên tắc cứng</span>
+            <span class="folder">📁 references/</span>
+            <span class="file">📄 gmail-search-syntax.md</span> <span class="comment"># cheatsheet operator</span>
+            <span class="file">📄 triage-buckets.md</span> <span class="comment"># logic 5 bucket</span>
+            <span class="file">📄 reply-templates.md</span> <span class="comment"># tone VN/JP/EN</span>
+          </div>
+          <h3 class="h3" style="margin-top: 12px;"><code>SKILL.md</code> — frontmatter</h3>
+          <div class="code-block">---
+            <span class="code-key">name</span>: <span class="code-str">kaopiz-gmail</span>
+            <span class="code-key">description</span>: <span class="code-str">Gmail cá nhân
+              (mrkathust@gmail.com) qua MCP gmail —
+              triage inbox, tìm mail liên quan
+              Jira/Kaopiz, draft reply tiếng Việt
+              theo tone Kaopiz, gửi mail có xác nhận.
+              Trigger khi user nói "email mới",
+              "tìm mail về [chủ đề]", "reply [id]",
+              "gửi mail cho [ai]".</span>
+            ---
+
+            <span class="code-comment"># Nguyên tắc cứng</span>
+            - Read (search/list): chạy thẳng
+            - Write (send/delete/modify): confirm
+            - KHÔNG bịa địa chỉ, KHÔNG auto archive
+            - Mask OTP/password thành **** khi paste
+
+            <span class="code-comment"># Use case 1 — Triage</span>
+            1. search is:unread in:inbox
+            2. Phân 5 bucket bằng metadata
+            3. Liệt chi tiết 🔴🟡, gộp 🔵, skip ⚪
+            4. Hỏi user: đọc / reply / archive?</div>
+          <h3 class="h3" style="margin-top: 12px;">Output mẫu — Use case 1 (triage)</h3>
+          <div class="code-block no-traffic" style="font-size: 12px;"><span class="code-comment">// Prompt: "email mới"</span>
+
+            <strong>🔴 Cần action (2)</strong>
+            14:32 · [Tanaka·Tsubasa] Re: phase 5 — timeline T6
+            09:15 · [PM Hùng] Review proposal v3
+
+            <strong>🟡 Đáng đọc (3)</strong>
+            HR — nghỉ lễ 30/4
+            Anh Khải — sprint review T5
+            (1 nữa)
+
+            <strong>🔵 Jira noise (8 gộp)</strong>
+            6 watcher AILAB08 · 2 mention FACEA-422
+
+            <strong>⚪ Newsletter (12 skip)</strong>
+
+            <strong>🚨 Security (1 auto-dismiss · OAuth ack)</strong>
+
+            <span class="code-comment">// 26 unread · 2 cần action ngay</span></div>
+        </div>
+      </div>
+      <div class="card"
+        style="background: rgba(110,231,183,0.06); border-color: rgba(110,231,183,0.3); margin-top: 14px;">
+        <p><strong class="text-success">💡 Personalize:</strong> Skill này KHÔNG generic — nó hardcode workflow của
+          chính bạn (VIP list, domain Kaopiz, pattern ticket AILAB08/FACEA, keigo khách Nhật). Người khác clone về phải
+          tự sửa <code>references/triage-buckets.md</code>. Đó là <em>cá nhân hóa</em> — Skill = công thức của riêng
+          bạn, MCP = nguyên liệu chung.</p>
       </div>
     </div>
   </section>
